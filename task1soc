@@ -1,0 +1,44 @@
+# Task 1: Exploring Frappe CRM
+
+**Name:** Harsh Saini
+
+## What is Frappe CRM?
+
+Frappe CRM is an open-source tool that sales teams use to keep track of their customers. It manages **leads** (people who might buy) and **deals** (leads that turned into real opportunities). It has a Kanban board to move leads through stages, and each lead has a page with notes, tasks and emails.
+
+## Technologies used
+
+- **Frappe Framework (Python):** the backend. It handles the database, APIs and user permissions.
+- **Vue 3 + Frappe UI:** the frontend, which is what we see in the browser.
+- **MariaDB:** the database.
+- **Redis:** used for caching and background jobs.
+- **Docker:** used to run everything on my machine.
+
+## Project folders
+
+- `crm/` - backend code (Python)
+- `frontend/` - frontend code (Vue)
+- `docker/` - files to run the project with Docker
+- `.github/` - GitHub workflows and README images
+- `docs/` - documentation
+- `e2e/` - automated browser tests
+
+## How it works
+
+The browser opens the Vue app. The app asks the Frappe backend for data, the backend reads or saves it in the database, and the result shows up on screen.
+
+## How I ran it locally
+
+I cloned the repo and ran it with Docker Compose. Then I opened `http://crm.localhost:8000/crm` and logged in as Administrator.
+
+Here's a short write-up you can paste into your doc:
+
+While setting up Frappe CRM with Docker, the Frappe container started before MariaDB and Redis were ready, so I added a wait loop to init.sh that keeps retrying until both services accept connections. Site creation then failed with SSL is required, but the server does not support it, because the newer MariaDB client in the frappe/bench image requires TLS and my local MariaDB server has none. I fixed it by adding a ~/.my.cnf file with skip-ssl under [client], so the client connects without encryption. This is fine for local development because everything runs inside Docker’s private network.
+
+## What I explored
+
+Leads list, Kanban view, a lead page, Deals and Contacts.
+
+## What I want to learn next
+
+How the CI workflows work and how the Docker setup is built.
