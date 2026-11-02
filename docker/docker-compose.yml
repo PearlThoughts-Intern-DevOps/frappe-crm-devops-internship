@@ -8,8 +8,8 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
       - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: 123
+    env_file:
+      - ../.env
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -19,14 +19,16 @@ services:
   frappe:
     image: frappe/bench:latest
     command: bash /workspace/init.sh
+    env_file:
+      - ../.env
     environment:
       - SHELL=/bin/bash
     working_dir: /home/frappe
     volumes:
       - .:/workspace
     ports:
-      - 8000:8000
-      - 9000:9000
+      - 127.0.0.1:8000:8000
+      - 127.0.0.1:9000:9000
 
 volumes:
   mariadb-data:

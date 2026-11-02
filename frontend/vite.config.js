@@ -5,6 +5,8 @@ import path from 'path'
 import { VitePWA } from 'vite-plugin-pwa'
 import frappeui from 'frappe-ui/vite'
 
+const dockerDevServer = process.env.VITE_DOCKER === '1'
+
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   const config = {
@@ -118,6 +120,19 @@ export default defineConfig(() => {
       exclude: ['frappe-ui'],
     },
     server: {
+      ...(dockerDevServer ? { port: 8080 } : {}),
+      ...(dockerDevServer
+        ? {
+            proxy: {
+              '^/(desk|app|login|api|assets|files|private)': {
+                target: 'http://frappe:8000',
+                changeOrigin: false,
+                ws: true,
+                headers: { host: 'crm.localhost:8000' },
+              },
+            },
+          }
+        : {}),
       fs: {
         // allow the bench `apps/` dir so Vite can serve linked local packages
         // (@framework/ui) that live in sibling app repos
@@ -128,7 +143,7 @@ export default defineConfig(() => {
 
   config.plugins.unshift(
     frappeui({
-      frappeProxy: true,
+      frappeProxy: !dockerDevServer,
       lucideIcons: true,
       jinjaBootData: true,
       // its esbuild helper breaks Vite 8's dependency scan

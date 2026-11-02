@@ -1,14 +1,15 @@
-#!bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -Eeuo pipefail
+
+: "${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}"
+: "${FRAPPE_ADMIN_PASSWORD:?Set FRAPPE_ADMIN_PASSWORD in .env}"
 
 if [[ -f "/workspaces/frappe_codespace/frappe-bench/apps/frappe" ]]
 then
     echo "Bench already exists, skipping init"
     exit 0
 fi
-
-rm -rf /workspaces/frappe_codespace/.git
 
 source /home/frappe/.nvm/nvm.sh
 nvm alias default 18
@@ -35,8 +36,8 @@ sed -i '/redis/d' ./Procfile
 
 
 bench new-site dev.localhost \
-    --mariadb-root-password 123 \
-    --admin-password admin \
+    --mariadb-root-password "$MYSQL_ROOT_PASSWORD" \
+    --admin-password "$FRAPPE_ADMIN_PASSWORD" \
     --no-mariadb-socket
 
 bench --site dev.localhost set-config developer_mode 1

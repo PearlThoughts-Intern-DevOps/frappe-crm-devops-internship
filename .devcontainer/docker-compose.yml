@@ -7,8 +7,8 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
       - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: 123
+    env_file:
+      - ../.env
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -16,7 +16,7 @@ services:
   # postgresql:
   #   image: postgres:11.8
   #   environment:
-  #     POSTGRES_PASSWORD: 123
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in repository .env}
   #   volumes:
   #     - postgresql-data:/var/lib/postgresql/data
 

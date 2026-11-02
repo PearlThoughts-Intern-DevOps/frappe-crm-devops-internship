@@ -161,27 +161,19 @@ The script will set up a production-ready instance of Frappe CRM with all the ne
 
 ### Docker
 
-You need Docker, docker-compose and git setup on your machine. Refer [Docker documentation](https://docs.docker.com/). After that, follow below steps:
+From the repository root, create your local environment file and set unique values for both passwords:
 
-**Step 1**: Setup folder and download the required files
+```sh
+cp .env.example .env
+```
 
-    mkdir frappe-crm
-    cd frappe-crm
+Keep `.env` private; it is ignored by Git. Start the development services with:
 
-    # Download the docker-compose file
-    wget -O docker-compose.yml https://raw.githubusercontent.com/frappe/crm/develop/docker/docker-compose.yml
+```sh
+docker compose up -d
+```
 
-    # Download the setup script
-    wget -O init.sh https://raw.githubusercontent.com/frappe/crm/develop/docker/init.sh
-
-**Step 2**: Run the container and daemonize it
-
-    docker compose up -d
-
-**Step 3**: The site [http://crm.localhost:8000/crm](http://crm.localhost:8000/crm) should now be available. The default credentials are:
-
--   Username: Administrator
--   Password: admin
+Open the CRM frontend at [http://localhost:8080/crm](http://localhost:8080/crm). Sign in as `Administrator` using the password in your local `.env` file. Frappe's backend is available at `http://localhost:8000`. Compose binds these development ports to loopback, so they are available from this machine only.
 
 ## Learn and connect
 

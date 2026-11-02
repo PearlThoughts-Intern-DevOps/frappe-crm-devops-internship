@@ -1,4 +1,9 @@
-#!bin/bash
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+: "${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}"
+: "${FRAPPE_ADMIN_PASSWORD:?Set FRAPPE_ADMIN_PASSWORD in .env}"
 
 if [ -d "/home/frappe/frappe-bench/apps/frappe" ]; then
     echo "Bench already exists, skipping init"
@@ -26,8 +31,8 @@ bench get-app crm --branch main
 
 bench new-site crm.localhost \
     --force \
-    --mariadb-root-password 123 \
-    --admin-password admin \
+    --mariadb-root-password "$MYSQL_ROOT_PASSWORD" \
+    --admin-password "$FRAPPE_ADMIN_PASSWORD" \
     --no-mariadb-socket
 
 bench --site crm.localhost install-app crm
