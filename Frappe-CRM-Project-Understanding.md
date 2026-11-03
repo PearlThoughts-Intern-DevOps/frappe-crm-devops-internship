@@ -1,92 +1,109 @@
-# Frappe CRM – Project Understanding and Exploration
+# Understanding Frappe CRM Project
 
-# 1. Project Overview
+# Services in Our Project
 
-Frappe CRM is an open-source Customer Relationship Management (CRM) application developed using the Frappe ecosystem.
+The Compose file defines five services:
 
-Customer Relationship Management is a process that helps organizations manage their interactions with existing customers and potential customers.
+| Service | Purpose |
+|---|---|
+| MariaDB | Stores application data. |
+| Redis Cache | Helps store frequently used data temporarily. |
+| Redis Queue | Manages background jobs. |
+| Redis Socket.IO | Supports real-time communication. |
+| Frappe | Provides the development environment for the application. |
 
-A CRM application helps businesses organize customer information, track sales opportunities, manage communication and improve customer relationships.
+##  Understanding Important Docker Compose Configurations
 
-Frappe CRM provides functionality to manage customer-related activities, including:
+### A. Image
 
-- Leads and prospects.
-- Contacts and organizations.
-- Deals and sales opportunities.
-- Tasks and follow-ups.
-- Customer-related information and activities.
+Example:
 
-# 2. Technology Stack
+```yaml
+image: mariadb:10.6
+```
 
-Frappe CRM belongs to the Frappe ecosystem. The following technologies are relevant to understanding its architecture.
+An image is a package used to create a Docker container. Here, Docker uses MariaDB version 10.6.
 
-| Python | Backend programming language |
-| Frappe Framework | Backend web application framework |
-| JavaScript | Frontend and application scripting |
-| Vue.js | Frontend framework used in the Frappe UI ecosystem |
-| MariaDB | Relational database used in typical Frappe deployments |
-| Redis | Caching and background-job infrastructure |
-| Node.js | JavaScript runtime and frontend tooling |
-| Yarn | JavaScript package management, where configured |
-| Docker | Containerization |
-| Docker Compose | Management of multiple application services |
-| Git | Version control |
-| GitHub | Source-code hosting and collaboration |
+### B. Environment Variables
 
-# 3. Components
+Example:
 
-**1. Frontend**
+```yaml
+environment:
+  MYSQL_ROOT_PASSWORD: 123
+```
 
-The frontend provides the user interface through which users interact with the CRM application.
+Environment variables provide configuration values to a container. Here, the MariaDB root password is set to `123`.
 
-It handles:
-- Displaying application pages.
-- User interactions.
-- Forms and data entry.
-- Communication with backend APIs.
+### C. Volume
 
-**2. Backend**
+Example:
 
-The Frappe Framework provides backend application functionality.
+```yaml
+volumes:
+  - mariadb-data:/var/lib/mysql
+```
 
-It handles:
-- Business logic.
-- API requests.
-- Authentication and authorization.
-- Data processing.
-- Communication with the database.
+A volume stores database data outside the container's writable layer. This helps preserve data even if the container is removed and recreated.
 
-**3. Database**
+### D. Bind Mount
 
-MariaDB is commonly used in Frappe deployments as the relational database.
+Example:
 
-It stores application information such as:
-- Customer details.
-- Leads.
-- Contacts.
-- Deals.
-- User and application data.
+```yaml
+volumes:
+  - ..:/workspace:cached
+```
 
-**4. Redis**
+A bind mount connects a folder from my computer to a folder inside the container.
 
-Redis is commonly used in Frappe deployments for:
-- Caching.
-- Background job queues.
-- Supporting asynchronous processing.
+In this project, the parent folder of the Compose file's directory is shared with the container at `/workspace`.
 
-**5. Web Server and Application Services**
+This allows the container to access project files from my computer.
 
-Depending on the deployment configuration, additional services may handle HTTP requests, application serving and background processing.
+### E. Working Directory
 
-The actual services used by this repository should be identified from its Docker Compose files.
+Example:
 
-**Dockerfile**
+```yaml
+working_dir: /workspace/frappe-bench
+```
 
-Defines how the development environment image is built.
+This specifies the default directory where commands run inside the Frappe container.
 
-**Docker Compose configuration**
+### F. Ports
 
-Can define multiple services required for the development environment.
+Example:
 
-The actual files present inside this repository's `.devcontainer` directory should be inspected to understand its implementation.
+```yaml
+ports:
+  - 8000-8005:8000-8005
+  - 9000-9005:9000-9005
+```
+
+Port mapping allows services inside a container to be accessed through ports on my computer.
+
+### G. Command
+
+Example:
+
+```yaml
+command: sleep infinity
+```
+
+This keeps the Frappe development container running instead of exiting immediately.
+
+## What I Learned
+
+During this exploration, I learned:
+
+1. How Docker Compose manages multiple services.
+2. The purpose of MariaDB and Redis services.
+3. The difference between Docker images and containers.
+4. How named volumes preserve database data.
+5. How bind mounts share project files with containers.
+6. How environment variables, ports and working directories are configured.
+
+
+I learned how different services are defined and how Docker connects storage and project files to containers.
 
