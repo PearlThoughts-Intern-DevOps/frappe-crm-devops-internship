@@ -1,0 +1,87 @@
+name: crm
+services:
+  mariadb:
+    image: mariadb:10.8
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping --silent -uroot -p\"$${MYSQL_ROOT_PASSWORD}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  frappe:
+    image: frappe/bench:latest
+    user: root
+    command: bash /workspace/docker/start.sh
+    environment:
+      SHELL: /bin/bash
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+      FRAPPE_ADMIN_PASSWORD: ${FRAPPE_ADMIN_PASSWORD:?Set FRAPPE_ADMIN_PASSWORD in .env}
+    working_dir: /home/frappe
+    volumes:
+      - .:/workspace
+      - .:/home/frappe/frappe-bench/apps/crm
+      - frontend-node-modules:/workspace/frontend/node_modules
+      - frontend-node-modules:/home/frappe/frappe-bench/apps/crm/frontend/node_modules
+      - frappe-bench-data:/home/frappe/frappe-bench
+    ports:
+      - 127.0.0.1:8000:8000
+      - 127.0.0.1:9000:9000
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/method/ping', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 180s
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    image: frappe/bench:latest
+    user: root
+    environment:
+      VITE_DOCKER: "1"
+    command: >-
+      bash -lc "mkdir -p /frappe && ln -sfn /home/frappe/frappe-bench/apps/frappe/ui /frappe/ui && export PATH=/home/frappe/.nvm/versions/node/v24.22.2/bin:/usr/local/bin:/usr/bin:/bin && cd /home/frappe/frappe-bench/apps/crm/frontend && node ./node_modules/vite/bin/vite.js --host 0.0.0.0"
+    working_dir: /home/frappe/frappe-bench/apps/crm/frontend
+    volumes:
+      - .:/workspace
+      - .:/home/frappe/frappe-bench/apps/crm
+      - frontend-node-modules:/workspace/frontend/node_modules
+      - frontend-node-modules:/home/frappe/frappe-bench/apps/crm/frontend/node_modules
+      - frappe-bench-data:/home/frappe/frappe-bench
+    ports:
+      - 127.0.0.1:8080:8080
+    extra_hosts:
+      - "crm.localhost:host-gateway"
+    depends_on:
+      frappe:
+        condition: service_healthy
+
+volumes:
+  mariadb-data:
+  frontend-node-modules:
+  frappe-bench-data:
