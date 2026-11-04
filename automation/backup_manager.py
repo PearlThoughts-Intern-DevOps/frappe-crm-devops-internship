@@ -185,14 +185,8 @@ class VerificationReport:
 # Utility Functions
 # ---------------------------------------------------------------------------
 def compute_sha256(filepath: Path) -> str:
-	"""Computes the SHA-256 checksum of a file in 64KB stream chunks."""
-	sha256 = hashlib.sha256()
-	with open(
-		filepath, "rb"
-	) as f:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-		for chunk in iter(lambda: f.read(65536), b""):
-			sha256.update(chunk)
-	return sha256.hexdigest()
+	"""Computes the SHA-256 checksum of a file."""
+	return hashlib.sha256(filepath.read_bytes()).hexdigest()
 
 
 def format_size(bytes_num: int) -> str:
@@ -461,10 +455,7 @@ class FrappeBackupManager:
 
 		# Write checksums.sha256
 		checksum_file = target_backup_dir / "checksums.sha256"
-		with open(
-			checksum_file, "w", encoding="utf-8"
-		) as f:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-			f.write("\n".join(checksums_lines) + "\n")
+		checksum_file.write_text("\n".join(checksums_lines) + "\n", encoding="utf-8")
 
 		# Create Manifest
 		now_iso = datetime.now(timezone.utc).isoformat()
@@ -481,11 +472,7 @@ class FrappeBackupManager:
 		)
 
 		manifest_path = target_backup_dir / "manifest.json"
-		with open(
-			manifest_path, "w", encoding="utf-8"
-		) as f:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-			json.dump(manifest.to_dict(), f, indent=2)
-
+		manifest_path.write_text(json.dumps(manifest.to_dict(), indent=2), encoding="utf-8")
 		self.logger.info(f"Backup manifest saved to: {manifest_path}")
 
 		# Requirement 3: Enforce Retention Policy
@@ -505,10 +492,7 @@ class FrappeBackupManager:
 		if not manifest_path.is_file():
 			raise ChecksumVerificationError(f"Missing manifest.json in {target_dir}")
 
-		with open(
-			manifest_path, encoding="utf-8"
-		) as f:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-			manifest_data = json.load(f)
+		manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
 		manifest = BackupManifest.from_dict(manifest_data)
 
 		checksums_matched = True
@@ -554,10 +538,7 @@ class FrappeBackupManager:
 						with tarfile.open(fpath, "r") as tar:
 							tar.getmembers()
 				elif finfo.filename.endswith(".json"):
-					with open(
-						fpath, encoding="utf-8"
-					) as jf:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-						json.load(jf)
+					json.loads(fpath.read_text(encoding="utf-8"))
 			except Exception as e:
 				archive_ok = False
 				archive_err = str(e)
@@ -671,10 +652,9 @@ class FrappeBackupManager:
 				f"Pre-restore check failed: Backup '{target_dir.name}' is corrupt or tampered!"
 			)
 
-		with open(
-			target_dir / "manifest.json", encoding="utf-8"
-		) as f:  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-			manifest = BackupManifest.from_dict(json.load(f))
+		manifest = BackupManifest.from_dict(
+			json.loads((target_dir / "manifest.json").read_text(encoding="utf-8"))
+		)
 
 		bench_dir = self.backend.find_bench_dir(self.source_site)
 
@@ -811,10 +791,7 @@ class FrappeBackupManager:
 				mfile = child / "manifest.json"
 				if mfile.is_file():
 					try:
-						with (
-							open(mfile, encoding="utf-8") as f
-						):  # nosemgrep: frappe-semgrep-rules.rules.security.frappe-security-file-traversal
-							data = json.load(f)
+						data = json.loads(mfile.read_text(encoding="utf-8"))
 						results.append(BackupManifest.from_dict(data))
 					except Exception as e:
 						self.logger.warning(f"Could not load manifest in {child}: {e}")
