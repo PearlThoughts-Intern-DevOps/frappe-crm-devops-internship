@@ -1,0 +1,8 @@
+verify_20261104_170609
+Status: PASS
+Time: 2026-11-04 11:36:12
+
+OK        20261104_170609-crm_localhost-database.sql.gz
+OK        20261104_170609-crm_localhost-files.tar
+OK        20261104_170609-crm_localhost-private-files.tar
+OK        20261104_170609-crm_localhost-site_config_backup.json

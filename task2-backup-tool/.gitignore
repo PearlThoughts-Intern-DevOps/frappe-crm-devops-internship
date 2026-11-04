@@ -1,0 +1,9 @@
+# Never commit these
+.env
+backups/
+logs/
+__pycache__/
+*.pyc
+*.sql.gz
+reports/
+backup.log
