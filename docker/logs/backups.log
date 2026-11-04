@@ -1,0 +1,34 @@
+2026-11-04 19:04:59 | ERROR    | backup_manager:main:242 | Unexpected fatal error: [Errno 2] No such file or directory: 'docker'
+Traceback (most recent call last):
+  File "/workspace/FrappeCRM_BackupManager/BackupManager/cli.py", line 234, in main
+    return dispatch[args.subcommand](args, config)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/workspace/FrappeCRM_BackupManager/BackupManager/cli.py", line 54, in cmd_backup
+    runner.execute(["--site", config.site, "backup", "--with-files"])
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/FrappeCRM_BackupManager/BackupManager/runner.py", line 68, in execute
+    result = subprocess.run(
+        cmd,
+    ...<3 lines>...
+        timeout=timeout,
+    )
+  File "/home/frappe/.pyenv/versions/3.14.10/lib/python3.14/subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frappe/.pyenv/versions/3.14.10/lib/python3.14/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/frappe/.pyenv/versions/3.14.10/lib/python3.14/subprocess.py", line 1990, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'docker'
+2026-11-04 19:15:26 | ERROR    | backup_manager:main:236 | RestoreError: Bench restore failed on 'crm-test.localhost': Command '--site crm-test.localhost restore /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-database.sql.gz --with-public-files /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-files.tar --with-private-files /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-private-files.tar --mariadb-root-password *** --force' failed (exit 1): b"--------------\n/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */\n--------------\n\nERROR 1193 (HY000) at line 22: Unknown system variable 'NOTE_VERBOSITY'\n"
+Command failed
+2026-11-04 19:21:42 | ERROR    | backup_manager:main:236 | RestoreError: Bench restore failed on 'crm-test.localhost': Command '--site crm-test.localhost restore /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-database.sql.gz --with-public-files /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-files.tar --with-private-files /home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261105_004129-crm_localhost-private-files.tar --mariadb-root-password *** --force' failed (exit 1): b"--------------\n/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */\n--------------\n\nERROR 1193 (HY000) at line 22: Unknown system variable 'NOTE_VERBOSITY'\n"
+Command failed
