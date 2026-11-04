@@ -1,0 +1,11 @@
+# Do not commit actual database or file backups
+backups/*
+!backups/.gitkeep
+
+# Do not commit runtime logs
+logs/*
+!logs/.gitkeep
+
+# Python cache files
+__pycache__/
+*.pyc

@@ -1,0 +1,19 @@
+{
+    "backup_id": "20261104_163909-crm_localhost",
+    "verified_at": "2026-11-04T17:06:21.617841+05:30",
+    "overall_status": "PASS",
+    "checks": [
+        {
+            "file": "20261104_163909-crm_localhost-database.sql.gz",
+            "status": "PASS"
+        },
+        {
+            "file": "20261104_163909-crm_localhost-files.tgz",
+            "status": "PASS"
+        },
+        {
+            "file": "20261104_163909-crm_localhost-private-files.tgz",
+            "status": "PASS"
+        }
+    ]
+}

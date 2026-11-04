@@ -1,0 +1,13 @@
+{
+    "docker_container": "crm-frappe-1",
+    "bench_path": "/home/frappe/frappe-bench",
+    "source_site": "crm.localhost",
+    "test_site": "crm-test.localhost",
+    "container_backup_path": "/home/frappe/frappe-bench/sites/crm.localhost/private/backups",
+    "retention_count": 7,
+    "backup_with_files": true,
+    "compress_files": true,
+    "backup_root": "backups",
+    "reports_dir": "reports",
+    "logs_dir": "logs"
+}
