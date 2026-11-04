@@ -24,6 +24,7 @@ services:
     working_dir: /home/frappe
     volumes:
       - .:/workspace
+      - ./mariadb-client.cnf:/etc/mysql/mariadb.conf.d/client.cnf:ro
     ports:
       - 8000:8000
       - 9000:9000
