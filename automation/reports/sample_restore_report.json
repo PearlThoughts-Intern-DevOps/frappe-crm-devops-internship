@@ -1,0 +1,31 @@
+{
+  "report_title": "Frappe CRM Test Environment Restoration Report",
+  "restored_at": "2026-11-04T10:30:51.830496Z",
+  "backup_id": "20261104_160131_crm_localhost",
+  "safety_status": {
+    "target_matches_production": false,
+    "production_site": "crm.localhost",
+    "production_safety_check": "PASSED - Production completely untouched",
+    "target_site": "test.localhost"
+  },
+  "pre_restore_verification": {
+    "status": "PASSED",
+    "sha256_checksums_matched": true,
+    "archive_integrity_ok": true
+  },
+  "restoration_execution": {
+    "target_site": "test.localhost",
+    "database_restored": true,
+    "public_files_restored": true,
+    "private_files_restored": true,
+    "cross_version_mariadb_sanitization": "APPLIED (NOTE_VERBOSITY stripped)",
+    "cache_cleared": true,
+    "scheduler_status": "DISABLED_ON_TEST_SITE"
+  },
+  "post_restore_validation": {
+    "database_query": "SELECT count(*) FROM tabDocType;",
+    "doctype_count_verified": 329,
+    "user_table_accessible": true,
+    "status": "SUCCESS"
+  }
+}

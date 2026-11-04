@@ -1,0 +1,53 @@
+{
+  "report_title": "Frappe CRM Automated Backup Report",
+  "generated_at": "2026-11-04T10:31:32.123630Z",
+  "backup_id": "20261104_160131_crm_localhost",
+  "source_site": "crm.localhost",
+  "environment": {
+    "execution_mode": "docker",
+    "container_name": "crm-frappe-1",
+    "bench_version": "Frappe Framework v15",
+    "database_engine": "MariaDB 10.8"
+  },
+  "backup_artifacts": {
+    "database": {
+      "type": "database_sql_gzip",
+      "filename": "20261104_160131-crm_localhost-database.sql.gz",
+      "size_bytes": 290091,
+      "size_human": "283.29 KiB",
+      "sha256": "968333c3384c367b381c6024ef04f14b854d4e0ddfe2d946b27e79c8dec17d5a",
+      "status": "CAPTURED"
+    },
+    "public_files": {
+      "type": "public_assets_tar",
+      "filename": "20261104_160131-crm_localhost-files.tar",
+      "size_bytes": 10240,
+      "size_human": "10.00 KiB",
+      "sha256": "43aa98b34ce4f5b3e75015de3628c8adb8c409ad5e8cb0231cb9a72dccb32bc8",
+      "status": "CAPTURED"
+    },
+    "private_files": {
+      "type": "private_attachments_tar",
+      "filename": "20261104_160131-crm_localhost-private-files.tar",
+      "size_bytes": 10240,
+      "size_human": "10.00 KiB",
+      "sha256": "17d07fa6b201a19fde0aa8503e2b91cf36a986d41e0e907dbb5599929d5313d7",
+      "status": "CAPTURED"
+    },
+    "site_config": {
+      "type": "site_configuration_json",
+      "filename": "20261104_160131-crm_localhost-site_config_backup.json",
+      "size_bytes": 164,
+      "size_human": "164.00 B",
+      "sha256": "3ea7b0b4060b98e2d2e4bc24550c5459b8386e6d07fea921d14a9f3a4fd6d724",
+      "status": "CAPTURED"
+    }
+  },
+  "summary": {
+    "total_size_bytes": 310735,
+    "total_size_human": "303.45 KiB",
+    "retention_policy_applied": true,
+    "retention_limit": 7,
+    "status": "COMPLETED_SUCCESSFULLY"
+  }
+}

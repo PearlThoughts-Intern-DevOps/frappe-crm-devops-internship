@@ -1,0 +1,63 @@
+{
+  "report_title": "Frappe CRM Backup Cryptographic Verification Report",
+  "verified_at": "2026-11-04T10:30:38.919339Z",
+  "backup_id": "20261104_160131_crm_localhost",
+  "verification_status": "PASSED",
+  "summary": {
+    "checksums_matched": true,
+    "archives_structurally_valid": true,
+    "total_files_checked": 4,
+    "passed_files": 4,
+    "failed_files": 0
+  },
+  "file_details": {
+    "database": {
+      "filename": "20261104_160131-crm_localhost-database.sql.gz",
+      "expected_sha256": "968333c3384c367b381c6024ef04f14b854d4e0ddfe2d946b27e79c8dec17d5a",
+      "calculated_sha256": "968333c3384c367b381c6024ef04f14b854d4e0ddfe2d946b27e79c8dec17d5a",
+      "checksum_match": true,
+      "format_validation": {
+        "engine": "gzip.GzipFile",
+        "stream_integrity": "OK",
+        "corrupted": false
+      },
+      "status": "PASSED"
+    },
+    "public_files": {
+      "filename": "20261104_160131-crm_localhost-files.tar",
+      "expected_sha256": "43aa98b34ce4f5b3e75015de3628c8adb8c409ad5e8cb0231cb9a72dccb32bc8",
+      "calculated_sha256": "43aa98b34ce4f5b3e75015de3628c8adb8c409ad5e8cb0231cb9a72dccb32bc8",
+      "checksum_match": true,
+      "format_validation": {
+        "engine": "tarfile.TarFile",
+        "tar_headers": "OK",
+        "corrupted": false
+      },
+      "status": "PASSED"
+    },
+    "private_files": {
+      "filename": "20261104_160131-crm_localhost-private-files.tar",
+      "expected_sha256": "17d07fa6b201a19fde0aa8503e2b91cf36a986d41e0e907dbb5599929d5313d7",
+      "calculated_sha256": "17d07fa6b201a19fde0aa8503e2b91cf36a986d41e0e907dbb5599929d5313d7",
+      "checksum_match": true,
+      "format_validation": {
+        "engine": "tarfile.TarFile",
+        "tar_headers": "OK",
+        "corrupted": false
+      },
+      "status": "PASSED"
+    },
+    "site_config": {
+      "filename": "20261104_160131-crm_localhost-site_config_backup.json",
+      "expected_sha256": "3ea7b0b4060b98e2d2e4bc24550c5459b8386e6d07fea921d14a9f3a4fd6d724",
+      "calculated_sha256": "3ea7b0b4060b98e2d2e4bc24550c5459b8386e6d07fea921d14a9f3a4fd6d724",
+      "checksum_match": true,
+      "format_validation": {
+        "engine": "json.loads",
+        "schema_syntax": "OK",
+        "corrupted": false
+      },
+      "status": "PASSED"
+    }
+  }
+}
