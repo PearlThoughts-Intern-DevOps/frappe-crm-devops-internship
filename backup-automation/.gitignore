@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Actual backup data
+backups/
+
+# Logs
+logs/
+
+# Sensitive Frappe configuration
+site_config.json
+common_site_config.json
