@@ -1,0 +1,23 @@
+{
+    "backup_id": "20261104_163909-crm_localhost",
+    "source_site": "crm.localhost",
+    "created_at": "2026-11-04T16:39:13.131537+05:30",
+    "status": "SUCCESS",
+    "files": [
+        {
+            "file": "20261104_163909-crm_localhost-database.sql.gz",
+            "sha256": "f97c1dc38b5326ffb2bf324392ebcd3f310ae631fbf13481c3f9543aea4bb90e",
+            "size_bytes": 289955
+        },
+        {
+            "file": "20261104_163909-crm_localhost-files.tgz",
+            "sha256": "dc404af112c2c57ea7db95e0321b292128010b450fc29d61649447771ef498aa",
+            "size_bytes": 135
+        },
+        {
+            "file": "20261104_163909-crm_localhost-private-files.tgz",
+            "sha256": "667ad3222fe059eeca66520c28e6cae44abe91c9c7bcaea838dc7b20ae3f02c5",
+            "size_bytes": 135
+        }
+    ]
+}
