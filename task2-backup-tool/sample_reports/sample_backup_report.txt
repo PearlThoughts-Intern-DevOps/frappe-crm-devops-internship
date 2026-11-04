@@ -1,0 +1,8 @@
+backup_20261104_170609
+Status: SUCCESS
+Time: 2026-11-04 11:36:12
+
+e01edbdf537507515dd95c372545cd6c849ac25ef713f5fa4f61e3cd66a97b62  20261104_170609-crm_localhost-database.sql.gz
+f17ac657aba3b2c371dac85ef4a7eb34833cfabaea5351eba980a01f19ddc715  20261104_170609-crm_localhost-files.tar
+9ae11c83e9df8b495a144cad3468c64065d2217b9c58c2b1c72757240ceb3daa  20261104_170609-crm_localhost-private-files.tar
+9598dab6c4c17f26295fbcdf8a69315144daf3ce1084ad8ac2428580c6bc68ec  20261104_170609-crm_localhost-site_config_backup.json

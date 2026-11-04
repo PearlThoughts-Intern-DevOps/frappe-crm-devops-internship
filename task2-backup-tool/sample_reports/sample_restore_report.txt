@@ -1,0 +1,5 @@
+restore_20261104_170609
+Status: SUCCESS
+Time: 2026-11-04 11:36:31
+
+Restored 20261104_170609 into restore-test.localhost in crm-restore-test-frappe-1

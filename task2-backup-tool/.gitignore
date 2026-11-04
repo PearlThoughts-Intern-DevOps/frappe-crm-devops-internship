@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 *.sql.gz
 reports/
+backup.log
