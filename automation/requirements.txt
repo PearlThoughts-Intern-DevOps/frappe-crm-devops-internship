@@ -1,0 +1,10 @@
+# Frappe CRM Automation Tool Requirements
+# This tool is engineered using Python 3 standard library modules
+# (hashlib, gzip, tarfile, argparse, subprocess, logging, json, pathlib, dataclasses)
+# No external package installations are required to run the core automation.
+
+# Python Version Requirement:
+# Python >= 3.10
+
+# Optional Developer & Linter Tools:
+ruff>=0.8.0

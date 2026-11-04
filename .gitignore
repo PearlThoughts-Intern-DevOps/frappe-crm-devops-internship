@@ -27,3 +27,9 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+# Automation local backups and logs
+backups/
+automation/logs/*.log
+!automation/logs/.gitkeep
+
