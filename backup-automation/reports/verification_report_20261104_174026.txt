@@ -1,0 +1,8 @@
+Verification Report
+Time: 2026-11-04 12:10:28
+Backup ID: 20261104_174026
+Result: PASSED
+  [PASS] 20261104_174026-crm_localhost-database.sql.gz
+  [PASS] 20261104_174026-crm_localhost-files.tar
+  [PASS] 20261104_174026-crm_localhost-private-files.tar
+  [PASS] 20261104_174026-crm_localhost-site_config_backup.json

@@ -1,0 +1,10 @@
+Backup Report
+Time: 2026-11-04 12:10:28
+Site: crm.localhost
+Backup ID: 20261104_174026
+Status: SUCCESS
+Files:
+  20261104_174026-crm_localhost-database.sql.gz  sha256=dd3fccdd22b2fc0d25be66342da789e5eeead93219c0a7b9c803a1d29a98b8e7
+  20261104_174026-crm_localhost-files.tar  sha256=5c347f63bc1c1f1357c4775ae38beaf15f65b3f2069e22c0347c0726c670ba3b
+  20261104_174026-crm_localhost-private-files.tar  sha256=7e7c86dfa418fa0ddda065712978f699ef2cadc202fc5a4c5ab28afcd158732c
+  20261104_174026-crm_localhost-site_config_backup.json  sha256=b556e9e6408b2afd5700a50a1614a35ea29a1fe7ccd560e1c9bdfed47a218109
