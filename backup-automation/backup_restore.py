@@ -28,7 +28,7 @@ def sha256_of_file(path):
 
 
 def run_bench(bench_args, bench_dir, password=None):
-    command = ["bench"] + bench_args
+    command = ["bench", *bench_args]
     text = " ".join(command)
     if password:
         text = text.replace(password, "********")
@@ -149,7 +149,8 @@ def do_verify(args, wanted_id):
         "Time: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "Backup ID: " + backup_id,
         "Result: " + ("PASSED" if all_ok else "FAILED"),
-    ] + result_lines
+        *result_lines,
+    ] 
 
     save_report("verification_report_" + backup_id + ".txt", lines)
 
