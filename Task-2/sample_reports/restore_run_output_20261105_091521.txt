@@ -1,0 +1,13 @@
+2026-11-05 03:46:20,640 INFO    restoring backup 20261105_091521 into test site test.localhost
+2026-11-05 03:46:20,641 INFO    verify OK        20261105_091521-crm_localhost-database.sql.gz
+2026-11-05 03:46:20,641 INFO    verify OK        20261105_091521-crm_localhost-private-files.tar
+2026-11-05 03:46:20,641 INFO    verify OK        20261105_091521-crm_localhost-files.tar
+2026-11-05 03:46:20,641 INFO    verify OK        20261105_091521-crm_localhost-site_config_backup.json
+2026-11-05 03:46:20,641 INFO    report written: /home/ubuntu/frappe-backups/reports/verify_20261105_091521_20261105_034620.json
+2026-11-05 03:46:20,833 INFO    compat step: removed 2 incompatible line(s) from a temporary copy
+2026-11-05 03:46:21,136 INFO    running bench restore
+2026-11-05 03:46:34,169 INFO    apps on test.localhost:
+frappe 15.125.0 version-15
+crm    1.91.1   main
+2026-11-05 03:46:34,271 INFO    report written: /home/ubuntu/frappe-backups/reports/restore_20261105_091521_20261105_034634.json
+2026-11-05 03:46:34,271 INFO    restore of 20261105_091521 into test.localhost complete
