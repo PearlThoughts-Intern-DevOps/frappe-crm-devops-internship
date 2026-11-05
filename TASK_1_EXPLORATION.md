@@ -244,4 +244,4 @@ Frappe CRM demonstrates an effective software engineering architecture that unit
 ### Submission Artifacts:
 - **Repository Branch**: [`task1-gourobdas0103`](https://github.com/PearlThoughts-Intern-DevOps/frappe-crm-devops-internship/tree/task1-gourobdas0103)
 - **Exploration Report**: [`TASK_1_EXPLORATION.md`](file:///C:/Users/goura/Desktop/frappe-crm-devops-internship/TASK_1_EXPLORATION.md)
-- **Local Application URL**: `http://localhost:8000/crm` (Admin: `admin` / Password: `admin`)
+- **Local Application URL**: `http://localhost:8000/crm` (Admin: `Administrator` / Password: `admin`)
