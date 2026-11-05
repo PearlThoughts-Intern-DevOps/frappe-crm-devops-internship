@@ -1,12 +1,17 @@
-#!bin/bash
+#!/bin/bash
+
+# Ensure MariaDB client connects without requiring SSL over local docker network
+mkdir -p /home/frappe
+printf "[client]\nssl = 0\n" > /home/frappe/.my.cnf
 
 if [ -d "/home/frappe/frappe-bench/apps/frappe" ]; then
     echo "Bench already exists, skipping init"
     cd frappe-bench
     bench start
-else
-    echo "Creating new bench..."
+    exit 0
 fi
+
+echo "Creating new bench..."
 
 bench init --skip-redis-config-generation frappe-bench --version version-15
 
@@ -36,5 +41,6 @@ bench --site crm.localhost set-config mute_emails 1
 bench --site crm.localhost set-config server_script_enabled 1
 bench --site crm.localhost clear-cache
 bench use crm.localhost
+bench config dns_multitenant off
 
 bench start
