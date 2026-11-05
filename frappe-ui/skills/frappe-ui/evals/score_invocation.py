@@ -11,6 +11,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 
 
 def blocks(rec):
@@ -21,20 +22,21 @@ def blocks(rec):
 def scan(path):
 	first_user = None
 	tools = []
-	for line in open(path, errors="replace"):
-		try:
-			r = json.loads(line)
-		except Exception:
-			continue
-		if first_user is None and r.get("type") == "user":
-			c = r.get("message", {}).get("content")
-			if isinstance(c, str):
-				first_user = c
-			elif isinstance(c, list):
-				first_user = " ".join(b.get("text", "") for b in c if isinstance(b, dict))
-		for b in blocks(r):
-			if isinstance(b, dict) and b.get("type") == "tool_use":
-				tools.append((b.get("name"), b.get("input") or {}))
+	with Path(path).open(errors="replace") as f:
+		for line in f:
+			try:
+				r = json.loads(line)
+			except Exception:
+				continue
+			if first_user is None and r.get("type") == "user":
+				c = r.get("message", {}).get("content")
+				if isinstance(c, str):
+					first_user = c
+				elif isinstance(c, list):
+					first_user = " ".join(b.get("text", "") for b in c if isinstance(b, dict))
+			for b in blocks(r):
+				if isinstance(b, dict) and b.get("type") == "tool_use":
+					tools.append((b.get("name"), b.get("input") or {}))
 	return first_user or "", tools
 
 
@@ -54,7 +56,8 @@ def classify(tools):
 
 
 def main(transcript_dir, cases_json, out_json, marker_key):
-	cases = json.load(open(cases_json))["cases"]
+	with Path(cases_json).open(encoding="utf-8") as f:
+		cases = json.load(f)["cases"]
 	results = {}
 	files = glob.glob(os.path.join(transcript_dir, "agent-*.jsonl"))
 	for f in files:
@@ -76,11 +79,12 @@ def main(transcript_dir, cases_json, out_json, marker_key):
 				}
 				break
 	missing = [c["id"] for c in cases if c["id"] not in results]
-	json.dump(
-		{"results": results, "unmatched_cases": missing, "transcripts_seen": len(files)},
-		open(out_json, "w"),
-		indent=2,
-	)
+	with Path(out_json).open("w", encoding="utf-8") as f:
+		json.dump(
+			{"results": results, "unmatched_cases": missing, "transcripts_seen": len(files)},
+			f,
+			indent=2,
+		)
 	ok = sum(1 for r in results.values() if r["used_skill"] == r["expect_skill"])
 	print(f"matched {len(results)}/{len(cases)} cases; invocation correct: {ok}/{len(results)}")
 	if missing:
