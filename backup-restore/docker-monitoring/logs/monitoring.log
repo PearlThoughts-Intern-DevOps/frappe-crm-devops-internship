@@ -1,0 +1,9 @@
+2026-11-05 17:07:07,417 INFO: Container checked: devcontainer-frappe-1 | Status: Exited (137) 21 hours ago | Health: not-running
+2026-11-05 17:07:09,579 INFO: Container checked: crm-redis-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:07:11,447 INFO: Container checked: crm-frappe-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:07:13,451 INFO: Container checked: crm-mariadb-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:07:13,452 INFO: Monitoring completed. Containers checked: 4
+2026-11-05 17:09:03,240 INFO: Container checked: crm-redis-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:09:05,224 INFO: Container checked: crm-frappe-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:09:07,288 INFO: Container checked: crm-mariadb-1 | Status: Up 21 hours | Health: not-configured
+2026-11-05 17:09:07,289 INFO: Monitoring completed. Containers checked: 3

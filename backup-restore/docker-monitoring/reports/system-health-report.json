@@ -1,0 +1,58 @@
+{
+    "generated_at": "2026-11-05T11:38:53.403705+00:00",
+    "project": "Frappe CRM",
+    "overall_status": "HEALTHY",
+    "auto_restart_enabled": false,
+    "container_count": 3,
+    "containers": [
+        {
+            "name": "crm-redis-1",
+            "status": "Up 21 hours",
+            "running": true,
+            "health": "not-configured",
+            "resources": {
+                "cpu_percent": "0.20%",
+                "memory_usage": "9.406MiB / 3.712GiB",
+                "memory_percent": "0.25%"
+            },
+            "log_analysis": {
+                "errors_found": 0,
+                "error_samples": []
+            },
+            "recovery_action": "not-needed"
+        },
+        {
+            "name": "crm-frappe-1",
+            "status": "Up 21 hours",
+            "running": true,
+            "health": "not-configured",
+            "resources": {
+                "cpu_percent": "8.08%",
+                "memory_usage": "465.4MiB / 3.712GiB",
+                "memory_percent": "12.25%"
+            },
+            "log_analysis": {
+                "errors_found": 0,
+                "error_samples": []
+            },
+            "recovery_action": "not-needed"
+        },
+        {
+            "name": "crm-mariadb-1",
+            "status": "Up 21 hours",
+            "running": true,
+            "health": "not-configured",
+            "resources": {
+                "cpu_percent": "0.02%",
+                "memory_usage": "257.8MiB / 3.712GiB",
+                "memory_percent": "6.78%"
+            },
+            "log_analysis": {
+                "errors_found": 0,
+                "error_samples": []
+            },
+            "recovery_action": "not-needed"
+        }
+    ],
+    "error": null
+}
