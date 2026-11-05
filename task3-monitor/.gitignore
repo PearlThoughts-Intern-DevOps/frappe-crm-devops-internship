@@ -1,0 +1,4 @@
+reports/
+output/
+monitor.log
+__pycache__/

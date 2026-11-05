@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-11-05T09:52:51+00:00",
+  "project": "crm",
+  "overall_status": "CRITICAL",
+  "summary": {
+    "total": 3,
+    "running": 2,
+    "stopped": [
+      "crm-frappe-1"
+    ],
+    "unhealthy": [],
+    "with_log_errors": [
+      "crm-frappe-1"
+    ]
+  },
+  "containers": [
+    {
+      "name": "crm-frappe-1",
+      "image": "frappe/bench:latest",
+      "status": "exited",
+      "health": "none",
+      "exit_code": 1,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:52:37.424866905Z",
+      "stats": null,
+      "logs": {
+        "lines_checked": 604,
+        "error_lines": 7,
+        "by_pattern": {
+          "error": 6,
+          "exception": 1
+        },
+        "last_errors": [
+          "09:51:51 socketio.1 | Emitted 'error' event on RedisClient instance at:",
+          "09:51:51 socketio.1 |     at RedisSocket._RedisSocket_onSocketError (/home/frappe/frappe-bench/apps/frappe/node_modules/@redis/client/dist/lib/client/socket.js:218:10)",
+          "09:52:38 socketio.1 |     triggerUncaughtException(err, true /* fromPromise */);",
+          "09:52:38 socketio.1 | Error: getaddrinfo ENOTFOUND redis",
+          "09:52:38 socketio.1 | Emitted 'error' event on RedisClient instance at:"
+        ]
+      },
+      "recovery": {
+        "attempted": true,
+        "success": false,
+        "status_after": "exited"
+      },
+      "issues": [
+        {
+          "severity": "critical",
+          "message": "container is exited (exit code 1)"
+        },
+        {
+          "severity": "warning",
+          "message": "7 error lines in last 200 log lines"
+        }
+      ]
+    },
+    {
+      "name": "crm-mariadb-1",
+      "image": "mariadb:10.6",
+      "status": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:34:58.642249483Z",
+      "stats": {
+        "cpu_percent": 0.01,
+        "memory_percent": 1.76,
+        "memory_usage": "136.4MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 66,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": []
+    },
+    {
+      "name": "crm-redis-1",
+      "image": "redis:alpine",
+      "status": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:52:42.994381153Z",
+      "stats": {
+        "cpu_percent": 0.24,
+        "memory_percent": 0.14,
+        "memory_usage": "11.04MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 162,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": {
+        "attempted": true,
+        "success": true,
+        "status_after": "running"
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "message": "was stopped, restarted automatically"
+        }
+      ]
+    }
+  ]
+}
