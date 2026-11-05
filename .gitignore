@@ -27,3 +27,5 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+docker/recovery-backup/
