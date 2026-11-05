@@ -75,6 +75,7 @@ jobs:
 
             - name: Configure database
               run: |
+                  echo -e "[client]\nssl=0" > ~/.my.cnf
                   echo "127.0.0.1 test_site" | sudo tee -a /etc/hosts
                   mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
                   mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
