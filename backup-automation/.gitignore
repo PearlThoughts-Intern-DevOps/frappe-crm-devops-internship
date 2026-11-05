@@ -1,0 +1,18 @@
+
+# Actual backup data - never commit
+backups/*
+!backups/.gitkeep
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local backup script copy
+backup_tool_before_restore_fix.py
+
+# Temporary test data
+retention-test/
