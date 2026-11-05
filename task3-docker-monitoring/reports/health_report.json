@@ -1,0 +1,495 @@
+{
+    "generated_at": "2026-11-05T13:55:50.166932+00:00",
+    "total_containers": 17,
+    "running": 2,
+    "stopped": 15,
+    "unhealthy": 2,
+    "frappe_container_count": 4,
+    "frappe_containers": [
+        {
+            "container_id": "6e3b3bbf5528",
+            "container_name": "frappe-inspect",
+            "project": "Frappe CRM",
+            "image": [
+                "frappe/bench:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 0,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "21ae6f4be260",
+            "container_name": "crm-redis-1",
+            "project": "Frappe CRM",
+            "image": [
+                "redis:alpine"
+            ],
+            "status": "running",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": 0.4,
+            "memory_usage_mb": 7.55,
+            "memory_limit_mb": 3820.59,
+            "memory_percent": 0.2,
+            "log_lines_scanned": 100,
+            "log_error_count": 1,
+            "log_error_samples": [
+                "2026-11-05T13:53:35.466873992Z 1:M 05 Nov 2026 13:53:35.466 * <bf> \t{ bf-error-rate       :      0.01 }"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "7561b64aee20",
+            "container_name": "crm-frappe-1",
+            "project": "Frappe CRM",
+            "image": [
+                "frappe/bench:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 2,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 12,
+            "log_error_samples": [
+                "2026-11-05T06:36:52.294970348Z 06:36:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:36:52.294972448Z 06:36:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:37:52.351266598Z 06:37:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:37:52.351267599Z 06:37:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:38:52.380024058Z 06:38:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:38:52.380331002Z 06:38:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:38:59.943353907Z 06:38:59 socketio.1 |     throw er; // Unhandled 'error' event",
+                "2026-11-05T06:38:59.965077983Z 06:38:59 socketio.1 | SocketClosedUnexpectedlyError: Socket closed unexpectedly",
+                "2026-11-05T06:38:59.973500033Z 06:38:59 socketio.1 | Emitted 'error' event on RedisClient instance at:",
+                "2026-11-05T06:38:59.975047752Z 06:38:59 socketio.1 |     at RedisSocket._RedisSocket_onSocketError (/home/frappe/frappe-bench/apps/frappe/node_modules/@redis/client/dist/lib/client/socket.js:218:10)",
+                "2026-11-05T13:51:36.772961078Z /workspace/init.sh: line 41: syntax error: unexpected end of file",
+                "2026-11-05T13:53:38.814580850Z /workspace/init.sh: line 41: syntax error: unexpected end of file"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "1e752de0d5fd",
+            "container_name": "crm-mariadb-1",
+            "project": "Frappe CRM",
+            "image": [
+                "mariadb:10.8"
+            ],
+            "status": "running",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": 0.04,
+            "memory_usage_mb": 186.97,
+            "memory_limit_mb": 3820.59,
+            "memory_percent": 4.89,
+            "log_lines_scanned": 100,
+            "log_error_count": 9,
+            "log_error_samples": [
+                "2026-11-04T10:43:11.659162464Z 2026-11-04 10:43:11 4 [Warning] Aborted connection 4 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.2' (Got an error reading communication packets)",
+                "2026-11-04T12:12:58.778642799Z 2026-11-04 12:12:58 24 [Warning] Aborted connection 24 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:23:49.409816034Z 2026-11-04 12:23:49 53 [Warning] Aborted connection 53 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:25:24.143641775Z 2026-11-04 12:25:24 55 [Warning] Aborted connection 55 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.328176589Z 2026-11-04 12:42:04 83 [Warning] Aborted connection 83 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.329030173Z 2026-11-04 12:42:04 6 [Warning] Aborted connection 6 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.329086978Z 2026-11-04 12:42:04 68 [Warning] Aborted connection 68 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.330417108Z 2026-11-04 12:42:04 65 [Warning] Aborted connection 65 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.333982955Z 2026-11-04 12:42:04 93 [Warning] Aborted connection 93 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)"
+            ],
+            "recovery_status": "disabled"
+        }
+    ],
+    "containers": [
+        {
+            "container_id": "b7a5b1e11537",
+            "container_name": "prometheus",
+            "project": "Other Docker Project",
+            "image": [
+                "prom/prometheus:v3.2.1"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 35,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "42b55af2a3eb",
+            "container_name": "grafana",
+            "project": "Other Docker Project",
+            "image": [
+                "grafana/grafana:11.5.2"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 7,
+            "log_error_samples": [
+                "2026-11-05T10:12:47.370080874Z logger=ngalert.state.manager t=2026-11-05T10:12:47.369840873Z level=info msg=\"Running in alternative execution of Error/NoData mode\"",
+                "2026-11-05T10:12:47.841398994Z logger=sqlstore.transactions t=2026-11-05T10:12:47.840538163Z level=info msg=\"Database locked, sleeping then retrying\" error=\"database is locked\" retry=0 code=\"database is locked\"",
+                "2026-11-05T10:12:47.860079541Z logger=resource-server t=2026-11-05T10:12:47.859717086Z level=warn msg=\"failed to register storage metrics\" error=\"duplicate metrics collector registration attempted\"",
+                "2026-11-05T10:12:47.860090943Z logger=resource-server t=2026-11-05T10:12:47.859951722Z level=warn msg=\"failed to register storage metrics\" error=\"duplicate metrics collector registration attempted\"",
+                "2026-11-05T10:12:47.860146152Z logger=resource-server t=2026-11-05T10:12:47.860061639Z level=warn msg=\"failed to register storage metrics\" error=\"duplicate metrics collector registration attempted\"",
+                "2026-11-05T10:22:47.301976146Z logger=sqlstore.transactions t=2026-11-05T10:22:47.299703563Z level=info msg=\"Database locked, sleeping then retrying\" error=\"database is locked\" retry=0 code=\"database is locked\"",
+                "2026-11-05T10:27:47.191823834Z logger=sqlstore.transactions t=2026-11-05T10:27:47.190016828Z level=info msg=\"Database locked, sleeping then retrying\" error=\"database is locked\" retry=0 code=\"database is locked\""
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "1a03781d5cb3",
+            "container_name": "cadvisor",
+            "project": "Other Docker Project",
+            "image": [
+                "gcr.io/cadvisor/cadvisor:v0.49.1"
+            ],
+            "status": "exited",
+            "health": "unhealthy",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 2,
+            "log_error_samples": [
+                "2026-11-05T11:47:35.892283962Z I1105 11:47:35.892051       1 gce.go:44] Error while reading product_name: open /sys/class/dmi/id/product_name: no such file or directory",
+                "2026-11-05T11:52:35.885779932Z I1105 11:52:35.885471       1 gce.go:44] Error while reading product_name: open /sys/class/dmi/id/product_name: no such file or directory"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "96ab18a43656",
+            "container_name": "payments-service",
+            "project": "Other Docker Project",
+            "image": [
+                "secure-multi-layer-proxy-payments:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 2,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "b08684b56937",
+            "container_name": "orders-service",
+            "project": "Other Docker Project",
+            "image": [
+                "secure-multi-layer-proxy-orders:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 2,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "215591e4b8b7",
+            "container_name": "users-service",
+            "project": "Other Docker Project",
+            "image": [
+                "secure-multi-layer-proxy-users:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 16,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "8be19675e118",
+            "container_name": "kong-api-gateway",
+            "project": "Other Docker Project",
+            "image": [
+                "kong:3.9.1"
+            ],
+            "status": "exited",
+            "health": "unhealthy",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "ed7c249af47e",
+            "container_name": "nginx-reverse-proxy",
+            "project": "Other Docker Project",
+            "image": [
+                "nginx:1.28-alpine"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 1,
+            "log_error_samples": [
+                "2026-11-05T09:48:42.244850684Z 2026/11/05 09:48:42 [error] 22#22: *1756 kong could not be resolved (2: Server failure), client: 172.30.20.2, server: _, request: \"GET /api/users HTTP/1.1\", host: \"localhost:8080\""
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "d9cdb1fc27ba",
+            "container_name": "haproxy-load-balancer",
+            "project": "Other Docker Project",
+            "image": [
+                "haproxy:3.2-alpine"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "1248322bf1f4",
+            "container_name": "squid-forward-proxy",
+            "project": "Other Docker Project",
+            "image": [
+                "ubuntu/squid:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 56,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "9796da11beb2",
+            "container_name": "zealous_snyder",
+            "project": "Other Docker Project",
+            "image": [
+                "hello-world:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 22,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "6e3b3bbf5528",
+            "container_name": "frappe-inspect",
+            "project": "Frappe CRM",
+            "image": [
+                "frappe/bench:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 137,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 0,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "21ae6f4be260",
+            "container_name": "crm-redis-1",
+            "project": "Frappe CRM",
+            "image": [
+                "redis:alpine"
+            ],
+            "status": "running",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": 0.4,
+            "memory_usage_mb": 7.55,
+            "memory_limit_mb": 3820.59,
+            "memory_percent": 0.2,
+            "log_lines_scanned": 100,
+            "log_error_count": 1,
+            "log_error_samples": [
+                "2026-11-05T13:53:35.466873992Z 1:M 05 Nov 2026 13:53:35.466 * <bf> \t{ bf-error-rate       :      0.01 }"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "7561b64aee20",
+            "container_name": "crm-frappe-1",
+            "project": "Frappe CRM",
+            "image": [
+                "frappe/bench:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 2,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 100,
+            "log_error_count": 12,
+            "log_error_samples": [
+                "2026-11-05T06:36:52.294970348Z 06:36:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:36:52.294972448Z 06:36:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:37:52.351266598Z 06:37:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:37:52.351267599Z 06:37:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:38:52.380024058Z 06:38:52 schedule.1 |     traceback.print_stack()",
+                "2026-11-05T06:38:52.380331002Z 06:38:52 schedule.1 | \"Error in query:\\n('SELECT `value` FROM `tabSingles` WHERE `doctype`=%(param1)s AND `field`=%(param2)s', {'param1': 'System Settings', 'param2': 'enable_scheduler'})\"",
+                "2026-11-05T06:38:59.943353907Z 06:38:59 socketio.1 |     throw er; // Unhandled 'error' event",
+                "2026-11-05T06:38:59.965077983Z 06:38:59 socketio.1 | SocketClosedUnexpectedlyError: Socket closed unexpectedly",
+                "2026-11-05T06:38:59.973500033Z 06:38:59 socketio.1 | Emitted 'error' event on RedisClient instance at:",
+                "2026-11-05T06:38:59.975047752Z 06:38:59 socketio.1 |     at RedisSocket._RedisSocket_onSocketError (/home/frappe/frappe-bench/apps/frappe/node_modules/@redis/client/dist/lib/client/socket.js:218:10)",
+                "2026-11-05T13:51:36.772961078Z /workspace/init.sh: line 41: syntax error: unexpected end of file",
+                "2026-11-05T13:53:38.814580850Z /workspace/init.sh: line 41: syntax error: unexpected end of file"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "1e752de0d5fd",
+            "container_name": "crm-mariadb-1",
+            "project": "Frappe CRM",
+            "image": [
+                "mariadb:10.8"
+            ],
+            "status": "running",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": 0.04,
+            "memory_usage_mb": 186.97,
+            "memory_limit_mb": 3820.59,
+            "memory_percent": 4.89,
+            "log_lines_scanned": 100,
+            "log_error_count": 9,
+            "log_error_samples": [
+                "2026-11-04T10:43:11.659162464Z 2026-11-04 10:43:11 4 [Warning] Aborted connection 4 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.2' (Got an error reading communication packets)",
+                "2026-11-04T12:12:58.778642799Z 2026-11-04 12:12:58 24 [Warning] Aborted connection 24 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:23:49.409816034Z 2026-11-04 12:23:49 53 [Warning] Aborted connection 53 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:25:24.143641775Z 2026-11-04 12:25:24 55 [Warning] Aborted connection 55 to db: '_3dfa23c5af3c2958' user: '_3dfa23c5af3c2958' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.328176589Z 2026-11-04 12:42:04 83 [Warning] Aborted connection 83 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.329030173Z 2026-11-04 12:42:04 6 [Warning] Aborted connection 6 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.329086978Z 2026-11-04 12:42:04 68 [Warning] Aborted connection 68 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.330417108Z 2026-11-04 12:42:04 65 [Warning] Aborted connection 65 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)",
+                "2026-11-04T12:42:04.333982955Z 2026-11-04 12:42:04 93 [Warning] Aborted connection 93 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.5' (Got an error reading communication packets)"
+            ],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "65d1553836c7",
+            "container_name": "intelligent_thompson",
+            "project": "Other Docker Project",
+            "image": [
+                "hello-world:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 22,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        },
+        {
+            "container_id": "ff305d8db06e",
+            "container_name": "quirky_swanson",
+            "project": "Other Docker Project",
+            "image": [
+                "hello-world:latest"
+            ],
+            "status": "exited",
+            "health": "not_configured",
+            "exit_code": 0,
+            "restart_count": 0,
+            "cpu_percent": null,
+            "memory_usage_mb": null,
+            "memory_limit_mb": null,
+            "memory_percent": null,
+            "log_lines_scanned": 22,
+            "log_error_count": 0,
+            "log_error_samples": [],
+            "recovery_status": "disabled"
+        }
+    ]
+}

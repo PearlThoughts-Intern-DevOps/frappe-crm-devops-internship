@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+logs/
+docker_monitor_backup.py
+docker_monitor_before_recovery.py
