@@ -22,11 +22,14 @@ try:
 	from docker.models.containers import Container
 
 	import docker
+
+	_DOCKER_AVAILABLE = True
 except ImportError:  # pragma: no cover
 	docker = None  # type: ignore[assignment]
 	DockerException = Exception  # type: ignore[misc,assignment]
 	NotFound = Exception  # type: ignore[misc,assignment]
 	Container = Any  # type: ignore[misc,assignment]
+	_DOCKER_AVAILABLE = False
 
 # Exit Codes
 EXIT_HEALTHY = 0
@@ -112,7 +115,7 @@ class DockerMonitor:
 		"""Obtain or initialize the Docker SDK client."""
 		if self._client is not None:
 			return self._client
-		if docker is None:
+		if not _DOCKER_AVAILABLE:
 			msg = "Docker SDK for Python ('docker') is not installed. Run 'pip install docker'."
 			raise DockerException(msg)
 		try:
@@ -570,7 +573,7 @@ def print_cli_summary(report: dict[str, Any]) -> None:
 	print("=" * 78 + "\n")
 
 
-def parse_args(args: list[str] | None = None) -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 	"""Parse command-line interface arguments."""
 	parser = argparse.ArgumentParser(
 		description="Docker Container Monitoring and Auto-Recovery Tool for Frappe CRM."
@@ -597,12 +600,12 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
 	monitor_parser.add_argument("--json", action="store_true", help="Output raw JSON report to stdout")
 	monitor_parser.add_argument("--verbose", action="store_true", help="Enable verbose debug logging")
 
-	return parser.parse_args(args)
+	return parser.parse_args(argv)
 
 
-def main(args: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
 	"""Main entry point for Docker Monitoring CLI."""
-	parsed = parse_args(args)
+	parsed = parse_args(argv)
 	setup_logging(verbose=getattr(parsed, "verbose", False))
 
 	# Default to monitor if no subcommand specified
