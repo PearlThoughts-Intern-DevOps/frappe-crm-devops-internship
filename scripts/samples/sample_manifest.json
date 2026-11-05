@@ -1,0 +1,34 @@
+{
+  "site": "crm.localhost",
+  "timestamp": "20261104_122524",
+  "created_at_iso": "2026-11-04T12:25:24",
+  "generated_by": "frappe_backup_manager.py",
+  "files": {
+    "20261104_122524-crm_localhost-database.sql.gz": {
+      "file_type": "database",
+      "size_bytes": 322634,
+      "size_human": "315.1 KiB",
+      "sha256": "41aac26988503f9a6040622dac9e87bc8f31d27f4368374d9207205cb4585129"
+    },
+    "20261104_122524-crm_localhost-files.tar": {
+      "file_type": "public_files",
+      "size_bytes": 10240,
+      "size_human": "10.0 KiB",
+      "sha256": "9b0e43085f5cf322426eaa4d4ac44543a81cebbf5bf1457d046e077d7218aed8"
+    },
+    "20261104_122524-crm_localhost-private-files.tar": {
+      "file_type": "private_files",
+      "size_bytes": 10240,
+      "size_human": "10.0 KiB",
+      "sha256": "a778ae2921eef69f828631934cddef16c10e8ff2c439e1bcba3791997bec9832"
+    },
+    "20261104_122524-crm_localhost-site_config_backup.json": {
+      "file_type": "site_config",
+      "size_bytes": 164,
+      "size_human": "164.0 B",
+      "sha256": "5d35aba5526cda465e6eb4ae84ad4bbaf889d9293198a38735b8ed7e0354b21d"
+    }
+  },
+  "total_size_bytes": 343278,
+  "manifest_sha256_file": "20261104_122524-crm_localhost-checksums.sha256"
+}

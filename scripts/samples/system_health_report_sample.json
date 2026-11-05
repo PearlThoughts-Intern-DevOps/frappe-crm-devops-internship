@@ -1,0 +1,187 @@
+{
+  "report_id": "report_20261105_115628",
+  "timestamp": "2026-11-05T11:56:28.672773+00:00",
+  "project": "crm",
+  "overall_status": "HEALTHY",
+  "summary": {
+    "total_containers": 3,
+    "running_containers": 3,
+    "stopped_containers": 0,
+    "unhealthy_containers": 0,
+    "warning_containers": 0,
+    "total_cpu_percent": 17.97,
+    "total_memory_usage_bytes": 942271364,
+    "total_memory_usage_human": "898.6 MiB",
+    "total_errors_in_logs": 0,
+    "auto_recoveries_attempted": 0,
+    "auto_recoveries_succeeded": 0
+  },
+  "thresholds": {
+    "cpu_warning_percent": 80.0,
+    "memory_warning_percent": 80.0
+  },
+  "containers": [
+    {
+      "id": "1c88372d0255",
+      "full_id": "1c88372d0255",
+      "name": "crm-redis-1",
+      "service": "redis",
+      "image": "redis:alpine",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 0.35,
+      "memory": {
+        "usage_bytes": 14281605,
+        "limit_bytes": 7995081621,
+        "usage_human": "13.6 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 0.18
+      },
+      "network_io": "16.3MB / 77.2MB",
+      "block_io": "62.5MB / 13.4MB",
+      "pids": 6,
+      "uptime": "2d 0h 17m",
+      "started_at": "2026-11-03T11:39:11.280929699Z",
+      "finished_at": "2026-11-03T11:36:43.283633742Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.2",
+      "ports": [
+        "6379/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 0.0,
+        "details": "Redis daemon running on internal network port 6379"
+      },
+      "issues": []
+    },
+    {
+      "id": "ae71acbba1f4",
+      "full_id": "ae71acbba1f4",
+      "name": "crm-frappe-1",
+      "service": "frappe",
+      "image": "frappe/bench:latest",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 17.57,
+      "memory": {
+        "usage_bytes": 623063859,
+        "limit_bytes": 7995081621,
+        "usage_human": "594.2 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 7.79
+      },
+      "network_io": "116MB / 69.2MB",
+      "block_io": "426MB / 49.7MB",
+      "pids": 35,
+      "uptime": "2d 0h 17m",
+      "started_at": "2026-11-03T11:39:14.300210413Z",
+      "finished_at": "2026-11-03T11:36:43.283614657Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.3",
+      "ports": [
+        "0.0.0.0:8000->8000/tcp",
+        ":::8000->8000/tcp",
+        "0.0.0.0:9000->9000/tcp",
+        ":::9000->9000/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 90.94,
+        "details": "HTTP 200 /api/method/frappe.ping"
+      },
+      "issues": []
+    },
+    {
+      "id": "a7d101e2412e",
+      "full_id": "a7d101e2412e",
+      "name": "crm-mariadb-1",
+      "service": "mariadb",
+      "image": "mariadb:10.8",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 0.05,
+      "memory": {
+        "usage_bytes": 304925900,
+        "limit_bytes": 7995081621,
+        "usage_human": "290.8 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 3.81
+      },
+      "network_io": "17.9MB / 37.2MB",
+      "block_io": "85.5MB / 135MB",
+      "pids": 8,
+      "uptime": "2d 0h 17m",
+      "started_at": "2026-11-03T11:39:15.957637614Z",
+      "finished_at": "2026-11-03T11:36:43.284566677Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.4",
+      "ports": [
+        "3306/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 0.0,
+        "details": "MariaDB daemon running on internal network port 3306"
+      },
+      "issues": []
+    }
+  ],
+  "log_analyses": {
+    "crm-redis-1": {
+      "container_name": "crm-redis-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 0,
+      "categories": {},
+      "critical_issues": [],
+      "recent_errors": []
+    },
+    "crm-frappe-1": {
+      "container_name": "crm-frappe-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 0,
+      "categories": {},
+      "critical_issues": [],
+      "recent_errors": []
+    },
+    "crm-mariadb-1": {
+      "container_name": "crm-mariadb-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 23,
+      "categories": {
+        "WARNING": 11,
+        "DATABASE_ERROR": 12
+      },
+      "critical_issues": [],
+      "recent_errors": [
+        "2026-11-03T08:39:17.742483058Z 2026-11-03  8:39:17 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1",
+        "2026-11-03T08:39:17.742809262Z 2026-11-03  8:39:17 0 [Warning] InnoDB: liburing disabled: falling back to innodb_use_native_aio=OFF",
+        "2026-11-03T08:39:17.862948751Z 2026-11-03  8:39:17 0 [Warning] 'user' entry 'root@a7d101e2412e' ignored in --skip-name-resolve mode.",
+        "2026-11-03T08:39:17.862984594Z 2026-11-03  8:39:17 0 [Warning] 'proxies_priv' entry '@% root@a7d101e2412e' ignored in --skip-name-resolve mode.",
+        "2026-11-03T08:39:24.666664000Z 2026-11-03  8:39:24 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1",
+        "2026-11-03T08:39:24.667300023Z 2026-11-03  8:39:24 0 [Warning] InnoDB: liburing disabled: falling back to innodb_use_native_aio=OFF",
+        "2026-11-03T08:39:24.794930240Z 2026-11-03  8:39:24 0 [Warning] You need to use --log-bin to make --expire-logs-days or --binlog-expire-logs-seconds work.",
+        "2026-11-03T08:49:19.628075587Z 2026-11-03  8:49:19 5 [Warning] Aborted connection 5 to db: 'unconnected' user: 'unauthenticated' host: '172.18.0.4' (This connection closed normally without authenticat",
+        "2026-11-03T08:49:19.888474122Z 2026-11-03  8:49:19 4 [Warning] Aborted connection 4 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.4' (Got an error reading communication packets)",
+        "2026-11-03T08:52:47.487631466Z 2026-11-03  8:52:47 10 [Warning] Aborted connection 10 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.18.0.4' (Got an error reading communication packet"
+      ]
+    }
+  },
+  "recovery_actions": [],
+  "alerts": []
+}
