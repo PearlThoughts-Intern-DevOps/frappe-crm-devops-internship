@@ -1,0 +1,36 @@
+{
+  "result": "success",
+  "timestamp": "20261105_092827",
+  "site": "crm.localhost",
+  "duration_seconds": 1.4,
+  "files": {
+    "20261105_092827-crm_localhost-database.sql.gz": {
+      "kind": "database",
+      "size_bytes": 290772,
+      "sha256": "a888b7440d064b42e05edc4af636c929df73d6d1ff02759e62eb5386efb54a5a"
+    },
+    "20261105_092827-crm_localhost-private-files.tar": {
+      "kind": "private_files",
+      "size_bytes": 10240,
+      "sha256": "088526835ed2341b4222a69c998f6e4d1a5c772cbdaa38f7fb39b7b4718ce467"
+    },
+    "20261105_092827-crm_localhost-files.tar": {
+      "kind": "public_files",
+      "size_bytes": 10240,
+      "sha256": "132deb263bd56cdb1e7b0132cff17d78ac46488fba3bba24a05f51eedfbbd74a"
+    },
+    "20261105_092827-crm_localhost-site_config_backup.json": {
+      "kind": "site_config",
+      "size_bytes": 164,
+      "sha256": "9667123f5bea12acdaf10237597cba5c916448a4480c091229ed3f725ecadab7"
+    }
+  },
+  "bench_output_tail": [
+    "Backup Summary for crm.localhost at 2026-11-05 09:28:27.876358",
+    "Config  : ./crm.localhost/private/backups/20261105_092827-crm_localhost-site_config_backup.json 164.0B",
+    "Database: ./crm.localhost/private/backups/20261105_092827-crm_localhost-database.sql.gz         284.0KiB",
+    "Public  : ./crm.localhost/private/backups/20261105_092827-crm_localhost-files.tar               10.0KiB",
+    "Private : ./crm.localhost/private/backups/20261105_092827-crm_localhost-private-files.tar       10.0KiB",
+    "Backup for Site crm.localhost has been successfully completed with files"
+  ]
+}
