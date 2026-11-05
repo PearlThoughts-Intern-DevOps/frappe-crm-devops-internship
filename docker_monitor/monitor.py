@@ -18,10 +18,9 @@ from pathlib import Path
 from typing import Any
 
 try:
+	import docker
 	from docker.errors import DockerException, NotFound
 	from docker.models.containers import Container
-
-	import docker
 
 	_DOCKER_AVAILABLE = True
 except ImportError:  # pragma: no cover
