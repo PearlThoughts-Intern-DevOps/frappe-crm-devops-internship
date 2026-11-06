@@ -1,0 +1,19 @@
+{
+    "container_name_contains": [
+        "crm-",
+        "task3-recovery-test"
+    ],
+    "log_tail_lines": 100,
+    "error_patterns": [
+        "ERROR:",
+        "CRITICAL:",
+        "FATAL:",
+        "Traceback (most recent call last)",
+        "Exception:"
+    ],
+    "auto_restart_allowlist": [
+        "task3-recovery-test"
+    ],
+    "report_file": "reports/system-health-report.json",
+    "log_file": "logs/monitoring.log"
+}
