@@ -439,8 +439,8 @@ Official Frappe Framework documentation explicitly defines **MariaDB 10.6.6+** a
 
 Following the retirement of Azure Database for MariaDB, DevOps engineers designing for Azure must evaluate two primary architectural options:
 
-1. **Architectural Option 1: Self-Managed MariaDB on AKS or IaaS VMs (Full Compatibility)**:
-   - Running a self-managed MariaDB 10.6.6+ StatefulSet inside AKS guarantees complete syntax, JSON function, and collation compatibility with Frappe v15.
+1. **Architectural Option 1: Self-Managed MariaDB on AKS or IaaS VMs (Supported Engine Baseline)**:
+   - Using a MariaDB version that meets Frappe v15's documented prerequisites (such as a self-managed MariaDB 10.6.6+ StatefulSet inside AKS) provides a database-engine baseline aligned with Frappe's supported configuration. It does not guarantee application-level compatibility by itself. Validate database collation, SQL modes, custom applications, DocTypes, queries, migrations, and production workloads before deployment.
    - *Operational Trade-offs & Responsibilities*: This option shifts full database management responsibility to the internal DevOps/SRE team. The team must engineer and maintain:
      - *Storage Redundancy Selection*: Utilizing **Premium SSD (v1) with Zone-Redundant Storage (ZRS)** allows AKS to automatically reattach persistent storage if the database pod is rescheduled to a node in a different availability zone. In contrast, **Premium SSD v2 uses Locally Redundant Storage (LRS)**, meaning storage is strictly pinned to a single availability zone; deploying Premium SSD v2 requires single-zone node pinning or active application-level multi-zone replication (e.g., MariaDB Galera Cluster).
      - *High Availability & Automated Failover*: Configuring cross-zone replication topologies and health-probe-driven failover.
@@ -496,7 +496,7 @@ To deploy Frappe CRM on Microsoft Azure with enterprise security and operational
 1. **Network Topology**: Azure Virtual Network (VNet) spanning multiple Availability Zones. An isolated Gateway Subnet hosts Azure Application Gateway (WAF v2), a private AKS Node Pool Subnet hosts container runtimes, and private endpoints secure backend data access.
 2. **Compute Fleet**: Azure Kubernetes Service (AKS) running containerized Frappe CRM Web pods, real-time SocketIO push pods, and asynchronous Celery background workers across multiple availability zones.
 3. **Database Architecture & Operational Responsibilities**:
-   - *Option 1 (Self-Managed MariaDB StatefulSet - Depicted Below)*: A dedicated MariaDB 10.6.6+ StatefulSet running on AKS to guarantee 100% syntax and collation compatibility with Frappe v15. Storage is backed by **Azure Premium SSD (v1) with Zone-Redundant Storage (ZRS)**, which allows the persistent disk to detach and reattach if the pod is rescheduled across different availability zones during a node failure. *(Note: If selecting **Premium SSD v2** for granular IOPS performance, it is strictly **Locally Redundant Storage (LRS)**; the database pod must be pinned to a single availability zone, or use application-level replication across zones).* The DevOps team is responsible for managing replication, failover, upgrades, and recovery drills.
+   - *Option 1 (Self-Managed MariaDB StatefulSet - Depicted Below)*: A dedicated MariaDB 10.6.6+ StatefulSet running on AKS provides a database-engine baseline aligned with Frappe v15's documented prerequisites, though application-level compatibility, collation, and custom queries must still be validated before deployment. Storage is backed by **Azure Premium SSD (v1) with Zone-Redundant Storage (ZRS)**, which allows the persistent disk to detach and reattach if the pod is rescheduled across different availability zones during a node failure. *(Note: If selecting **Premium SSD v2** for granular IOPS performance, it is strictly **Locally Redundant Storage (LRS)**; the database pod must be pinned to a single availability zone, or use application-level replication across zones).* The DevOps team is responsible for managing replication, failover, upgrades, and recovery drills.
    - *Option 2 (Managed Operational Alternative)*: Azure Database for MySQL (Flexible Server) with zone-redundant high availability, offloading OS/DB maintenance to Azure while requiring custom character set and SQL mode configuration for Frappe compatibility.
 4. **Storage & Backups**: Azure Blob Storage (Cool Tier) receiving automated database dumps via `backup_tool.py` for cost-effective disaster recovery.
 5. **Identity & Security**: Microsoft Entra ID Managed Identities providing passwordless authentication from AKS to Azure Key Vault and Blob Storage, with Application Gateway WAF v2 terminating TLS.
@@ -725,7 +725,7 @@ Cloudflare represents a fundamentally distinct architectural model compared to t
 |                                         |                                         |
 |          +------------------------------v------------------------------+          |
 |          |                   Edge Compute & Storage                    |          |
-|          |  - Cloudflare Workers (V8 Isolates, Sub-millisecond Start)  |          |
+|          |  - Cloudflare Workers (V8 Isolate Execution Model)          |          |
 |          |  - Cloudflare R2 (Zero Egress Bandwidth Object Storage)     |          |
 |          |  - Cloudflare D1 (Serverless Edge SQL)                      |          |
 |          +------------------------------+------------------------------+          |
@@ -751,7 +751,7 @@ Cloudflare represents a fundamentally distinct architectural model compared to t
 
 - **Anycast Routing**: In traditional cloud routing, an IP address is bound to a single physical region. Cloudflare uses BGP Anycast routing, meaning the exact same IP address is advertised simultaneously from hundreds of data centers worldwide. Internet routers automatically send user traffic to the topologically closest Cloudflare edge location. Reference: [Cloudflare Global Network Overview](https://www.cloudflare.com/network/).
 - **The Reverse Proxy Architecture**: Cloudflare sits between end users and origin web servers, inspecting, accelerating, and scrubbing all traffic before it ever touches customer infrastructure.
-- **V8 Engine Isolates vs. Virtual Machines**: While traditional serverless platforms spin up container or virtual machine execution environments that incur noticeable initialization latency during cold spin-up, Cloudflare Workers execute inside **Google V8 JavaScript Isolates**. In this architecture, thousands of lightweight isolate threads share memory securely within a long-running global process. Requests execute within existing running processes without provisioning new container sandboxes or booting an operating system, eliminating the container startup overhead inherent in traditional FaaS platforms.
+- **V8 Engine Isolates vs. Virtual Machines**: Cloudflare Workers use lightweight V8 isolates to execute JavaScript within Cloudflare's distributed runtime. This execution model avoids the conventional per-request virtual-machine or container provisioning model. Actual startup and request latency depend on workload, runtime conditions, and network factors; no universal fixed startup latency is guaranteed.
 
 ### Cloudflare Edge Compute Services
 
