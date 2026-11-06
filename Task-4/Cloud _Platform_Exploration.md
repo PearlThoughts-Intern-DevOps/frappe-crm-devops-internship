@@ -2,8 +2,6 @@
  
 Platforms covered: AWS, Microsoft Azure, Google Cloud Platform (GCP), Cloudflare
  
-Author: Lakshmiprabha G
- 
 ## 1. Scope and Approach
  
 This document summarises what I learned by reading the official documentation and learning resources of the four platforms. It is an exploration task: no paid cloud resources were created and no purchases were made. Service descriptions reflect the official documentation. Free tier terms, limits and prices change often, so always confirm them on each provider's pricing page before using anything.
