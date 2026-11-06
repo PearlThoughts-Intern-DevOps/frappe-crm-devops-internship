@@ -1,0 +1,15 @@
+{
+  "compose_project": "crm",
+  "container_names": [],
+  "report_dir": "reports",
+  "log_tail_lines": 100,
+  "cpu_warning_threshold_percent": 80.0,
+  "memory_warning_threshold_percent": 85.0,
+  "restart_warning_threshold": 3,
+  "auto_recovery_enabled": false,
+  "allowed_recovery_containers": [
+    "crm-monitor-test-service"
+  ],
+  "max_recovery_attempts": 3,
+  "recovery_cooldown_seconds": 60
+}

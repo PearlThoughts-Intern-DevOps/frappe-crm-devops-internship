@@ -1,0 +1,12 @@
+name: crm-monitor-test
+services:
+  service:
+    container_name: crm-monitor-test-service
+    image: redis:alpine
+    command: ["redis-server"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 2s
