@@ -1,0 +1,77 @@
+2026-11-05T12:36:33 [INFO    ] Discovering containers for project: 'crm' ...
+2026-11-05T12:36:33 [INFO    ] Discovered 3 container(s): crm-frappe-1, crm-redis-1, crm-mariadb-1
+2026-11-05T12:36:33 [INFO    ] ──────────────────────────────────────────────────────────────────────
+2026-11-05T12:36:33 [INFO    ]   CONTAINER                 STATUS       HEALTH       CPU%       MEM%      
+2026-11-05T12:36:33 [INFO    ] ──────────────────────────────────────────────────────────────────────
+2026-11-05T12:36:34 [INFO    ]   [✓] crm-frappe-1            running      none         5.0%       5.2%      
+2026-11-05T12:36:36 [INFO    ]   [✓] crm-redis-1             running      none         0.3%       0.4%      
+2026-11-05T12:36:38 [INFO    ]   [✓] crm-mariadb-1           running      none         0.0%       4.9%      
+2026-11-05T12:36:38 [INFO    ] ──────────────────────────────────────────────────────────────────────
+2026-11-05T12:36:44 [INFO    ] ============================================================
+2026-11-05T12:36:44 [INFO    ]   Frappe CRM Docker Monitoring Tool
+2026-11-05T12:36:44 [INFO    ]   Mode: READ-ONLY
+2026-11-05T12:36:44 [INFO    ] ============================================================
+2026-11-05T12:36:44 [INFO    ] Discovering containers for project: 'crm' ...
+2026-11-05T12:36:44 [INFO    ] Discovered 3 container(s): crm-frappe-1, crm-redis-1, crm-mariadb-1
+2026-11-05T12:36:44 [INFO    ] ── Monitoring container: crm-frappe-1
+2026-11-05T12:36:45 [INFO    ]   [✓] crm-frappe-1 | status=running    | health=none       | cpu=2.6%   | mem=412.1MiB / 7.748GiB
+2026-11-05T12:36:45 [WARNING ]   ALERT: INFO: Container 'crm-frappe-1' has 3 error line(s) in recent logs.
+2026-11-05T12:36:45 [INFO    ] ── Monitoring container: crm-redis-1
+2026-11-05T12:36:47 [INFO    ]   [✓] crm-redis-1 | status=running    | health=none       | cpu=0.3%   | mem=32.69MiB / 7.748GiB
+2026-11-05T12:36:47 [INFO    ] ── Monitoring container: crm-mariadb-1
+2026-11-05T12:36:49 [INFO    ]   [✓] crm-mariadb-1 | status=running    | health=none       | cpu=0.0%   | mem=387.2MiB / 7.748GiB
+2026-11-05T12:36:49 [WARNING ]   ALERT: INFO: Container 'crm-mariadb-1' has 14 error line(s) in recent logs.
+2026-11-05T12:36:49 [INFO    ] ────────────────────────────────────────────────────────────
+2026-11-05T12:36:49 [INFO    ]   Total containers monitored: 3
+2026-11-05T12:36:49 [INFO    ]   Running: 3  |  Stopped: 0  |  Unhealthy: 0
+2026-11-05T12:36:49 [INFO    ]   Overall system status: HEALTHY
+2026-11-05T12:36:49 [INFO    ] ────────────────────────────────────────────────────────────
+2026-11-05T12:36:49 [INFO    ] Health report saved → automation/reports/20261105_070644_monitor.json
+2026-11-05T12:36:49 [INFO    ] Report written to: automation/reports/20261105_070644_monitor.json
+2026-11-05T12:36:57 [INFO    ] Discovering containers for project: 'crm' ...
+2026-11-05T12:36:57 [INFO    ] Discovered 3 container(s): crm-frappe-1, crm-redis-1, crm-mariadb-1
+2026-11-05T12:36:57 [INFO    ] Analyzing logs for: crm-frappe-1 (last 100 lines)
+2026-11-05T12:36:57 [INFO    ]   Lines scanned: 503  |  Errors found: 3  |  Warnings: 1
+2026-11-05T12:36:57 [WARNING ]   Top error lines:
+2026-11-05T12:36:57 [WARNING ]     → 04:43:13 web.1      | /home/frappe/frappe-bench/env/bin/python: Error while finding module specification for 'frappe.utils.bench_helper' (ModuleNotFoundError: No module named 'frappe')
+2026-11-05T12:36:57 [WARNING ]     → 04:43:13 schedule.1 | /home/frappe/frappe-bench/env/bin/python: Error while finding module specification for 'frappe.utils.bench_helper' (ModuleNotFoundError: No module named 'frappe')
+2026-11-05T12:36:57 [WARNING ]     → ERROR: Bench instance already exists at frappe-bench
+2026-11-05T12:36:57 [INFO    ] Analyzing logs for: crm-redis-1 (last 100 lines)
+2026-11-05T12:36:57 [INFO    ]   Lines scanned: 100  |  Errors found: 0  |  Warnings: 0
+2026-11-05T12:36:57 [INFO    ] Analyzing logs for: crm-mariadb-1 (last 100 lines)
+2026-11-05T12:36:57 [INFO    ]   Lines scanned: 100  |  Errors found: 14  |  Warnings: 9
+2026-11-05T12:36:57 [WARNING ]   Top error lines:
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 12:25:01 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 14:37:55 4 [Warning] Aborted connection 4 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 15:30:34 60 [Warning] Aborted connection 60 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 15:31:41 69 [Warning] Aborted connection 69 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 15:31:50 71 [Warning] Aborted connection 71 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 15:32:43 76 [Warning] Aborted connection 76 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-02 15:32:51 78 [Warning] Aborted connection 78 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-03  2:23:13 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-04 10:15:05 1694 [Warning] Aborted connection 1694 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:36:57 [WARNING ]     → 2026-11-04 10:16:49 1702 [Warning] Aborted connection 1702 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)
+2026-11-05T12:37:04 [INFO    ] Discovering containers for project: 'crm' ...
+2026-11-05T12:37:04 [INFO    ] Discovered 3 container(s): crm-frappe-1, crm-redis-1, crm-mariadb-1
+2026-11-05T12:37:04 [INFO    ] ── Monitoring container: crm-frappe-1
+2026-11-05T12:37:06 [INFO    ]   [✓] crm-frappe-1 | status=running    | health=none       | cpu=3.9%   | mem=412.1MiB / 7.748GiB
+2026-11-05T12:37:06 [WARNING ]   ALERT: INFO: Container 'crm-frappe-1' has 3 error line(s) in recent logs.
+2026-11-05T12:37:06 [INFO    ] ── Monitoring container: crm-redis-1
+2026-11-05T12:37:08 [INFO    ]   [✓] crm-redis-1 | status=running    | health=none       | cpu=0.4%   | mem=32.93MiB / 7.748GiB
+2026-11-05T12:37:08 [INFO    ] ── Monitoring container: crm-mariadb-1
+2026-11-05T12:37:10 [INFO    ]   [✓] crm-mariadb-1 | status=running    | health=none       | cpu=0.0%   | mem=387.2MiB / 7.748GiB
+2026-11-05T12:37:10 [WARNING ]   ALERT: INFO: Container 'crm-mariadb-1' has 14 error line(s) in recent logs.
+2026-11-05T12:37:10 [INFO    ] Health report saved → automation/reports/20261105_070704_monitor.json
+2026-11-05T12:37:10 [INFO    ] Full health report generated: automation/reports/20261105_070704_monitor.json
+2026-11-05T12:37:15 [INFO    ] Discovering containers for project: 'crm' ...
+2026-11-05T12:37:15 [INFO    ] Discovered 3 container(s): crm-frappe-1, crm-redis-1, crm-mariadb-1
+2026-11-05T12:37:15 [INFO    ] ── Monitoring container: crm-frappe-1
+2026-11-05T12:37:16 [INFO    ]   [✓] crm-frappe-1 | status=running    | health=none       | cpu=3.9%   | mem=412.1MiB / 7.748GiB
+2026-11-05T12:37:16 [WARNING ]   ALERT: INFO: Container 'crm-frappe-1' has 3 error line(s) in recent logs.
+2026-11-05T12:37:16 [INFO    ] ── Monitoring container: crm-redis-1
+2026-11-05T12:37:18 [INFO    ]   [✓] crm-redis-1 | status=running    | health=none       | cpu=0.3%   | mem=33.16MiB / 7.748GiB
+2026-11-05T12:37:18 [INFO    ] ── Monitoring container: crm-mariadb-1
+2026-11-05T12:37:20 [INFO    ]   [✓] crm-mariadb-1 | status=running    | health=none       | cpu=0.0%   | mem=387.2MiB / 7.748GiB
+2026-11-05T12:37:20 [WARNING ]   ALERT: INFO: Container 'crm-mariadb-1' has 14 error line(s) in recent logs.
+2026-11-05T12:37:20 [INFO    ] Health report saved → automation/reports/20261105_070715_monitor.json
+2026-11-05T12:37:20 [INFO    ] Full health report generated: automation/reports/20261105_070715_monitor.json

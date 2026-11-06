@@ -1,0 +1,145 @@
+{
+  "report_id": "20261105_070715_monitor",
+  "generated_at": "2026-11-05T07:07:15.594339+00:00",
+  "compose_project": "crm",
+  "overall_status": "HEALTHY",
+  "total_containers": 3,
+  "running_count": 3,
+  "stopped_count": 0,
+  "unhealthy_count": 0,
+  "containers": [
+    {
+      "name": "crm-frappe-1",
+      "container_id": "86380f2967c2",
+      "image": "frappe/bench:latest",
+      "status": "running",
+      "health_status": "none",
+      "is_running": true,
+      "is_healthy": true,
+      "started_at": "2026-11-05T04:43:13.252303253Z",
+      "finished_at": "2026-11-04T16:47:28.278352885Z",
+      "restart_count": 0,
+      "exit_code": 0,
+      "stats": {
+        "cpu_percent": 3.91,
+        "mem_usage": "412.1MiB / 7.748GiB",
+        "mem_percent": 5.19,
+        "net_io": "45.7MB / 29.7MB",
+        "block_io": "0B / 672kB",
+        "pids": 35
+      },
+      "log_analysis": {
+        "total_lines_scanned": 503,
+        "error_lines_found": 3,
+        "errors": [
+          "04:43:13 web.1      | /home/frappe/frappe-bench/env/bin/python: Error while finding module specification for 'frappe.utils.bench_helper' (ModuleNotFoundError: No module named 'frappe')",
+          "04:43:13 schedule.1 | /home/frappe/frappe-bench/env/bin/python: Error while finding module specification for 'frappe.utils.bench_helper' (ModuleNotFoundError: No module named 'frappe')",
+          "ERROR: Bench instance already exists at frappe-bench"
+        ],
+        "warnings": [
+          "A directory for the application 'crm' already exists. Do you want to continue and overwrite it? [y/N]: --no-mariadb-socket is DEPRECATED; use --mariadb-user-host-login-scope='%' (wildcard) or --mariadb-user-host-login-scope=<myhostscope>, instead. The name of this option was misleading: it had nothing to do with sockets."
+        ],
+        "scan_status": "COMPLETED"
+      },
+      "auto_restart_attempted": false,
+      "auto_restart_succeeded": false,
+      "alerts": [
+        "INFO: Container 'crm-frappe-1' has 3 error line(s) in recent logs."
+      ]
+    },
+    {
+      "name": "crm-redis-1",
+      "container_id": "ec781212f997",
+      "image": "redis:alpine",
+      "status": "running",
+      "health_status": "none",
+      "is_running": true,
+      "is_healthy": true,
+      "started_at": "2026-11-03T02:23:12.511630096Z",
+      "finished_at": "2026-11-03T02:22:51.138878628Z",
+      "restart_count": 0,
+      "exit_code": 0,
+      "stats": {
+        "cpu_percent": 0.34,
+        "mem_usage": "33.16MiB / 7.748GiB",
+        "mem_percent": 0.42,
+        "net_io": "24.1MB / 124MB",
+        "block_io": "19.4MB / 16.4MB",
+        "pids": 6
+      },
+      "log_analysis": {
+        "total_lines_scanned": 100,
+        "error_lines_found": 0,
+        "errors": [],
+        "warnings": [],
+        "scan_status": "COMPLETED"
+      },
+      "auto_restart_attempted": false,
+      "auto_restart_succeeded": false,
+      "alerts": []
+    },
+    {
+      "name": "crm-mariadb-1",
+      "container_id": "56ea634bf6b3",
+      "image": "mariadb:10.8",
+      "status": "running",
+      "health_status": "none",
+      "is_running": true,
+      "is_healthy": true,
+      "started_at": "2026-11-03T02:23:13.69650018Z",
+      "finished_at": "2026-11-03T02:22:51.757845503Z",
+      "restart_count": 0,
+      "exit_code": 0,
+      "stats": {
+        "cpu_percent": 0.03,
+        "mem_usage": "387.2MiB / 7.748GiB",
+        "mem_percent": 4.88,
+        "net_io": "25.5MB / 63.4MB",
+        "block_io": "57.9MB / 126MB",
+        "pids": 8
+      },
+      "log_analysis": {
+        "total_lines_scanned": 100,
+        "error_lines_found": 14,
+        "errors": [
+          "2026-11-02 12:25:01 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1",
+          "2026-11-02 14:37:55 4 [Warning] Aborted connection 4 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-02 15:30:34 60 [Warning] Aborted connection 60 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-02 15:31:41 69 [Warning] Aborted connection 69 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-02 15:31:50 71 [Warning] Aborted connection 71 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-02 15:32:43 76 [Warning] Aborted connection 76 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-02 15:32:51 78 [Warning] Aborted connection 78 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-03  2:23:13 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1",
+          "2026-11-04 10:15:05 1694 [Warning] Aborted connection 1694 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-04 10:16:49 1702 [Warning] Aborted connection 1702 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-04 10:30:50 1740 [Warning] Aborted connection 1740 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-04 11:58:44 1890 [Warning] Aborted connection 1890 to db: '_67d4df18c6dfcc33' user: '_67d4df18c6dfcc33' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-05  4:43:15 2002 [Warning] Aborted connection 2002 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)",
+          "2026-11-05  4:43:24 2004 [Warning] Aborted connection 2004 to db: '_776590a6696e4f4b' user: '_776590a6696e4f4b' host: '172.22.0.2' (Got an error reading communication packets)"
+        ],
+        "warnings": [
+          "2026-11-02 12:24:59 0 [Warning] 'user' entry 'root@56ea634bf6b3' ignored in --skip-name-resolve mode.",
+          "2026-11-02 12:24:59 0 [Warning] 'proxies_priv' entry '@% root@56ea634bf6b3' ignored in --skip-name-resolve mode.",
+          "2026-11-02 12:25:01 0 [Warning] InnoDB: liburing disabled: falling back to innodb_use_native_aio=OFF",
+          "2026-11-02 12:25:01 0 [Warning] You need to use --log-bin to make --expire-logs-days or --binlog-expire-logs-seconds work.",
+          "2026-11-02 14:37:55 5 [Warning] Aborted connection 5 to db: 'unconnected' user: 'unauthenticated' host: '172.22.0.2' (This connection closed normally without authentication)",
+          "2026-11-02 15:30:34 61 [Warning] Aborted connection 61 to db: 'unconnected' user: 'unauthenticated' host: '172.22.0.2' (This connection closed normally without authentication)",
+          "2026-11-02 15:30:45 62 [Warning] Aborted connection 62 to db: 'unconnected' user: 'unauthenticated' host: '172.22.0.2' (This connection closed normally without authentication)",
+          "2026-11-03  2:23:13 0 [Warning] InnoDB: liburing disabled: falling back to innodb_use_native_aio=OFF",
+          "2026-11-03  2:23:14 0 [Warning] You need to use --log-bin to make --expire-logs-days or --binlog-expire-logs-seconds work."
+        ],
+        "scan_status": "COMPLETED"
+      },
+      "auto_restart_attempted": false,
+      "auto_restart_succeeded": false,
+      "alerts": [
+        "INFO: Container 'crm-mariadb-1' has 14 error line(s) in recent logs."
+      ]
+    }
+  ],
+  "summary": [
+    "Total containers monitored: 3",
+    "Running: 3  |  Stopped: 0  |  Unhealthy: 0",
+    "Overall system status: HEALTHY"
+  ]
+}
