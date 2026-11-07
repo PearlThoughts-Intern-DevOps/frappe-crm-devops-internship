@@ -1,0 +1,18 @@
+
+{
+    "project": "crm",
+    "services": [
+        "frappe",
+        "mariadb",
+        "redis"
+    ],
+    "log_lines": 100,
+    "keywords": [
+        "error",
+        "critical",
+        "fatal",
+        "exception",
+        "traceback"
+    ],
+    "restart_allowlist": []
+}
