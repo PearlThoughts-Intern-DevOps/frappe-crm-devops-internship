@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-11-09T09:00:00.000Z" agent="OpenAI" version="24.7.17" type="device">
+  <diagram name="01 Cloud-neutral architecture" id="01cloudneutralarchitecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="u" value="Users / Browser&lt;br&gt;HTTPS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef4ff;strokeColor=#315a91;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="30" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="edge" value="DNS + CDN + WAF&lt;br&gt;Route, cache, protect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="150" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="Application / API&lt;br&gt;VM • Container • PaaS • Serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="290" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="store" value="Object / File Storage&lt;br&gt;Images • Documents • Assets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="490" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Database&lt;br&gt;Relational SQL / NoSQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="490" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ops" value="IAM + Monitoring&lt;br&gt;Identity • Logs • Metrics • Secrets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe4e6;strokeColor=#e11d48;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="800" y="490" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="u" target="edge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="requests" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="edge" target="app">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="files" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="app" target="store">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="queries" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="app" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="telemetry / access" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="app" target="ops">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 Service equivalents" id="02serviceequivalents">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aws" value="AWS&lt;br&gt;EC2 • S3 • RDS • EKS&lt;br&gt;Lambda • VPC • IAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1db;strokeColor=#d97706;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="30" y="100" width="245" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="azure" value="Azure&lt;br&gt;VM • Blob • Azure SQL&lt;br&gt;AKS • Functions • VNet • RBAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="320" y="100" width="245" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="gcp" value="Google Cloud&lt;br&gt;Compute Engine • Cloud Storage&lt;br&gt;Cloud SQL • GKE • IAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="610" y="100" width="245" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cf" value="Cloudflare&lt;br&gt;Workers • R2 • D1 • KV&lt;br&gt;CDN • DNS • WAF • Zero Trust" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="900" y="100" width="245" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="concept" value="Shared concepts&lt;br&gt;Compute • Storage • Database • Network&lt;br&gt;Identity • Security • Observability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="350" y="400" width="480" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="same concepts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="aws" target="concept">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="same concepts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="azure" target="concept">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="same concepts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="gcp" target="concept">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="partial / edge-oriented equivalents" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="cf" target="concept">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="03 Beginner platform decision" id="03beginnerplatformdecision">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="q" value="Start with your workload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="420" y="40" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="web" value="Websites / edge apps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ms" value="Microsoft environment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="330" y="200" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="data" value="Analytics / data platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="620" y="200" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="general" value="Broad infrastructure / DevOps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="910" y="200" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cfout" value="Cloudflare&lt;br&gt;Great for web delivery + edge apps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="azout" value="Azure&lt;br&gt;Natural Microsoft integration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="330" y="380" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="gout" value="Google Cloud&lt;br&gt;Strong analytics / data tools" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="620" y="380" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="awsout" value="AWS&lt;br&gt;Broad service catalogue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="910" y="380" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="q" target="web">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="q" target="ms">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="q" target="data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="q" target="general">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="web" target="cfout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="ms" target="azout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="data" target="gout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748b;fontSize=11;" edge="1" parent="1" source="general" target="awsout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
