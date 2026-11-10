@@ -1,0 +1,75 @@
+2026-11-07 04:01:33,034 INFO - Docker connected successfully
+2026-11-07 04:01:33,034 INFO - Starting Frappe CRM monitoring
+2026-11-07 04:01:33,117 INFO - Checking container: crm-redis-1
+2026-11-07 04:01:34,159 INFO - Checking container: crm-frappe-1
+2026-11-07 04:01:36,163 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:01:38,190 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:01:38,190 INFO - Monitoring finished: WARNING
+2026-11-07 04:02:01,620 INFO - Docker connected successfully
+2026-11-07 04:02:01,620 INFO - Creating disposable recovery test container
+2026-11-07 04:02:06,290 INFO - Stopping disposable test container
+2026-11-07 04:02:07,527 INFO - Testing automatic recovery
+2026-11-07 04:02:07,560 WARNING - Restarting disposable test container
+2026-11-07 04:02:10,809 INFO - Recovery successful
+2026-11-07 04:02:10,810 INFO - AUTO-RECOVERY TEST PASSED
+2026-11-07 04:02:10,810 INFO - Removing disposable test container
+2026-11-07 04:02:41,603 INFO - Docker connected successfully
+2026-11-07 04:02:41,604 INFO - Starting Frappe CRM monitoring
+2026-11-07 04:02:41,699 INFO - Checking container: crm-redis-1
+2026-11-07 04:02:42,757 INFO - Checking container: crm-frappe-1
+2026-11-07 04:02:44,762 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:02:46,768 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:02:46,769 INFO - Monitoring finished: WARNING
+2026-11-07 04:03:11,354 INFO - Docker connected successfully
+2026-11-07 04:03:11,355 INFO - Creating disposable recovery test container
+2026-11-07 04:03:11,703 INFO - Stopping disposable test container
+2026-11-07 04:03:12,937 INFO - Testing automatic recovery
+2026-11-07 04:03:12,988 WARNING - Restarting disposable test container
+2026-11-07 04:03:16,190 INFO - Recovery successful
+2026-11-07 04:03:16,191 INFO - AUTO-RECOVERY TEST PASSED
+2026-11-07 04:03:16,191 INFO - Removing disposable test container
+2026-11-07 04:03:39,696 INFO - Docker connected successfully
+2026-11-07 04:03:39,697 INFO - Creating disposable recovery test container
+2026-11-07 04:03:40,165 INFO - Stopping disposable test container
+2026-11-07 04:03:41,471 INFO - Testing automatic recovery
+2026-11-07 04:03:41,513 WARNING - Restarting disposable test container
+2026-11-07 04:03:44,825 INFO - Recovery successful
+2026-11-07 04:03:44,825 INFO - AUTO-RECOVERY TEST PASSED
+2026-11-07 04:03:44,825 INFO - Removing disposable test container
+2026-11-07 04:03:50,381 INFO - Docker connected successfully
+2026-11-07 04:03:50,381 INFO - Starting Frappe CRM monitoring
+2026-11-07 04:03:50,475 INFO - Checking container: crm-redis-1
+2026-11-07 04:03:51,538 INFO - Checking container: crm-frappe-1
+2026-11-07 04:03:51,576 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:03:53,534 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:03:53,536 INFO - Monitoring finished: CRITICAL
+2026-11-07 04:04:13,827 INFO - Docker connected successfully
+2026-11-07 04:04:13,827 INFO - Starting Frappe CRM monitoring
+2026-11-07 04:04:13,885 INFO - Checking container: crm-redis-1
+2026-11-07 04:04:14,921 INFO - Checking container: crm-frappe-1
+2026-11-07 04:04:16,933 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:04:19,963 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:04:19,963 INFO - Monitoring finished: WARNING
+2026-11-07 04:04:36,505 INFO - Docker connected successfully
+2026-11-07 04:04:36,505 INFO - Starting Frappe CRM monitoring
+2026-11-07 04:04:36,572 INFO - Checking container: crm-redis-1
+2026-11-07 04:04:37,622 INFO - Checking container: crm-frappe-1
+2026-11-07 04:04:39,660 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:04:41,652 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:04:41,653 INFO - Monitoring finished: WARNING
+2026-11-07 04:05:11,742 INFO - Checking container: crm-redis-1
+2026-11-07 04:05:12,796 INFO - Checking container: crm-frappe-1
+2026-11-07 04:05:12,941 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:05:14,786 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:05:14,786 INFO - Monitoring finished: CRITICAL
+2026-11-07 04:05:45,324 INFO - Checking container: crm-redis-1
+2026-11-07 04:05:46,582 INFO - Checking container: crm-frappe-1
+2026-11-07 04:05:48,521 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:05:48,543 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:05:48,543 INFO - Monitoring finished: CRITICAL
+2026-11-07 04:06:18,603 INFO - Checking container: crm-redis-1
+2026-11-07 04:06:20,097 INFO - Checking container: crm-frappe-1
+2026-11-07 04:06:22,113 INFO - Checking container: crm-mariadb-1
+2026-11-07 04:06:24,136 INFO - JSON report saved: reports/health_report.json
+2026-11-07 04:06:24,137 INFO - Monitoring finished: WARNING
+2026-11-07 04:06:31,447 INFO - Stopped by user

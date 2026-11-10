@@ -1,0 +1,80 @@
+{
+  "project": "crm",
+  "generated_at": "2026-11-06T22:36:24.135053+00:00",
+  "overall_status": "WARNING",
+  "total_containers": 3,
+  "running_containers": 3,
+  "stopped_containers": [],
+  "unhealthy_containers": [],
+  "containers": [
+    {
+      "name": "crm-redis-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 0.28,
+      "memory_usage_mb": 9.0,
+      "memory_limit_mb": 7795.9,
+      "memory_percent": 0.1,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [
+        "1 error lines found in logs"
+      ],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 1,
+        "sample_errors": [
+          "2026-11-05T05:05:06.155532049Z 1:M 05 Nov 2026 05:05:06.155 * <bf> \t{ bf-error-rate       :      0.01 }"
+        ]
+      }
+    },
+    {
+      "name": "crm-frappe-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 5.23,
+      "memory_usage_mb": 406.1,
+      "memory_limit_mb": 7795.9,
+      "memory_percent": 5.2,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 0,
+        "sample_errors": []
+      }
+    },
+    {
+      "name": "crm-mariadb-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 0.03,
+      "memory_usage_mb": 114.7,
+      "memory_limit_mb": 7795.9,
+      "memory_percent": 1.5,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [
+        "5 error lines found in logs"
+      ],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 5,
+        "sample_errors": [
+          "2026-11-05T12:06:47.175309128Z 2026-11-05 12:06:47 4 [Warning] Aborted connection 4 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.19.0.4' (Got an error reading communication packets)",
+          "2026-11-05T12:07:42.351884230Z 2026-11-05 12:07:42 6 [Warning] Aborted connection 6 to db: '_c8b3e5206096f0bd' user: '_c8b3e5206096f0bd' host: '172.19.0.4' (Got an error reading communication packets)",
+          "2026-11-05T21:26:16.885672723Z 2026-11-05 21:26:16 606 [Warning] Aborted connection 606 to db: '_edd1fb86b27033ed' user: '_edd1fb86b27033ed' host: '172.19.0.4' (Got an error reading communication packets)",
+          "2026-11-05T21:26:52.870379485Z 2026-11-05 21:26:52 608 [Warning] Aborted connection 608 to db: '_edd1fb86b27033ed' user: '_edd1fb86b27033ed' host: '172.19.0.4' (Got an error reading communication packets)",
+          "2026-11-05T21:27:06.948830763Z 2026-11-05 21:27:06 613 [Warning] Aborted connection 613 to db: '_edd1fb86b27033ed' user: '_edd1fb86b27033ed' host: '172.19.0.4' (Got an error reading communication packets)"
+        ]
+      }
+    }
+  ],
+  "auto_recovery": {
+    "scope": "disposable test container only"
+  }
+}
