@@ -1,0 +1,31 @@
+{
+  "backup_id": "backup_20261104_080031",
+  "created_at": "2026-11-04T08:00:35.483330+00:00",
+  "source_site": "crm.localhost",
+  "source_container": "crm-frappe-1",
+  "compressed": true,
+  "status": "complete",
+  "artifacts": {
+    "database": {
+      "filename": "20261104_133033-crm_localhost-database.sql.gz",
+      "size_bytes": 297007,
+      "sha256": "557995085b64d1756b0bea3b79e9ef9e1e22a8f6651883edf906b3e2ae41313b"
+    },
+    "public_files": {
+      "filename": "20261104_133033-crm_localhost-files.tgz",
+      "size_bytes": 135,
+      "sha256": "c4faa553aa9fc05b9152bd181c9ce7dcf898f8725871850357c2a460868c804d"
+    },
+    "private_files": {
+      "filename": "20261104_133033-crm_localhost-private-files.tgz",
+      "size_bytes": 136,
+      "sha256": "8b4680ba2831c4db2aa264774b052d87b57a466714b3a7af1b545160b439c161"
+    },
+    "site_config": {
+      "filename": "20261104_133033-crm_localhost-site_config_backup.json",
+      "size_bytes": 164,
+      "sha256": "0e5c03dc44e59cba4fc4232746db0141de6c66f48f5791937ac5ee09246511f9"
+    }
+  }
+}
+

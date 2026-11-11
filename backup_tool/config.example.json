@@ -1,0 +1,16 @@
+{
+  "backup_dir": "C:\\frappe_crm_backups",
+  "source_compose_file": "docker/docker-compose.yml",
+  "source_container": "crm-frappe-1",
+  "source_site": "crm.localhost",
+  "source_bench_dir": "/home/frappe/frappe-bench",
+  "retention_count": 7,
+  "restore_compose_file": "docker/docker-compose.restore-test.yml",
+  "restore_project": "crm-restore-test",
+  "restore_container": "crm-restore-test-frappe-1",
+  "restore_site": "restore-test.localhost",
+  "restore_port": 8005,
+  "log_file": "C:\\frappe_crm_backups\\backup_tool.log",
+  "log_level": "INFO"
+}
+

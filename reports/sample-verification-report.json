@@ -1,0 +1,25 @@
+{
+  "backup_id": "backup_20261104_080031",
+  "directory": "C:\\frappe_crm_backups\\backup_20261104_080031",
+  "verified_at": "2026-11-04T08:00:46.542834+00:00",
+  "overall_status": "PASS",
+  "artifacts": {
+    "20261104_133033-crm_localhost-database.sql.gz": {
+      "status": "VERIFIED",
+      "sha256": "557995085b64d1756b0bea3b79e9ef9e1e22a8f6651883edf906b3e2ae41313b"
+    },
+    "20261104_133033-crm_localhost-files.tgz": {
+      "status": "VERIFIED",
+      "sha256": "c4faa553aa9fc05b9152bd181c9ce7dcf898f8725871850357c2a460868c804d"
+    },
+    "20261104_133033-crm_localhost-private-files.tgz": {
+      "status": "VERIFIED",
+      "sha256": "8b4680ba2831c4db2aa264774b052d87b57a466714b3a7af1b545160b439c161"
+    },
+    "20261104_133033-crm_localhost-site_config_backup.json": {
+      "status": "VERIFIED",
+      "sha256": "0e5c03dc44e59cba4fc4232746db0141de6c66f48f5791937ac5ee09246511f9"
+    }
+  }
+}
+

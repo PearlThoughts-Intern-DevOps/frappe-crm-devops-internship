@@ -1,0 +1,6 @@
+# Frappe CRM Backup & Restore Automation Tool Dependencies
+# Core automation uses Python standard library only (zero external dependencies required for production).
+
+# Optional test runner
+pytest>=7.4.0
+

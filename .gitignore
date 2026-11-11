@@ -27,3 +27,12 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+# Task 2 - Backup Tool Artifacts & Logs
+backup_tool/config.json
+*.log
+backups/
+*.sql.gz
+*.tar.gz
+*.tgz
+*site_config_backup.json
