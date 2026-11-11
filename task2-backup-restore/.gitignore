@@ -1,0 +1,13 @@
+@'
+# Actual backup data - do not commit
+backups/
+!backups/.gitkeep
+
+# Log files
+logs/*.log
+!logs/.gitkeep
+
+# Python generated files
+__pycache__/
+*.py[cod]
+'@ | Set-Content .gitignore
