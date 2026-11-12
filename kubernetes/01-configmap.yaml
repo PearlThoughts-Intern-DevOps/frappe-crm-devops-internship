@@ -1,0 +1,117 @@
+# ============================================================
+# 01-configmap.yaml
+# Non-sensitive configuration for all Frappe CRM services.
+# Derived from docker/init.sh and docker/docker-compose.yml.
+#
+# DO NOT put passwords, tokens, or keys here.
+# Those go in 02-secret.yaml (never committed with real values).
+# ============================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frappe-crm-config
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+data:
+  # ---- MariaDB ----
+  # Must match the Kubernetes Service name for mariadb (05-mariadb-service.yaml)
+  MARIADB_HOST: "mariadb"
+  MARIADB_PORT: "3306"
+
+  # ---- Redis ----
+  # Using a single Redis instance (matches docker/docker-compose.yml pattern).
+  # Must match the Kubernetes Service name for redis (07-redis-service.yaml).
+  REDIS_CACHE_URL: "redis://redis:6379"
+  REDIS_QUEUE_URL: "redis://redis:6379"
+  REDIS_SOCKETIO_URL: "redis://redis:6379"
+
+  # ---- Frappe Site ----
+  FRAPPE_SITE_NAME: "crm.localhost"
+  FRAPPE_BENCH_VERSION: "version-15"
+  DEVELOPER_MODE: "1"
+  MUTE_EMAILS: "1"
+  SERVER_SCRIPT_ENABLED: "1"
+
+  # ---- Init script (embedded as a ConfigMap key) ----
+  # This is mounted into the InitContainer and run once to set up the bench.
+  # It is equivalent to docker/init.sh, adapted for Kubernetes (secrets from env).
+  init.sh: |
+    #!/bin/bash
+    set -e
+
+    export PATH="/home/frappe/.nvm/current/bin/:/home/frappe/.local/bin:/home/frappe/.pyenv/shims:/home/frappe/.pyenv/bin:$PATH"
+
+    # Configure MariaDB client to disable SSL by default
+    echo -e '[client]\nssl=0' > /home/frappe/.my.cnf
+
+    echo "=== Frappe CRM Kubernetes Init Script ==="
+    echo "Site: ${FRAPPE_SITE_NAME}"
+    echo "MariaDB host: ${MARIADB_HOST}"
+
+    # Wait for MariaDB to be ready
+    echo "Waiting for MariaDB..."
+    until mysqladmin ping -h "${MARIADB_HOST}" -u root -p"${MARIADB_ROOT_PASSWORD}" --skip-ssl --silent 2>/dev/null; do
+      echo "  MariaDB not ready yet, retrying in 5s..."
+      sleep 5
+    done
+    echo "MariaDB is ready."
+
+    # Wait for Redis to be ready
+    echo "Waiting for Redis..."
+    until redis-cli -u "${REDIS_CACHE_URL}" ping 2>/dev/null | grep -q PONG; do
+      echo "  Redis not ready yet, retrying in 5s..."
+      sleep 5
+    done
+    echo "Redis is ready."
+
+    # If bench already exists (e.g. pod restart), skip init
+    if [ -d "/home/frappe/frappe-bench/apps/frappe" ]; then
+      echo "Bench already initialised — skipping bench init."
+    else
+      echo "Initialising bench..."
+      cd /home/frappe
+      bench init \
+        --ignore-exist \
+        --skip-redis-config-generation \
+        frappe-bench \
+        --version "${FRAPPE_BENCH_VERSION}"
+    fi
+
+    cd /home/frappe/frappe-bench
+
+    # Configure external services
+    bench set-mariadb-host "${MARIADB_HOST}"
+    bench set-redis-cache-host "${REDIS_CACHE_URL}"
+    bench set-redis-queue-host "${REDIS_QUEUE_URL}"
+    bench set-redis-socketio-host "${REDIS_SOCKETIO_URL}"
+
+    # Remove redis and watch from Procfile (we provide external Redis)
+    sed -i '/redis/d' ./Procfile
+    sed -i '/watch/d'  ./Procfile
+
+    # Fetch the CRM app if not present
+    if [ ! -d "apps/crm" ]; then
+      echo "Fetching CRM app..."
+      bench get-app crm --branch main
+    fi
+
+    # Create site if it does not exist
+    if bench --site "${FRAPPE_SITE_NAME}" show-config 2>/dev/null | grep -q db_name; then
+      echo "Site ${FRAPPE_SITE_NAME} already exists — skipping site creation."
+    else
+      echo "Creating site ${FRAPPE_SITE_NAME}..."
+      bench new-site "${FRAPPE_SITE_NAME}" \
+        --force \
+        --mariadb-root-password "${MARIADB_ROOT_PASSWORD}" \
+        --admin-password "${FRAPPE_ADMIN_PASSWORD}" \
+        --no-mariadb-socket
+      bench --site "${FRAPPE_SITE_NAME}" install-app crm
+      bench --site "${FRAPPE_SITE_NAME}" set-config developer_mode "${DEVELOPER_MODE}"
+      bench --site "${FRAPPE_SITE_NAME}" set-config mute_emails "${MUTE_EMAILS}"
+      bench --site "${FRAPPE_SITE_NAME}" set-config server_script_enabled "${SERVER_SCRIPT_ENABLED}"
+      bench --site "${FRAPPE_SITE_NAME}" clear-cache
+      bench use "${FRAPPE_SITE_NAME}"
+    fi
+
+    echo "=== Init complete. Bench is ready. ==="

@@ -1,0 +1,212 @@
+# ============================================================
+# 09-frappe-deployment.yaml
+# Frappe CRM Deployment.
+#
+# Image: frappe/bench:latest
+#   This is the official Frappe bench development image.
+#   Source: docker/docker-compose.yml, .devcontainer/docker-compose.yml
+#
+# Architecture (matches docker/docker-compose.yml faithfully):
+#   InitContainer: Runs init.sh (from ConfigMap) to:
+#     1. Wait for MariaDB and Redis
+#     2. bench init (creates frappe-bench directory)
+#     3. Configure external MariaDB and Redis hosts
+#     4. bench get-app crm --branch main
+#     5. bench new-site crm.localhost
+#     6. bench install-app crm
+#
+#   Main Container: Runs 'bench start' which launches:
+#     - web:            gunicorn on port 8000 (Frappe Python app)
+#     - socketio:       Node.js WebSocket on port 9000
+#     - worker_short:   RQ background worker
+#     - worker_long:    RQ background worker
+#     - worker_default: RQ background worker
+#     - scheduler:      Frappe job scheduler
+#
+# Ports: 8000 (gunicorn), 9000 (socketio)
+# Storage: frappe-bench-data PVC mounted at /home/frappe
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe
+  strategy:
+    type: Recreate   # Avoid two pods trying to run bench start simultaneously
+  template:
+    metadata:
+      labels:
+        app: frappe
+        app.kubernetes.io/name: frappe-crm
+        app.kubernetes.io/component: frappe
+    spec:
+      securityContext:
+        fsGroup: 1000
+      # ---- Init Container ----
+      # Runs the init.sh script from the ConfigMap before the main container starts.
+      # This ensures MariaDB is ready and the site is created before bench start.
+      initContainers:
+        # Step 1: Ensure persistent volume is owned by frappe user (uid 1000)
+        - name: fix-permissions
+          image: frappe/bench:latest
+          imagePullPolicy: IfNotPresent
+          command: ["bash", "-c", "chown -R frappe:frappe /home/frappe/frappe-bench && chmod -R 775 /home/frappe/frappe-bench"]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: frappe-bench-data
+              mountPath: /home/frappe/frappe-bench
+        # Step 2: Initialize bench and CRM site
+        - name: frappe-init
+          image: frappe/bench:latest
+          imagePullPolicy: IfNotPresent
+          command: ["bash", "/workspace/init.sh"]
+          env:
+            # Injected from ConfigMap (non-sensitive)
+            - name: MARIADB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: MARIADB_HOST
+            - name: REDIS_CACHE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: REDIS_CACHE_URL
+            - name: REDIS_QUEUE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: REDIS_QUEUE_URL
+            - name: REDIS_SOCKETIO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: REDIS_SOCKETIO_URL
+            - name: FRAPPE_SITE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: FRAPPE_SITE_NAME
+            - name: FRAPPE_BENCH_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: FRAPPE_BENCH_VERSION
+            - name: DEVELOPER_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: DEVELOPER_MODE
+            - name: MUTE_EMAILS
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: MUTE_EMAILS
+            - name: SERVER_SCRIPT_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: SERVER_SCRIPT_ENABLED
+            # Injected from Secret (sensitive)
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-crm-secrets
+                  key: MARIADB_ROOT_PASSWORD
+            - name: FRAPPE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-crm-secrets
+                  key: FRAPPE_ADMIN_PASSWORD
+          volumeMounts:
+            - name: frappe-bench-data
+              mountPath: /home/frappe/frappe-bench
+            # Mount the init.sh from ConfigMap into /workspace/init.sh
+            - name: init-script
+              mountPath: /workspace/init.sh
+              subPath: init.sh
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+
+      # ---- Main Container ----
+      containers:
+        - name: frappe
+          image: frappe/bench:latest
+          imagePullPolicy: IfNotPresent
+          # bench start launches gunicorn, socketio, workers, scheduler
+          # working directory is the frappe-bench created by InitContainer
+          command: ["bash", "-c", "cd /home/frappe/frappe-bench && bench start"]
+          env:
+            - name: SHELL
+              value: "/bin/bash"
+            - name: FRAPPE_SITE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: frappe-crm-config
+                  key: FRAPPE_SITE_NAME
+          ports:
+            - name: http
+              containerPort: 8000   # Gunicorn (Frappe web)
+              protocol: TCP
+            - name: socketio
+              containerPort: 9000   # Node.js SocketIO / WebSocket
+              protocol: TCP
+          volumeMounts:
+            - name: frappe-bench-data
+              mountPath: /home/frappe/frappe-bench
+          # ---- Health Checks ----
+          # bench start takes 2-5 minutes on first boot (app fetch + site creation
+          # happens in InitContainer, but gunicorn startup still takes ~30s).
+          # Use generous initialDelaySeconds to avoid premature restarts.
+          livenessProbe:
+            httpGet:
+              path: /api/method/ping
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /api/method/ping
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 5
+          # ---- Resource Requests & Limits ----
+          # Frappe (gunicorn + workers + scheduler + socketio) is memory-hungry.
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "3Gi"
+
+      # ---- Volumes ----
+      volumes:
+        - name: frappe-bench-data
+          persistentVolumeClaim:
+            claimName: frappe-bench-data
+        - name: init-script
+          configMap:
+            name: frappe-crm-config
+            items:
+              - key: init.sh
+                path: init.sh
+            defaultMode: 0755   # Make the script executable

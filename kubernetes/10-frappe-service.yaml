@@ -1,0 +1,39 @@
+# ============================================================
+# 10-frappe-service.yaml
+# Kubernetes Service for Frappe CRM (web + socketio).
+#
+# Two ports exposed:
+#   - 8000: Gunicorn (Frappe Python web server)
+#   - 9000: Node.js SocketIO / WebSocket server
+#
+# Type: NodePort (for Minikube access without LoadBalancer)
+#   Access via: minikube service frappe-crm -n frappe-crm
+#   Or port-forward: kubectl port-forward svc/frappe-crm 8000:8000 -n frappe-crm
+#
+# For EKS (if approved): Change type to LoadBalancer to get an AWS NLB.
+# Comment: This creates a chargeable AWS load balancer — discuss with team leader.
+# ============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-crm
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: frappe
+spec:
+  type: NodePort        # Works on Minikube without cloud cost
+  # For EKS (needs approval): type: LoadBalancer
+  selector:
+    app: frappe
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+      nodePort: 30800   # Access on <minikube-ip>:30800
+    - name: socketio
+      port: 9000
+      targetPort: 9000
+      protocol: TCP
+      nodePort: 30900   # Access on <minikube-ip>:30900

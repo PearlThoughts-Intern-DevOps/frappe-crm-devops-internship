@@ -1,0 +1,24 @@
+# ============================================================
+# 07-redis-service.yaml
+# Kubernetes Service for Redis.
+#
+# Type: ClusterIP (internal only — Redis must NOT be public)
+# Service name 'redis' must match REDIS_*_URL in configmap.
+# ============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis           # Referenced as 'redis' in REDIS_CACHE_URL etc.
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: redis
+spec:
+  type: ClusterIP       # Internal only
+  selector:
+    app: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+      protocol: TCP

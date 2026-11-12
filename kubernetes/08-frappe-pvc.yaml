@@ -1,0 +1,34 @@
+# ============================================================
+# 08-frappe-pvc.yaml
+# PersistentVolumeClaim for Frappe bench directory.
+#
+# The frappe-bench directory contains:
+#   - apps/       (frappe + crm source code cloned by bench)
+#   - sites/      (site config, database, file uploads)
+#   - logs/       (gunicorn, worker, scheduler logs)
+#   - config/     (Procfile, redis config, etc.)
+#
+# This PVC is shared between:
+#   - InitContainer: writes the bench during site setup
+#   - Main container: reads the bench to run bench start
+#
+# AccessMode: ReadWriteOnce (single node — suitable for Minikube)
+# For EKS multi-node, consider EFS with ReadWriteMany.
+# ============================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frappe-bench-data
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: frappe
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi    # bench init + app source + site data can be 10-15GB
+  # Leave storageClassName unset to use cluster default.
+  # Minikube: 'standard' (hostPath)
+  # EKS:      'gp2' (EBS) — single-node only with ReadWriteOnce

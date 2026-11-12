@@ -1,0 +1,74 @@
+# ============================================================
+# 06-redis-deployment.yaml
+# Redis Deployment for Frappe CRM.
+#
+# Why Deployment (not StatefulSet)?
+#   - Redis is used here for caching and queue (ephemeral work).
+#   - If the pod restarts, Frappe reconnects and workers resume.
+#   - No persistent storage needed for a dev/demo deployment.
+#     (For production, add a PVC and redis --appendonly yes)
+#
+# Image: redis:alpine
+#   Source: docker/docker-compose.yml, .devcontainer/docker-compose.yml
+#
+# Single Redis instance handles:
+#   - cache (REDIS_CACHE_URL)
+#   - queue (REDIS_QUEUE_URL)
+#   - socketio pub/sub (REDIS_SOCKETIO_URL)
+#
+# Port 6379 — INTERNAL ONLY. Never exposed via NodePort/LoadBalancer.
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        app.kubernetes.io/name: frappe-crm
+        app.kubernetes.io/component: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:alpine
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          # ---- Health Checks ----
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          # ---- Resource Requests & Limits ----
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

@@ -1,0 +1,24 @@
+# ============================================================
+# 05-mariadb-service.yaml
+# Kubernetes Service for MariaDB.
+#
+# Type: ClusterIP (internal only — MariaDB must NOT be public)
+# Service name 'mariadb' must match MARIADB_HOST in configmap.
+# ============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb         # This name is referenced as MARIADB_HOST in configmap
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: mariadb
+spec:
+  type: ClusterIP       # Internal only — never exposed outside the cluster
+  selector:
+    app: mariadb
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+      protocol: TCP

@@ -1,0 +1,28 @@
+# ============================================================
+# 03-mariadb-pvc.yaml
+# PersistentVolumeClaim for MariaDB data directory.
+# Requests 10Gi of storage from the default StorageClass.
+#
+# Minikube: uses 'standard' StorageClass (hostPath provisioner)
+# EKS:      uses 'gp2' or 'gp3' StorageClass (EBS CSI driver)
+# ============================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-data
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: mariadb
+spec:
+  accessModes:
+    - ReadWriteOnce   # MariaDB requires exclusive block storage
+  resources:
+    requests:
+      storage: 10Gi
+  # Leave storageClassName unset to use the cluster default:
+  #   Minikube default: 'standard'  (hostPath, single-node)
+  #   EKS default:      'gp2'       (EBS, requires EBS CSI add-on)
+  # Uncomment and set explicitly if needed:
+  # storageClassName: standard      # Minikube
+  # storageClassName: gp2           # EKS

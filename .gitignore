@@ -27,3 +27,6 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+# Kubernetes secrets — never commit real values
+kubernetes/02-secret.yaml

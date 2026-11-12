@@ -1,0 +1,12 @@
+# ============================================================
+# 00-namespace.yaml
+# Creates the dedicated Kubernetes Namespace for Frappe CRM.
+# All other resources are deployed into this namespace.
+# ============================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/managed-by: kubectl

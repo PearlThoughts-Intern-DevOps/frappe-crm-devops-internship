@@ -1,0 +1,94 @@
+# ============================================================
+# 04-mariadb-statefulset.yaml
+# MariaDB StatefulSet for Frappe CRM.
+#
+# Why StatefulSet (not Deployment)?
+#   - Databases need stable network identity and stable storage.
+#   - StatefulSet guarantees ordered startup/shutdown and
+#     stable pod names (mariadb-0, mariadb-1, ...).
+#   - Prevents split-brain issues during pod restarts.
+#
+# Image: mariadb:10.6
+#   Source: .devcontainer/docker-compose.yml
+#   Flags match docker/docker-compose.yml command block.
+#
+# Ports: 3306 — INTERNAL ONLY. Never exposed via NodePort/LoadBalancer.
+# ============================================================
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  namespace: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/component: mariadb
+spec:
+  serviceName: "mariadb"  # Must match the headless Service name
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+        app.kubernetes.io/name: frappe-crm
+        app.kubernetes.io/component: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.6
+          # Flags derived from docker/docker-compose.yml and .devcontainer/docker-compose.yml
+          args:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+            - --skip-character-set-client-handshake
+            - --skip-innodb-read-only-compressed
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-crm-secrets
+                  key: MARIADB_ROOT_PASSWORD
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+          # ---- Health Checks ----
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - "mysqladmin ping -u root -p\"${MYSQL_ROOT_PASSWORD}\" --silent"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - "mysqladmin ping -u root -p\"${MYSQL_ROOT_PASSWORD}\" --silent"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          # ---- Resource Requests & Limits ----
+          # Conservative sizing for internship demo.
+          # Increase for production workloads.
+          resources:
+            requests:
+              cpu: "250m"       # 0.25 vCPU
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"      # 1 vCPU
+              memory: "1Gi"
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: mariadb-data
