@@ -1,0 +1,123 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-web-svc
+  namespace: frappe-crm
+  labels:
+    app: frappe-web
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30080
+      name: http
+  selector:
+    app: frappe-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-web
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-web
+  template:
+    metadata:
+      labels:
+        app: frappe-web
+    spec:
+      initContainers:
+        - name: sync-assets
+          image: ghcr.io/frappe/crm:stable
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /mnt/sites/assets
+              cp -rfL /home/frappe/frappe-bench/assets/* /mnt/sites/assets/ 2>/dev/null || true
+              cp -rfL /home/frappe/frappe-bench/sites/assets/* /mnt/sites/assets/ 2>/dev/null || true
+              cp -f /home/frappe/frappe-bench/sites/apps.txt /mnt/sites/apps.txt 2>/dev/null || true
+          volumeMounts:
+            - name: sites-storage
+              mountPath: /mnt/sites
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: sites-storage
+              mountPath: /home/frappe/frappe-bench/sites
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          readinessProbe:
+            httpGet:
+              path: /api/method/frappe.ping
+              port: 8080
+              httpHeaders:
+                - name: Host
+                  value: crm.localhost
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/method/frappe.ping
+              port: 8080
+              httpHeaders:
+                - name: Host
+                  value: crm.localhost
+            initialDelaySeconds: 20
+            periodSeconds: 15
+        - name: frappe-gunicorn
+          image: ghcr.io/frappe/crm:stable
+          command:
+            - bash
+            - -c
+            - |
+              cd /home/frappe/frappe-bench/sites
+              /home/frappe/frappe-bench/env/bin/gunicorn \
+                --bind=0.0.0.0:8000 \
+                --threads=4 \
+                --workers=2 \
+                --worker-class=gthread \
+                --worker-tmp-dir=/dev/shm \
+                --timeout=120 \
+                --preload \
+                frappe.app:application
+          ports:
+            - containerPort: 8000
+              name: gunicorn
+          envFrom:
+            - configMapRef:
+                name: frappe-config
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "200m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: sites-storage
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites-storage
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+        - name: nginx-conf
+          configMap:
+            name: nginx-config
