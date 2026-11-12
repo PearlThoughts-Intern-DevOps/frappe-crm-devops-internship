@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frappe-crm
+  labels:
+    app.kubernetes.io/name: frappe-crm
+    app.kubernetes.io/instance: frappe-crm-minikube

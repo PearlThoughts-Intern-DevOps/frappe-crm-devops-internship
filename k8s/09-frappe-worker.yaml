@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-worker
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-worker
+  template:
+    metadata:
+      labels:
+        app: frappe-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/frappe/crm:stable
+          command:
+            - bench
+            - worker
+            - --queue
+            - short,default,long
+          envFrom:
+            - configMapRef:
+                name: frappe-config
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: sites-storage
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites-storage
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
