@@ -1,0 +1,7 @@
+---
+# Example Ansible Vault file for production credentials
+# Encrypt this file using: ansible-vault encrypt inventory/group_vars/vault.yml
+# Run playbooks using: ansible-playbook playbooks/site.yml --ask-vault-pass
+
+vault_mariadb_root_password: "SuperSecretMariaDBPassword123!"
+vault_frappe_admin_password: "StrongAdminPassword456!"

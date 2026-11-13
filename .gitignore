@@ -30,3 +30,13 @@ AGENTS.md
 
 # Kubernetes secrets — never commit real values
 kubernetes/02-secret.yaml
+
+# Ansible sensitive files
+ansible/inventory/group_vars/vault.yml
+*.retry
+
+# Local testing and runtime data
+backups/
+automation/logs/
+automation/reports/
+

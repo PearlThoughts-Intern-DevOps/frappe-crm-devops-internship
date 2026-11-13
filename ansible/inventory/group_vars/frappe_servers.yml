@@ -1,0 +1,23 @@
+---
+# Frappe CRM Environment-Specific Variables
+frappe_project_name: "crm"
+frappe_site_name: "crm.localhost"
+frappe_version: "version-15"
+
+# Network & Ports
+frappe_http_port: 8000
+frappe_socketio_port: 9000
+
+# Container Images
+mariadb_image: "mariadb:10.8"
+redis_image: "redis:alpine"
+frappe_image: "frappe/bench:latest"
+
+# Database Configuration
+mariadb_character_set_server: "utf8mb4"
+mariadb_collation_server: "utf8mb4_unicode_ci"
+
+# Credentials (default non-sensitive values for development)
+# Production secrets should be encrypted using Ansible Vault in vault.yml
+mariadb_root_password: "123"
+frappe_admin_password: "admin"

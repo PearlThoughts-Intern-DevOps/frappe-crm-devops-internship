@@ -1,0 +1,74 @@
+---
+# tasks file for common role
+- name: Check if swapfile already exists
+  ansible.builtin.stat:
+    path: /swapfile
+  register: swapfile_stat
+
+- name: Create 4GB swapfile for memory-constrained environments
+  ansible.builtin.command: fallocate -l 4G /swapfile
+  when: not swapfile_stat.stat.exists
+
+- name: Set strict permissions on swapfile
+  ansible.builtin.file:
+    path: /swapfile
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Format swapfile
+  ansible.builtin.command: mkswap /swapfile
+  when: not swapfile_stat.stat.exists
+
+- name: Enable swapfile
+  ansible.builtin.command: swapon /swapfile
+  when: not swapfile_stat.stat.exists
+  failed_when: false
+
+- name: Ensure swapfile is configured in /etc/fstab
+  ansible.posix.mount:
+    name: none
+    src: /swapfile
+    fstype: swap
+    opts: sw
+    state: present
+
+- name: Configure kernel swappiness
+  ansible.posix.sysctl:
+    name: vm.swappiness
+    value: '10'
+    state: present
+    reload: true
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install prerequisite system packages
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - git
+      - software-properties-common
+      - python3-pip
+      - python3-docker
+    state: present
+
+- name: Ensure target user is present
+  ansible.builtin.user:
+    name: "{{ frappe_deploy_user }}"
+    state: present
+    shell: /bin/bash
+
+- name: Create Frappe CRM deployment directory
+  ansible.builtin.file:
+    path: "{{ frappe_deploy_dir }}"
+    state: directory
+    owner: "{{ frappe_deploy_user }}"
+    group: "{{ frappe_deploy_user }}"
+    mode: '0755'

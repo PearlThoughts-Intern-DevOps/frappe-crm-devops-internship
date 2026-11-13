@@ -1,0 +1,88 @@
+#!/bin/bash
+set -e
+
+echo "[INFO] Starting Frappe CRM initialization check..."
+
+# Fix volume permissions if mounted by docker as root
+sudo -n chown -R frappe:frappe /home/frappe/frappe-bench 2>/dev/null || true
+
+# Ensure MySQL client does not enforce SSL against non-SSL MariaDB container
+mkdir -p /home/frappe/.my.cnf.d 2>/dev/null || true
+cat << 'EOF' > /home/frappe/.my.cnf
+[client]
+ssl=0
+EOF
+chmod 600 /home/frappe/.my.cnf
+
+# Wait for MariaDB to accept connections
+echo "[INFO] Waiting for MariaDB service at mariadb:3306..."
+until mysqladmin ping -h mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" --silent; do
+    echo "[INFO] MariaDB is unavailable - sleeping 3 seconds..."
+    sleep 3
+done
+echo "[INFO] MariaDB is up and healthy."
+
+# Check if site is already created and bench exists
+if [ -f "/home/frappe/frappe-bench/sites/${FRAPPE_SITE_NAME:-crm.localhost}/site_config.json" ]; then
+    echo "[INFO] Frappe site ${FRAPPE_SITE_NAME:-crm.localhost} already exists. Skipping initialization."
+    cd /home/frappe/frappe-bench
+    bench use "${FRAPPE_SITE_NAME:-crm.localhost}" || true
+    echo "[INFO] Starting Frappe CRM services via bench start..."
+    exec bench start
+fi
+
+cd /home/frappe
+
+if [ ! -d "/home/frappe/frappe-bench/apps/frappe" ]; then
+    echo "[INFO] Initializing new Frappe bench..."
+    bench init --ignore-exist --skip-redis-config-generation frappe-bench --version "${FRAPPE_VERSION:-version-15}"
+fi
+
+cd /home/frappe/frappe-bench
+
+# Configure container hostnames
+echo "[INFO] Configuring MariaDB and Redis container hosts..."
+bench set-mariadb-host mariadb
+bench set-redis-cache-host redis://redis:6379
+bench set-redis-queue-host redis://redis:6379
+bench set-redis-socketio-host redis://redis:6379
+
+# Remove redis and watch from Procfile as redis runs in dedicated container
+sed -i '/redis/d' ./Procfile
+sed -i '/watch/d' ./Procfile
+
+if [ ! -d "apps/crm" ]; then
+    echo "[INFO] Getting CRM application..."
+    bench get-app crm --branch main
+fi
+
+if [ ! -f "sites/${FRAPPE_SITE_NAME:-crm.localhost}/site_config.json" ]; then
+    echo "[INFO] Creating site ${FRAPPE_SITE_NAME:-crm.localhost}..."
+    bench new-site "${FRAPPE_SITE_NAME:-crm.localhost}" \
+        --force \
+        --mariadb-root-password "${MYSQL_ROOT_PASSWORD}" \
+        --admin-password "${FRAPPE_ADMIN_PASSWORD}" \
+        --no-mariadb-socket
+
+    echo "[INFO] Installing CRM app on ${FRAPPE_SITE_NAME:-crm.localhost}..."
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" install-app crm
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" set-config developer_mode 1
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" set-config mute_emails 1
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" set-config server_script_enabled 1
+    
+    echo "[INFO] Running database migrations..."
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" migrate
+
+    echo "[INFO] Running CRM after-install configuration hooks..."
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" execute crm.install.after_install
+
+    bench --site "${FRAPPE_SITE_NAME:-crm.localhost}" clear-cache
+
+    echo "[INFO] Building frontend assets and bundles..."
+    bench build
+
+    bench use "${FRAPPE_SITE_NAME:-crm.localhost}"
+fi
+
+echo "[INFO] Initialization completed successfully. Starting Frappe CRM..."
+exec bench start
