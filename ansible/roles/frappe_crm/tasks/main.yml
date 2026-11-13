@@ -1,0 +1,62 @@
+---
+# tasks file for frappe_crm role
+- name: Ensure Frappe deployment directory exists
+  ansible.builtin.file:
+    path: "{{ frappe_deploy_dir }}"
+    state: directory
+    owner: "{{ frappe_deploy_user }}"
+    group: "{{ frappe_deploy_user }}"
+    mode: '0755'
+
+- name: Deploy Frappe CRM environment configuration (.env)
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "{{ frappe_deploy_dir }}/.env"
+    owner: "{{ frappe_deploy_user }}"
+    group: "{{ frappe_deploy_user }}"
+    mode: '0600'
+  notify: restart frappe crm stack
+
+- name: Deploy Frappe CRM initialization script (init.sh)
+  ansible.builtin.template:
+    src: init.sh.j2
+    dest: "{{ frappe_deploy_dir }}/init.sh"
+    owner: "{{ frappe_deploy_user }}"
+    group: "{{ frappe_deploy_user }}"
+    mode: '0755'
+  notify: restart frappe crm stack
+
+- name: Deploy Docker Compose configuration (docker-compose.yml)
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ frappe_deploy_dir }}/docker-compose.yml"
+    owner: "{{ frappe_deploy_user }}"
+    group: "{{ frappe_deploy_user }}"
+    mode: '0644'
+  notify: restart frappe crm stack
+
+- name: Start Frappe CRM containers via Docker Compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ frappe_deploy_dir }}"
+    state: present
+    wait: true
+    wait_timeout: 300
+
+- name: Wait for Frappe CRM web service to be healthy (ping endpoint)
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ frappe_http_port }}/api/method/ping"
+    method: GET
+    status_code: 200
+    return_content: true
+  register: ping_response
+  until: ping_response.status == 200 and 'pong' in (ping_response.content | default(''))
+  retries: "{{ frappe_healthcheck_retries }}"
+  delay: "{{ frappe_healthcheck_delay }}"
+  changed_when: false
+
+- name: Verify Frappe CRM login page is accessible
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ frappe_http_port }}/login"
+    method: GET
+    status_code: 200
+  changed_when: false

@@ -1,0 +1,10 @@
+---
+# Global configuration across all target environments
+ansible_user: ubuntu
+ansible_ssh_private_key_file: ~/.ssh/frappe-ansible-key.pem
+
+# Common system configuration
+system_timezone: "UTC"
+frappe_deploy_dir: "/opt/frappe-crm"
+frappe_deploy_user: "ubuntu"
+frappe_deploy_group: "docker"

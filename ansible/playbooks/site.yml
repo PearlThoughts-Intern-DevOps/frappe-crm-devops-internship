@@ -1,0 +1,22 @@
+---
+- name: Deploy and Manage Frappe CRM Environment
+  hosts: frappe_servers
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: common
+      tags:
+        - common
+        - system
+
+    - role: docker
+      tags:
+        - docker
+        - container-engine
+
+    - role: frappe_crm
+      tags:
+        - frappe_crm
+        - app
+        - deploy

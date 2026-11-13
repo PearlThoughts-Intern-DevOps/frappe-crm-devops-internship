@@ -1,0 +1,72 @@
+---
+# tasks file for docker role
+- name: Add Docker official repository using DEB822 format
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: [deb]
+    uris: https://download.docker.com/linux/ubuntu
+    suites: ["{{ ansible_facts['distribution_release'] }}"]
+    components: [stable]
+    architectures: ["{{ 'amd64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }}"]
+    signed_by: https://download.docker.com/linux/ubuntu/gpg
+    install_python_debian: true
+    state: present
+  register: docker_repo_status
+
+- name: Update apt cache for Docker packages
+  ansible.builtin.apt:
+    update_cache: true
+  when: docker_repo_status.changed
+
+- name: Install Docker CE packages and Compose plugin
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Ensure docker daemon config directory exists
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    mode: '0755'
+
+- name: Configure Docker daemon with production log limits
+  ansible.builtin.copy:
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "20m",
+          "max-file": "3"
+        }
+      }
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+  notify: restart docker
+
+- name: Ensure Docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add deployment user to docker group
+  ansible.builtin.user:
+    name: "{{ frappe_deploy_user }}"
+    groups: docker
+    append: true
+
+- name: Ensure Docker and containerd services are enabled and started
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - containerd
+    - docker
+
+- name: Flush handlers to apply any daemon changes immediately
+  ansible.builtin.meta: flush_handlers

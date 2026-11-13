@@ -1,0 +1,6 @@
+---
+# handlers for frappe_crm role
+- name: restart frappe crm stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ frappe_deploy_dir }}"
+    state: restarted
