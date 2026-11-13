@@ -1,0 +1,21 @@
+# `kubectl apply -k k8s/` applies everything below in one go.
+# Change the image tag in ONE place here (every Frappe pod must run the same image).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-namespace.yaml
+  - 01-configmap.yaml
+  - 02-secret.yaml
+  - 03-storage.yaml
+  - 10-mariadb.yaml
+  - 11-redis.yaml
+  - 20-configure-job.yaml
+  - 21-create-site-job.yaml
+  - 30-backend.yaml
+  - 31-websocket.yaml
+  - 32-workers.yaml
+  - 33-scheduler.yaml
+  - 34-frontend.yaml
+images:
+  - name: frappe-crm
+    newTag: v15

@@ -1,0 +1,52 @@
+# The Python web app (gunicorn). The image's default command already starts
+# gunicorn on port 8000, so we don't override it.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: frappe-crm
+spec:
+  replicas: 1 # try `kubectl scale deploy/backend --replicas=2` later
+  selector:
+    matchLabels: { app: backend }
+  template:
+    metadata:
+      labels: { app: backend, app.kubernetes.io/part-of: frappe-crm }
+    spec:
+      securityContext: { runAsUser: 1000, runAsGroup: 0 } # image user: frappe = uid 1000, group root
+      containers:
+        - name: backend
+          image: frappe-crm:v15
+          imagePullPolicy: Never # built locally + loaded into minikube (see README)
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: # Ready only once the site answers /api/method/ping
+            httpGet:
+              path: /api/method/ping
+              port: 8000
+              httpHeaders: [{ name: Host, value: crm.localhost }]
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 8000 }
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          volumeMounts:
+            - { name: sites, mountPath: /home/frappe/frappe-bench/sites }
+            - { name: logs, mountPath: /home/frappe/frappe-bench/logs }
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits: { memory: 1Gi }
+      volumes:
+        - name: sites
+          persistentVolumeClaim: { claimName: sites }
+        - name: logs
+          persistentVolumeClaim: { claimName: logs }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: frappe-crm
+spec:
+  selector: { app: backend }
+  ports: [{ port: 8000, targetPort: 8000 }]

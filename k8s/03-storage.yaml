@@ -1,0 +1,33 @@
+# PersistentVolumeClaims = "I need a disk of this size". Minikube's default
+# StorageClass ("standard") sees the claim and automatically creates a matching
+# PersistentVolume (dynamic provisioning). Check with: kubectl get pv
+#
+# The `sites` folder (site config, uploaded files, built assets) is shared by
+# backend, frontend, websocket, workers and scheduler, so it asks for
+# ReadWriteMany. On single-node Minikube the hostPath provisioner allows this.
+# On a real multi-node cluster you need an RWX-capable StorageClass (NFS, EFS, CephFS...).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sites
+  namespace: frappe-crm
+spec:
+  accessModes: [ReadWriteMany]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logs
+  namespace: frappe-crm
+spec:
+  accessModes: [ReadWriteMany]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi
+# MariaDB's disk is NOT here: its StatefulSet creates its own claim
+# (see volumeClaimTemplates in 10-mariadb.yaml).
