@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe
+  template:
+    metadata:
+      labels:
+        app: frappe
+    spec:
+      containers:
+        - name: frappe
+          image: frappe/bench:latest
+          imagePullPolicy: IfNotPresent
+          workingDir: /home/frappe
+          command:
+            [
+              "bash",
+              "-c",
+              "export PATH=/home/frappe/.local/bin:$PATH && bash /workspace/init.sh",
+            ]
+          ports:
+            - containerPort: 8000
+            - containerPort: 9000
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: FRAPPE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-secret
+                  key: FRAPPE_ADMIN_PASSWORD
+          volumeMounts:
+            - name: frappe-storage
+              mountPath: /home/frappe/frappe-bench
+            - name: init-script
+              mountPath: /workspace/init.sh
+              subPath: init.sh
+      volumes:
+        - name: frappe-storage
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+        - name: init-script
+          configMap:
+            name: frappe-init
