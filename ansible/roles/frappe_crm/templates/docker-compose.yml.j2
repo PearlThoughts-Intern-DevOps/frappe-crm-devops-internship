@@ -1,0 +1,63 @@
+name: "{{ frappe_project_name }}"
+
+services:
+  mariadb:
+    image: "{{ mariadb_image }}"
+    container_name: "{{ frappe_project_name }}-mariadb"
+    command:
+      - --character-set-server={{ mariadb_character_set_server }}
+      - --collation-server={{ mariadb_collation_server }}
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+      - --innodb-buffer-pool-size=128M
+      - --max-connections=64
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  redis:
+    image: "{{ redis_image }}"
+    container_name: "{{ frappe_project_name }}-redis"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frappe:
+    image: "{{ frappe_image }}"
+    container_name: "{{ frappe_project_name }}-frappe"
+    command: bash /workspace/init.sh
+    environment:
+      - SHELL=/bin/bash
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - FRAPPE_ADMIN_PASSWORD=${FRAPPE_ADMIN_PASSWORD}
+      - FRAPPE_SITE_NAME=${FRAPPE_SITE_NAME}
+      - FRAPPE_VERSION=${FRAPPE_VERSION}
+    working_dir: /home/frappe
+    volumes:
+      - ./init.sh:/workspace/init.sh:ro
+      - frappe-bench-data:/home/frappe/frappe-bench
+    ports:
+      - "80:8000"
+      - "{{ frappe_http_port }}:8000"
+      - "{{ frappe_socketio_port }}:9000"
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mariadb-data:
+  frappe-bench-data:

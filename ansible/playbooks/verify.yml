@@ -1,0 +1,102 @@
+---
+- name: Verify Frappe CRM and Docker Infrastructure Health
+  hosts: frappe_servers
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check Docker systemd service status
+      ansible.builtin.systemd:
+        name: docker
+      register: docker_service_status
+
+    - name: Assert Docker service is active and running
+      ansible.builtin.assert:
+        that:
+          - docker_service_status.status.ActiveState == "active"
+          - docker_service_status.status.SubState == "running"
+        fail_msg: "Docker service is not active or running on the target node!"
+        success_msg: "Docker service is active and running."
+
+    - name: Gather Docker Engine version
+      ansible.builtin.command: docker --version
+      register: docker_version_output
+      changed_when: false
+
+    - name: Gather Docker Compose plugin version
+      ansible.builtin.command: docker compose version
+      register: compose_version_output
+      changed_when: false
+
+    - name: Display Docker and Compose versions
+      ansible.builtin.debug:
+        msg:
+          - "Docker Engine: {{ docker_version_output.stdout }}"
+          - "Docker Compose: {{ compose_version_output.stdout }}"
+
+    - name: Inspect running Docker containers in Frappe deployment
+      ansible.builtin.command: docker compose ps
+      args:
+        chdir: "{{ frappe_deploy_dir | default('/opt/frappe-crm') }}"
+      register: compose_ps_output
+      changed_when: false
+
+    - name: Display running containers
+      ansible.builtin.debug:
+        var: compose_ps_output.stdout_lines
+
+    - name: Assert all expected containers are running
+      ansible.builtin.assert:
+        that:
+          - "'mariadb' in compose_ps_output.stdout"
+          - "'redis' in compose_ps_output.stdout"
+          - "'frappe' in compose_ps_output.stdout"
+        fail_msg: "Expected mariadb, redis, and frappe containers in docker compose ps, but some are missing."
+        success_msg: "All 3 required containers (mariadb, redis, frappe) are active in Docker Compose."
+
+    - name: Verify Frappe API ping endpoint
+      ansible.builtin.uri:
+        url: "http://127.0.0.1:{{ frappe_http_port | default(8000) }}/api/method/ping"
+        method: GET
+        status_code: 200
+        return_content: true
+      register: ping_check
+      retries: 5
+      delay: 3
+      until: ping_check.status == 200 and 'pong' in (ping_check.content | default(''))
+
+    - name: Assert Frappe API returns pong
+      ansible.builtin.assert:
+        that:
+          - ping_check.status == 200
+          - "'pong' in ping_check.content"
+        fail_msg: "Frappe API ping endpoint failed or did not return 'pong'!"
+        success_msg: "Frappe API ping endpoint returned HTTP 200 with 'pong' successfully."
+
+    - name: Verify Frappe login endpoint returns HTTP 200
+      ansible.builtin.uri:
+        url: "http://127.0.0.1:{{ frappe_http_port | default(8000) }}/login"
+        method: GET
+        status_code: 200
+      register: login_check
+
+    - name: Assert Frappe login page is accessible
+      ansible.builtin.assert:
+        that:
+          - login_check.status == 200
+        fail_msg: "Frappe login page is not reachable (HTTP {{ login_check.status }})"
+        success_msg: "Frappe login page is reachable and returned HTTP 200 OK."
+
+    - name: Display Final Verification Summary
+      ansible.builtin.debug:
+        msg:
+          - "=========================================================="
+          - "           FRAPPE CRM VERIFICATION PASSED                 "
+          - "=========================================================="
+          - "Host: {{ inventory_hostname }} ({{ ansible_host }})"
+          - "Docker Service: ACTIVE"
+          - "Containers: MariaDB, Redis, Frappe (RUNNING)"
+          - "Web URL: http://{{ ansible_host }}:{{ frappe_http_port | default(8000) }}/login"
+          - "API Health: http://{{ ansible_host }}:{{ frappe_http_port | default(8000) }}/api/method/ping"
+          - "Status: ALL ASSERTIONS SUCCEEDED"
+          - "=========================================================="
