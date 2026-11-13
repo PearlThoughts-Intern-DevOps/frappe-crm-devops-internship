@@ -1,0 +1,44 @@
+# Node.js socket.io server: pushes realtime updates (notifications, list refresh).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websocket
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: websocket }
+  template:
+    metadata:
+      labels: { app: websocket, app.kubernetes.io/part-of: frappe-crm }
+    spec:
+      securityContext: { runAsUser: 1000, runAsGroup: 0 } # image user: frappe = uid 1000, group root
+      containers:
+        - name: websocket
+          image: frappe-crm:v15
+          imagePullPolicy: Never # built locally + loaded into minikube (see README)
+          args: ["node", "/home/frappe/frappe-bench/apps/frappe/socketio.js"]
+          ports: [{ containerPort: 9000 }]
+          readinessProbe:
+            tcpSocket: { port: 9000 }
+            periodSeconds: 10
+          volumeMounts:
+            - { name: sites, mountPath: /home/frappe/frappe-bench/sites }
+            - { name: logs, mountPath: /home/frappe/frappe-bench/logs }
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 256Mi }
+      volumes:
+        - name: sites
+          persistentVolumeClaim: { claimName: sites }
+        - name: logs
+          persistentVolumeClaim: { claimName: logs }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: websocket
+  namespace: frappe-crm
+spec:
+  selector: { app: websocket }
+  ports: [{ port: 9000, targetPort: 9000 }]

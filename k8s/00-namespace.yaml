@@ -1,0 +1,8 @@
+# A Namespace is a "room" inside the cluster. Everything for Frappe CRM lives
+# in this room, so `kubectl delete namespace frappe-crm` cleans it all up.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frappe-crm
+  labels:
+    app.kubernetes.io/part-of: frappe-crm

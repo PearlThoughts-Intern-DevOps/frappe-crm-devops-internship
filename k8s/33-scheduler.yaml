@@ -1,0 +1,35 @@
+# The scheduler is Frappe's alarm clock: it enqueues hourly/daily jobs.
+# There must be EXACTLY ONE, so replicas: 1 and strategy Recreate
+# (kill the old pod before starting the new one -> never two at once).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: { app: scheduler }
+  template:
+    metadata:
+      labels: { app: scheduler, app.kubernetes.io/part-of: frappe-crm }
+    spec:
+      securityContext: { runAsUser: 1000, runAsGroup: 0 } # image user: frappe = uid 1000, group root
+      containers:
+        - name: scheduler
+          image: frappe-crm:v15
+          imagePullPolicy: Never # built locally + loaded into minikube (see README)
+          args: ["bench", "schedule"]
+          volumeMounts:
+            - { name: sites, mountPath: /home/frappe/frappe-bench/sites }
+            - { name: logs, mountPath: /home/frappe/frappe-bench/logs }
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 256Mi }
+      volumes:
+        - name: sites
+          persistentVolumeClaim: { claimName: sites }
+        - name: logs
+          persistentVolumeClaim: { claimName: logs }

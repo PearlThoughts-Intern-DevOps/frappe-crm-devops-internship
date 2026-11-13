@@ -1,0 +1,56 @@
+{
+  "status": "SUCCESS",
+  "site": "crm.localhost",
+  "verified_count": 1,
+  "reports": [
+    {
+      "site": "crm.localhost",
+      "timestamp": "20261104_122524",
+      "overall_valid": true,
+      "files": [
+        {
+          "file": "20261104_122524-crm_localhost-database.sql.gz",
+          "path": "/home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261104_122524-crm_localhost-database.sql.gz",
+          "size_bytes": 322634,
+          "size_human": "315.1 KiB",
+          "sha256": "41aac26988503f9a6040622dac9e87bc8f31d27f4368374d9207205cb4585129",
+          "expected_sha256": "41aac26988503f9a6040622dac9e87bc8f31d27f4368374d9207205cb4585129",
+          "valid": true,
+          "error": null
+        },
+        {
+          "file": "20261104_122524-crm_localhost-files.tar",
+          "path": "/home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261104_122524-crm_localhost-files.tar",
+          "size_bytes": 10240,
+          "size_human": "10.0 KiB",
+          "sha256": "9b0e43085f5cf322426eaa4d4ac44543a81cebbf5bf1457d046e077d7218aed8",
+          "expected_sha256": "9b0e43085f5cf322426eaa4d4ac44543a81cebbf5bf1457d046e077d7218aed8",
+          "valid": true,
+          "error": null
+        },
+        {
+          "file": "20261104_122524-crm_localhost-private-files.tar",
+          "path": "/home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261104_122524-crm_localhost-private-files.tar",
+          "size_bytes": 10240,
+          "size_human": "10.0 KiB",
+          "sha256": "a778ae2921eef69f828631934cddef16c10e8ff2c439e1bcba3791997bec9832",
+          "expected_sha256": "a778ae2921eef69f828631934cddef16c10e8ff2c439e1bcba3791997bec9832",
+          "valid": true,
+          "error": null
+        },
+        {
+          "file": "20261104_122524-crm_localhost-site_config_backup.json",
+          "path": "/home/frappe/frappe-bench/sites/crm.localhost/private/backups/20261104_122524-crm_localhost-site_config_backup.json",
+          "size_bytes": 164,
+          "size_human": "164.0 B",
+          "sha256": "5d35aba5526cda465e6eb4ae84ad4bbaf889d9293198a38735b8ed7e0354b21d",
+          "expected_sha256": "5d35aba5526cda465e6eb4ae84ad4bbaf889d9293198a38735b8ed7e0354b21d",
+          "valid": true,
+          "error": null
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
+

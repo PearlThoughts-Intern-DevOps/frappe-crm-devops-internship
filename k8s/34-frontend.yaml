@@ -1,0 +1,59 @@
+# Nginx: the front door. Serves static assets from the `sites` disk and
+# forwards /api to backend:8000 and /socket.io to websocket:9000.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: frontend }
+  template:
+    metadata:
+      labels: { app: frontend, app.kubernetes.io/part-of: frappe-crm }
+    spec:
+      securityContext: { runAsUser: 1000, runAsGroup: 0 } # image user: frappe = uid 1000, group root
+      containers:
+        - name: nginx
+          image: frappe-crm:v15
+          imagePullPolicy: Never # built locally + loaded into minikube (see README)
+          args: ["nginx-entrypoint.sh"]
+          ports: [{ containerPort: 8080 }]
+          env:
+            - { name: BACKEND, value: "backend:8000" }
+            - { name: SOCKETIO, value: "websocket:9000" }
+            # Always serve this site, whatever hostname the browser used:
+            - { name: FRAPPE_SITE_NAME_HEADER, value: "crm.localhost" }
+            - { name: UPSTREAM_REAL_IP_ADDRESS, value: "127.0.0.1" }
+            - { name: UPSTREAM_REAL_IP_HEADER, value: "X-Forwarded-For" }
+            - { name: UPSTREAM_REAL_IP_RECURSIVE, value: "off" }
+            - { name: PROXY_READ_TIMEOUT, value: "120" }
+            - { name: CLIENT_MAX_BODY_SIZE, value: "50m" }
+          readinessProbe:
+            tcpSocket: { port: 8080 }
+            periodSeconds: 10
+          volumeMounts:
+            - { name: sites, mountPath: /home/frappe/frappe-bench/sites }
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits: { memory: 256Mi }
+      volumes:
+        - name: sites
+          persistentVolumeClaim: { claimName: sites }
+---
+# NodePort = open a door on the Minikube node itself (port 30080).
+# On Windows with the Docker driver, reach it via `kubectl port-forward`
+# or `minikube service frontend -n frappe-crm`.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: frappe-crm
+spec:
+  type: NodePort
+  selector: { app: frontend }
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080

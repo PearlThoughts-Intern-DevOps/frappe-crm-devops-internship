@@ -1,0 +1,237 @@
+{
+  "report_id": "report_20261105_120322",
+  "timestamp": "2026-11-05T12:03:22.400236+00:00",
+  "project": "crm",
+  "overall_status": "HEALTHY",
+  "summary": {
+    "total_containers": 4,
+    "running_containers": 4,
+    "stopped_containers": 0,
+    "unhealthy_containers": 0,
+    "warning_containers": 0,
+    "total_cpu_percent": 19.12,
+    "total_memory_usage_bytes": 943015400,
+    "total_memory_usage_human": "899.3 MiB",
+    "total_errors_in_logs": 0,
+    "auto_recoveries_attempted": 1,
+    "auto_recoveries_succeeded": 1
+  },
+  "thresholds": {
+    "cpu_warning_percent": 80.0,
+    "memory_warning_percent": 80.0
+  },
+  "containers": [
+    {
+      "id": "66f931c98bc0",
+      "full_id": "66f931c98bc046a73f0926466b1ffd6866d5a4afb840b13ec98167fceeb0fbe1",
+      "name": "crm-worker-test",
+      "service": "worker",
+      "image": "redis:alpine",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 0.02,
+      "memory": {
+        "usage_bytes": 2854912,
+        "limit_bytes": 7995081621,
+        "usage_human": "2.7 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 0.04
+      },
+      "network_io": "1.2KB / 0B",
+      "block_io": "0B / 0B",
+      "pids": 4,
+      "uptime": "Just recovered",
+      "started_at": "2026-11-05T12:03:19.412891230Z",
+      "finished_at": "2026-11-05T12:02:40.119284100Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 1,
+      "ip_address": "172.18.0.5",
+      "ports": [],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 0.0,
+        "details": "Background worker process running"
+      },
+      "issues": []
+    },
+    {
+      "id": "1c88372d0255",
+      "full_id": "1c88372d0255e5c2d4256bb43f23c7a7f23f6da41cfebbd82b0f222fb2ceb2bc",
+      "name": "crm-redis-1",
+      "service": "redis",
+      "image": "redis:alpine",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 0.38,
+      "memory": {
+        "usage_bytes": 13526630,
+        "limit_bytes": 7995081621,
+        "usage_human": "12.9 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 0.17
+      },
+      "network_io": "16.4MB / 77.3MB",
+      "block_io": "62.5MB / 13.4MB",
+      "pids": 6,
+      "uptime": "2d 0h 24m",
+      "started_at": "2026-11-03T11:39:11.280929699Z",
+      "finished_at": "2026-11-03T11:36:43.283633742Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.2",
+      "ports": [
+        "6379/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 0.0,
+        "details": "Redis daemon running on internal network port 6379"
+      },
+      "issues": []
+    },
+    {
+      "id": "ae71acbba1f4",
+      "full_id": "ae71acbba1f48ed01f7f4fc435d8d7bbe8d92782b6c23128594378d9253619a2",
+      "name": "crm-frappe-1",
+      "service": "frappe",
+      "image": "frappe/bench:latest",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 18.67,
+      "memory": {
+        "usage_bytes": 624535142,
+        "limit_bytes": 7995081621,
+        "usage_human": "595.6 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 7.81
+      },
+      "network_io": "116MB / 69.3MB",
+      "block_io": "426MB / 49.7MB",
+      "pids": 35,
+      "uptime": "2d 0h 24m",
+      "started_at": "2026-11-03T11:39:14.300210413Z",
+      "finished_at": "2026-11-03T11:36:43.283614657Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.3",
+      "ports": [
+        "0.0.0.0:8000->8000/tcp",
+        ":::8000->8000/tcp",
+        "0.0.0.0:9000->9000/tcp",
+        ":::9000->9000/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 94.31,
+        "details": "HTTP 200 /api/method/frappe.ping"
+      },
+      "issues": []
+    },
+    {
+      "id": "a7d101e2412e",
+      "full_id": "a7d101e2412ea07cc5e70ac2f01a1916f359fa0e661ace20bbdfc5f776d95725",
+      "name": "crm-mariadb-1",
+      "service": "mariadb",
+      "image": "mariadb:10.8",
+      "status": "running",
+      "docker_health": "none",
+      "overall_health": "HEALTHY",
+      "cpu_percent": 0.05,
+      "memory": {
+        "usage_bytes": 304925900,
+        "limit_bytes": 7995081621,
+        "usage_human": "290.8 MiB",
+        "limit_human": "7.4 GiB",
+        "percent": 3.81
+      },
+      "network_io": "17.9MB / 37.2MB",
+      "block_io": "85.5MB / 135MB",
+      "pids": 8,
+      "uptime": "2d 0h 24m",
+      "started_at": "2026-11-03T11:39:15.957637614Z",
+      "finished_at": "2026-11-03T11:36:43.284566677Z",
+      "exit_code": 0,
+      "oom_killed": false,
+      "restart_count": 0,
+      "ip_address": "172.18.0.4",
+      "ports": [
+        "3306/tcp"
+      ],
+      "app_probe": {
+        "checked": true,
+        "status": "OK",
+        "latency_ms": 0.0,
+        "details": "MariaDB daemon running on internal network port 3306"
+      },
+      "issues": []
+    }
+  ],
+  "log_analyses": {
+    "crm-worker-test": {
+      "container_name": "crm-worker-test",
+      "scanned_lines": 15,
+      "error_count": 0,
+      "warning_count": 0,
+      "categories": {},
+      "critical_issues": [],
+      "recent_errors": []
+    },
+    "crm-redis-1": {
+      "container_name": "crm-redis-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 0,
+      "categories": {},
+      "critical_issues": [],
+      "recent_errors": []
+    },
+    "crm-frappe-1": {
+      "container_name": "crm-frappe-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 0,
+      "categories": {},
+      "critical_issues": [],
+      "recent_errors": []
+    },
+    "crm-mariadb-1": {
+      "container_name": "crm-mariadb-1",
+      "scanned_lines": 100,
+      "error_count": 0,
+      "warning_count": 23,
+      "categories": {
+        "WARNING": 11,
+        "DATABASE_ERROR": 12
+      },
+      "critical_issues": [],
+      "recent_errors": [
+        "2026-11-03T08:39:17.742483058Z 2026-11-03  8:39:17 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 1"
+      ]
+    }
+  },
+  "recovery_actions": [
+    {
+      "container_name": "crm-worker-test",
+      "attempted_at": "2026-11-05T12:03:18.112000+00:00",
+      "initial_status": "exited",
+      "action": "restart",
+      "success": true,
+      "final_status": "running",
+      "message": "Container 'crm-worker-test' successfully recovered and returned to 'running' state",
+      "duration_seconds": 4.12
+    }
+  ],
+  "alerts": [
+    "crm-worker-test: Self-healing recovery succeeded."
+  ]
+}
+

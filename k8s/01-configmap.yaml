@@ -1,0 +1,38 @@
+# ConfigMaps hold NON-secret settings. Pods read them as env vars or files.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frappe-config
+  namespace: frappe-crm
+data:
+  # Service names double as hostnames thanks to cluster DNS.
+  DB_HOST: mariadb
+  DB_PORT: "3306"
+  REDIS_CACHE: redis-cache:6379
+  REDIS_QUEUE: redis-queue:6379
+  SOCKETIO_PORT: "9000"
+  SITE_NAME: crm.localhost
+  # socket.io double-checks every login by calling the backend. Without these it
+  # calls the browser's address (localhost:8080), which doesn't exist inside the pod.
+  BACKEND_HOST: backend
+  BACKEND_PORT: "8000"
+  # The port people browse on (kubectl port-forward). Frappe uses it to build full links.
+  PUBLIC_HTTP_PORT: "8080"
+---
+# Same idea, but mounted as a FILE into MariaDB at /etc/mysql/conf.d/.
+# Frappe needs utf8mb4 (emoji-safe) character sets.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-config
+  namespace: frappe-crm
+data:
+  frappe.cnf: |
+    [mysqld]
+    character-set-client-handshake = FALSE
+    character-set-server = utf8mb4
+    collation-server = utf8mb4_unicode_ci
+    innodb_read_only_compressed = OFF
+
+    [mysql]
+    default-character-set = utf8mb4

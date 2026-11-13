@@ -1,0 +1,70 @@
+# Creates the Frappe site and installs the CRM app into MariaDB.
+# Safe to re-run: if the site already exists it runs `bench migrate` instead.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-site
+  namespace: frappe-crm
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels: { app: create-site, app.kubernetes.io/part-of: frappe-crm }
+    spec:
+      restartPolicy: OnFailure
+      securityContext: { runAsUser: 1000, runAsGroup: 0 }
+      containers:
+        - name: create-site
+          image: frappe-crm:v15
+          imagePullPolicy: Never # built locally + loaded into minikube (see README)
+          envFrom:
+            - configMapRef: { name: frappe-config }
+            - secretRef: { name: frappe-secrets }
+          args:
+            - bash
+            - -c
+            - |
+              set -e
+              # 1. wait until MariaDB and both Redis services answer on the network
+              wait-for-it -t 300 "$DB_HOST:$DB_PORT"
+              wait-for-it -t 120 "$REDIS_CACHE"
+              wait-for-it -t 120 "$REDIS_QUEUE"
+
+              # 2. wait for the configure Job to have written the config
+              start=$(date +%s)
+              until grep -q db_host sites/common_site_config.json 2>/dev/null; do
+                echo "waiting for configure job..."
+                sleep 5
+                if [ $(( $(date +%s) - start )) -gt 300 ]; then
+                  echo "config never appeared"
+                  exit 1
+                fi
+              done
+
+              # 3. create the site, or migrate it if it is already there
+              if [ -f "sites/$SITE_NAME/site_config.json" ]; then
+                echo "Site $SITE_NAME exists -> migrating"
+                bench --site "$SITE_NAME" migrate
+              else
+                bench new-site "$SITE_NAME" \
+                  --mariadb-user-host-login-scope=% \
+                  --db-root-username=root \
+                  --db-root-password="$DB_ROOT_PASSWORD" \
+                  --admin-password="$ADMIN_PASSWORD" \
+                  --install-app crm \
+                  --set-default
+                bench --site "$SITE_NAME" set-config mute_emails 1
+                # New sites start with the scheduler OFF; without this the scheduler pod just idles.
+                bench --site "$SITE_NAME" enable-scheduler
+              fi
+          volumeMounts:
+            - { name: sites, mountPath: /home/frappe/frappe-bench/sites }
+            - { name: logs, mountPath: /home/frappe/frappe-bench/logs }
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits: { memory: 1536Mi }
+      volumes:
+        - name: sites
+          persistentVolumeClaim: { claimName: sites }
+        - name: logs
+          persistentVolumeClaim: { claimName: logs }

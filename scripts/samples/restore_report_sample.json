@@ -1,0 +1,24 @@
+{
+  "status": "SUCCESS",
+  "operation": "restore",
+  "source_site": "crm.localhost",
+  "target_site": "test.localhost",
+  "backup_timestamp": "20261104_122524",
+  "duration_seconds": 28.41,
+  "pre_restoration_verification": {
+    "overall_valid": true,
+    "sha256_verified": true,
+    "archive_integrity_verified": true
+  },
+  "sql_dump_sanitization": {
+    "mariadb11_directive_detected": true,
+    "action_taken": "NOTE_VERBOSITY filtered in transient stream",
+    "original_backup_modified": false
+  },
+  "post_restore": {
+    "cache_cleared": true,
+    "database_tables_verified": true,
+    "crm_doctypes_present": 44
+  }
+}
+
