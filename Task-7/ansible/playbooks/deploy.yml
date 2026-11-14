@@ -1,0 +1,6 @@
+---
+- name: Deploy Frappe CRM
+  hosts: frappe_servers
+  become: true
+  roles:
+    - services

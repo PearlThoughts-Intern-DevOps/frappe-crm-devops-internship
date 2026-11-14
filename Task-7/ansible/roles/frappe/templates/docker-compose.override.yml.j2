@@ -1,0 +1,10 @@
+# Managed by Ansible - changes made by hand will be overwritten
+services:
+  mariadb:
+    restart: {{ restart_policy }}
+  redis:
+    restart: {{ restart_policy }}
+  frappe:
+    restart: {{ restart_policy }}
+    volumes:
+      - ./mariadb-client.cnf:/home/frappe/.my.cnf:ro
