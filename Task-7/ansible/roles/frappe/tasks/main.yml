@@ -1,0 +1,41 @@
+- name: Create application directory
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0755"
+
+- name: Download docker-compose.yml
+  ansible.builtin.get_url:
+    url: "{{ frappe_raw_url }}/docker-compose.yml"
+    dest: "{{ app_dir }}/docker-compose.yml"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0644"
+
+- name: Download init.sh
+  ansible.builtin.get_url:
+    url: "{{ frappe_raw_url }}/init.sh"
+    dest: "{{ app_dir }}/init.sh"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0755"
+
+- name: Create MariaDB client config with SSL disabled
+  ansible.builtin.copy:
+    content: |
+      [client]
+      skip-ssl
+    dest: "{{ app_dir }}/mariadb-client.cnf"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0644"
+
+- name: Deploy docker-compose override
+  ansible.builtin.template:
+    src: docker-compose.override.yml.j2
+    dest: "{{ app_dir }}/docker-compose.override.yml"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0644"

@@ -1,0 +1,7 @@
+- name: Prepare Frappe CRM server
+  hosts: frappe_servers
+  become: true
+  roles:
+    - common
+    - docker
+    - frappe

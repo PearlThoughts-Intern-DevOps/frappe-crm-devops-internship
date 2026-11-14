@@ -1,0 +1,17 @@
+app_user: ubuntu
+app_dir: /opt/frappe-crm
+app_port: 8000
+restart_policy: unless-stopped
+
+common_packages:
+  - git
+  - curl
+  - ca-certificates
+  - gnupg
+
+docker_packages:
+  - docker.io
+  - docker-compose-v2
+
+frappe_branch: develop
+frappe_raw_url: "https://raw.githubusercontent.com/frappe/crm/{{ frappe_branch }}/docker"
