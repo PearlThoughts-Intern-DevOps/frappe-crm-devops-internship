@@ -4,10 +4,29 @@ Ansible roles and playbooks that prepare a server and deploy Frappe CRM with Doc
 
 ## Architecture
 
-- **Control node:** has Ansible installed and runs the playbooks.
-- **Target node:** configured by Ansible. Frappe CRM runs here in Docker.
+```
+                 +----------------------+
+                 |   Browser (user)     |
+                 +----------+-----------+
+                            |
+                            | HTTP :8000 (no SSL)
+                            v
++------------------+  SSH   +----------------------------------+
+|  Control node    +------->|  Target node                     |
+|  Ansible + repo  |  :22   |  Docker + Docker Compose         |
++------------------+        |  /opt/frappe-crm                 |
+                            |    - frappe  (CRM app)           |
+                            |    - mariadb (database)          |
+                            |    - redis   (cache and queue)   |
+                            +----------------------------------+
+```
 
-Both are Ubuntu 26.04 LTS EC2 instances in the same VPC. The control node connects to the target over SSH using its private IP.
+- **Control node:** has Ansible and this repository. It runs the playbooks.
+- **Target node:** configured by Ansible over SSH. Frappe CRM runs here in three Docker containers.
+- **Order of roles:** `common` (packages), then `docker` (install and start Docker), then `frappe` (directories and config files), then `services` (start the containers).
+
+Both servers are Ubuntu 26.04 LTS EC2 instances in the same VPC. The control node connects to the target over SSH using its private IP.
+
 
 ## Project structure
 
@@ -83,7 +102,7 @@ All variables are in `inventory/group_vars/all.yml`:
 
 ## Idempotency
 
-Run `ansible-playbook playbooks/site.yml` a second time. Every task reports `ok` and the recap shows `changed=0`. See the screenshots folder.
+Run `ansible-playbook playbooks/site.yml` a second time. Every task reports `ok` and the recap shows `changed=0`.
 
 ## Notes
 
@@ -94,5 +113,4 @@ Run `ansible-playbook playbooks/site.yml` a second time. Every task reports `ok`
 
 ## Demo
 
-- Loom video: ADD_LOOM_LINK
 - Screenshots are in the `screenshots/` folder.
