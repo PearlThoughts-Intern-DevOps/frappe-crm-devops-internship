@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" agent="GourobDas" pages="2">
+  <diagram name="01 Multi-Tier Cloud Architecture" id="page-architecture-01">
+    <mxGraphModel dx="1776" dy="969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="box_users" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontStyle=1;fontSize=14;" value="Global Users &amp;amp; Clients&#xa;(HTTPS / Web / Mobile)" vertex="1">
+          <mxGeometry height="70" width="260" x="450" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="box_edge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontStyle=1;fontSize=13;" value="Edge Perimeter &amp;amp; Security Layer&#xa;Cloudflare Anycast DNS • WAF • DDoS Mitigation • Global CDN Cache" vertex="1">
+          <mxGeometry height="80" width="400" x="380" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="box_ingress" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4338ca;fontStyle=1;fontSize=13;" value="Cloud Load Balancing &amp;amp; Ingress&#xa;AWS ALB / Azure App Gateway / GCP Cloud Load Balancing" vertex="1">
+          <mxGeometry height="70" width="400" x="380" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="box_compute" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#6d28d9;fontStyle=1;fontSize=13;" value="Container &amp;amp; Application Compute Tier&#xa;Frappe CRM / Microservices&#xa;AWS ECS/EKS • Azure Container Apps/AKS • GCP GKE Autopilot" vertex="1">
+          <mxGeometry height="90" width="400" x="380" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="box_storage" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontStyle=1;fontSize=12;" value="Object &amp;amp; Backup Storage&#xa;Amazon S3 • Azure Blob • GCS • Cloudflare R2" vertex="1">
+          <mxGeometry height="80" width="280" x="60" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="box_db" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;fontStyle=1;fontSize=12;" value="Managed Relational &amp;amp; Cache Tier&#xa;MariaDB/PostgreSQL (RDS / Azure DB / Cloud SQL)&#xa;Redis (ElastiCache / Azure Cache / Memorystore)" vertex="1">
+          <mxGeometry height="80" width="360" x="400" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="box_ops" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#475569;fontStyle=1;fontSize=12;" value="Observability &amp;amp; Security Governance&#xa;CloudWatch • Azure Monitor • Cloud Logging&#xa;IAM / Entra ID / Secrets Manager / KMS" vertex="1">
+          <mxGeometry height="80" width="320" x="820" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" source="box_users" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284c7;strokeWidth=2;fontSize=11;" target="box_edge" value="HTTPS (443)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="box_edge" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d97706;strokeWidth=2;fontSize=11;" target="box_ingress" value="Cloudflare Tunnel / VPC Ingress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="box_ingress" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4338ca;strokeWidth=2;fontSize=11;" target="box_compute" value="Private Traffic Routing">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="box_compute" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=2;fontSize=11;" target="box_storage" value="Media &amp;amp; Backups">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="box_compute" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b91c1c;strokeWidth=2;fontSize=11;" target="box_db" value="SQL Queries &amp;amp; Celery Queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" edge="1" parent="1" source="box_compute" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#475569;strokeWidth=2;fontSize=11;dashed=1;" target="box_ops" value="Metrics &amp;amp; Logs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 Hybrid Edge and Hyperscaler Architecture" id="page-hybrid-02">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g1" value="Global Public Edge (Cloudflare)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="460" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="cf1" value="Cloudflare Anycast DNS (1.1.1.1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#f59e0b;" vertex="1" parent="g1">
+          <mxGeometry x="40" y="50" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cf2" value="Cloudflare WAF, DDoS Shield &amp;amp; Bot Defense" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#f59e0b;" vertex="1" parent="g1">
+          <mxGeometry x="40" y="130" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cf3" value="Cloudflare Edge Cache &amp;amp; Pages (Static Assets)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#f59e0b;" vertex="1" parent="g1">
+          <mxGeometry x="40" y="210" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cf4" value="Cloudflare Workers (V8 Isolates, Routing, Auth)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#f59e0b;" vertex="1" parent="g1">
+          <mxGeometry x="40" y="290" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="Private Core Backend (AWS / Azure / GCP)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#22c55e;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="640" y="80" width="480" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="hs1" value="Cloudflare Tunnel (cloudflared Outbound Daemon)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#22c55e;" vertex="1" parent="g2">
+          <mxGeometry x="40" y="50" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hs2" value="Private Virtual Network (VPC / VNet)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#22c55e;" vertex="1" parent="g2">
+          <mxGeometry x="40" y="130" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hs3" value="Application Containers (ECS / AKS / GKE Autopilot)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#22c55e;" vertex="1" parent="g2">
+          <mxGeometry x="40" y="210" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hs4" value="Relational Database (RDS / Azure DB / Cloud SQL)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#22c55e;" vertex="1" parent="g2">
+          <mxGeometry x="40" y="290" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="h_edge" value="Secure Encrypted Tunnel (Zero Open Inbound Ports)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284c7;strokeWidth=3;fontSize=12;" edge="1" parent="1" source="cf4" target="hs1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
