@@ -1,0 +1,83 @@
+{
+  "generated_at": "2026-11-05T09:59:38+00:00",
+  "project": "crm",
+  "overall_status": "HEALTHY",
+  "summary": {
+    "total": 3,
+    "running": 3,
+    "stopped": [],
+    "unhealthy": [],
+    "with_log_errors": []
+  },
+  "containers": [
+    {
+      "name": "crm-frappe-1",
+      "image": "frappe/bench:latest",
+      "status": "running",
+      "health": "none",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:58:13.036164825Z",
+      "dependencies": 2,
+      "stats": {
+        "cpu_percent": 3.93,
+        "memory_percent": 5.68,
+        "memory_usage": "440.5MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 21,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": []
+    },
+    {
+      "name": "crm-mariadb-1",
+      "image": "mariadb:10.6",
+      "status": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:34:58.642249483Z",
+      "dependencies": 0,
+      "stats": {
+        "cpu_percent": 0.01,
+        "memory_percent": 1.76,
+        "memory_usage": "136.3MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 21,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": []
+    },
+    {
+      "name": "crm-redis-1",
+      "image": "redis:alpine",
+      "status": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:52:42.994381153Z",
+      "dependencies": 0,
+      "stats": {
+        "cpu_percent": 0.28,
+        "memory_percent": 0.14,
+        "memory_usage": "11.05MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 21,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": []
+    }
+  ]
+}
