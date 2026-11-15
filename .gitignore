@@ -27,3 +27,8 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+# Task 6 - Kubernetes local secrets
+task6-manas/kubernetes/secrets.yaml
+task6-manas/kubernetes/.env
+task6-manas/kubernetes/*.secret.yaml
