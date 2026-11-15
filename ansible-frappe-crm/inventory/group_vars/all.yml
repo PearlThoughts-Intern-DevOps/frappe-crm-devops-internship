@@ -1,0 +1,7 @@
+---
+# 1. Absolute path to the folder with your docker-compose file
+crm_project_dir: /home/harsh_saini/internship/frappe-crm-devops-internship/docker  # <-- CHANGE THIS
+crm_compose_file: docker-compose.yml          # <-- or compose.yaml, etc.
+
+# 2. Optional: name of your init script inside that folder (leave '' if none)
+crm_init_file: "init.sh"                             # e.g. init.sh

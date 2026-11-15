@@ -1,0 +1,4 @@
+---
+# User who should be allowed to run docker without sudo
+docker_users:
+  - "{{ lookup('env', 'USER') }}"

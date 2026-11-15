@@ -1,0 +1,4 @@
+---
+# Absolute path of the folder that holds YOUR docker-compose file and init file
+crm_project_dir: /home/harsh_saini/internship/frappe-crm-devops-internship/docker
+crm_compose_file: docker-compose.yml

@@ -1,0 +1,12 @@
+---
+# Full run: packages -> Docker -> Frappe CRM
+- name: Provision Frappe CRM environment
+  hosts: crm_servers
+  become: true
+  roles:
+    - role: common
+      tags: [common]
+    - role: docker
+      tags: [docker]
+    - role: frappe_crm
+      tags: [crm]
