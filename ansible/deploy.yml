@@ -1,0 +1,129 @@
+
+---
+- name: Deploy Frappe CRM to Kubernetes using Ansible
+  hosts: local
+  gather_facts: false
+
+  vars:
+    project_root: "{{ playbook_dir }}/.."
+    k8s_namespace: frappe-crm
+    ansible_python_interpreter: "{{ playbook_dir }}/../.venv/bin/python"
+
+  tasks:
+    - name: Check Kubernetes cluster connectivity
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Node
+      register: cluster_nodes
+
+    - name: Confirm Kubernetes node is available
+      ansible.builtin.assert:
+        that:
+          - cluster_nodes.resources | length > 0
+        fail_msg: "No Kubernetes nodes found. Check Minikube."
+        success_msg: "Kubernetes cluster connection successful."
+
+    # Pre-deployment checks
+    - name: Verify CRM namespace exists
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Namespace
+        name: "{{ k8s_namespace }}"
+      register: crm_namespace
+    - name: Validate CRM namespace
+      ansible.builtin.assert:
+        that:
+          - crm_namespace.resources | length == 1
+        fail_msg: "CRM namespace does not exist. Stopping deployment."
+        success_msg: "CRM namespace verified."
+    - name: Verify database Secret exists
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: frappe-db-secret
+        namespace: "{{ k8s_namespace }}"
+      register: db_secret
+
+    - name: Verify administrator Secret exists
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: frappe-admin-secret
+        namespace: "{{ k8s_namespace }}"
+      register: admin_secret
+
+    - name: Verify existing Frappe initialization Job
+      kubernetes.core.k8s_info:
+        api_version: batch/v1
+        kind: Job
+        name: frappe-site-init
+        namespace: "{{ k8s_namespace }}"
+      register: init_job
+
+    - name: Validate deployment prerequisites
+      ansible.builtin.assert:
+        that:
+          - db_secret.resources | length == 1
+          - admin_secret.resources | length == 1
+          - init_job.resources | length == 1
+          - init_job.resources[0].status.succeeded | default(0) | int == 1
+        fail_msg: "Required Secrets or completed initialization Job are missing. Stopping deployment."
+        success_msg: "Required Secrets and completed initialization Job verified."
+
+    # Kubernetes resource management
+    - name: Create the CRM namespace
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/namespace.yaml"
+
+    - name: Apply CRM application configuration
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/configmap.yaml"
+
+    - name: Apply Nginx configuration
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/nginx-configmap.yaml"
+
+    - name: Ensure Frappe sites storage exists
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/sites-pvc.yaml"
+
+    - name: Ensure MariaDB storage and resources exist
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/mariadb.yaml"
+
+    - name: Ensure Redis resources exist
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/redis.yaml"
+
+    - name: Apply Frappe CRM Deployment
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/deployment.yaml"
+
+    - name: Apply Frappe CRM Service
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ project_root }}/kubernetes/service.yaml"
+
+    # Post-deployment verification
+    - name: Verify Frappe CRM Deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        name: frappe-crm
+        namespace: "{{ k8s_namespace }}"
+      register: frappe_deployment
+
+    - name: Confirm Frappe CRM Deployment is available
+      ansible.builtin.assert:
+        that:
+          - frappe_deployment.resources | length == 1
+          - frappe_deployment.resources[0].status.availableReplicas | default(0) | int >= 1
+        fail_msg: "Frappe CRM Deployment is not available."
+        success_msg: "Frappe CRM Deployment is available."
