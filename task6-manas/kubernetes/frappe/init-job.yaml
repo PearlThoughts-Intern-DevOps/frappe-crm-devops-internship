@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frappe-init
+  namespace: frappe-crm
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 3600
+  template:
+    metadata:
+      labels:
+        app: frappe-init
+    spec:
+      restartPolicy: Never
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: frappe-init
+          image: frappe/bench:v5.28.0
+          imagePullPolicy: IfNotPresent
+          workingDir: /home/frappe
+          command:
+            - bash
+            - /scripts/init-frappe.sh
+          env:
+            - name: BENCH_DISABLE_UV
+              value: "1"
+            - name: DB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: root-password
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-secret
+                  key: admin-password
+          volumeMounts:
+            - name: frappe-storage
+              mountPath: /workspace
+            - name: init-script
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: frappe-storage
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+        - name: init-script
+          configMap:
+            name: frappe-init-script
+            defaultMode: 0555

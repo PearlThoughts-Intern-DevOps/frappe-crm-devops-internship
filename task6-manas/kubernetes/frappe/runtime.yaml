@@ -1,0 +1,196 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-web
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-web
+  template:
+    metadata:
+      labels:
+        app: frappe-web
+    spec:
+      containers:
+        - name: web
+          image: frappe/bench:v5.28.0
+          workingDir: /workspace/frappe-bench
+          command: ["bash", "-lc", "bench serve --port 8000"]
+          ports:
+            - name: http
+              containerPort: 8000
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 200m
+              memory: 384Mi
+            limits:
+              cpu: "1"
+              memory: 768Mi
+          volumeMounts:
+            - name: frappe-data
+              mountPath: /workspace
+      volumes:
+        - name: frappe-data
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-socketio
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-socketio
+  template:
+    metadata:
+      labels:
+        app: frappe-socketio
+    spec:
+      containers:
+        - name: socketio
+          image: frappe/bench:v5.28.0
+          workingDir: /workspace/frappe-bench
+          command:
+            - /home/frappe/.nvm/versions/node/v24.12.0/bin/node
+            - apps/frappe/socketio.js
+          ports:
+            - name: socketio
+              containerPort: 9000
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 500m
+              memory: 384Mi
+          volumeMounts:
+            - name: frappe-data
+              mountPath: /workspace
+      volumes:
+        - name: frappe-data
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-worker
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-worker
+  template:
+    metadata:
+      labels:
+        app: frappe-worker
+    spec:
+      containers:
+        - name: worker
+          image: frappe/bench:v5.28.0
+          workingDir: /workspace/frappe-bench
+          command:
+            - bash
+            - -lc
+            - bench worker --queue short,default,long
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: frappe-data
+              mountPath: /workspace
+      volumes:
+        - name: frappe-data
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-scheduler
+  namespace: frappe-crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-scheduler
+  template:
+    metadata:
+      labels:
+        app: frappe-scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: frappe/bench:v5.28.0
+          workingDir: /workspace/frappe-bench
+          command: ["bash", "-lc", "bench schedule"]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 300m
+              memory: 384Mi
+          volumeMounts:
+            - name: frappe-data
+              mountPath: /workspace
+      volumes:
+        - name: frappe-data
+          persistentVolumeClaim:
+            claimName: frappe-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-web
+  namespace: frappe-crm
+spec:
+  type: NodePort
+  selector:
+    app: frappe-web
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      nodePort: 30800
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-socketio
+  namespace: frappe-crm
+spec:
+  type: NodePort
+  selector:
+    app: frappe-socketio
+  ports:
+    - name: socketio
+      port: 9000
+      targetPort: 9000
+      nodePort: 30900

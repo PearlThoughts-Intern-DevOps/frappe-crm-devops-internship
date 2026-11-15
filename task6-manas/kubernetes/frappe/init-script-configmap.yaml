@@ -1,0 +1,82 @@
+apiVersion: v1
+data:
+  init-frappe.sh: |
+    #!/usr/bin/env bash
+    set -Eeuo pipefail
+
+    BENCH_DIR="/workspace/frappe-bench"
+    SITE_NAME="crm.localhost"
+
+    : "${DB_ROOT_PASSWORD:?MariaDB root password is required}"
+    : "${ADMIN_PASSWORD:?Frappe administrator password is required}"
+
+    wait_for_port() {
+        local host="$1"
+        local port="$2"
+
+        echo "Waiting for ${host}:${port}..."
+        for i in $(seq 1 60); do
+            if (echo > "/dev/tcp/${host}/${port}") 2>/dev/null; then
+                echo "${host}:${port} is available."
+                return 0
+            fi
+            sleep 5
+        done
+
+        echo "ERROR: ${host}:${port} did not become available."
+        exit 1
+    }
+
+    wait_for_port mariadb 3306
+    wait_for_port redis 6379
+
+    if [ ! -d "${BENCH_DIR}/apps/frappe" ]; then
+        echo "Initializing Frappe Bench..."
+        bench init --python /home/frappe/.pyenv/versions/3.10.13/bin/python3.10 --skip-redis-config-generation "${BENCH_DIR}" --version version-15
+    else
+        echo "Existing Frappe Bench found; skipping initialization."
+    fi
+
+    cd "${BENCH_DIR}"
+
+    bench set-mariadb-host mariadb
+    bench set-redis-cache-host redis://redis:6379
+    bench set-redis-queue-host redis://redis:6379
+    bench set-redis-socketio-host redis://redis:6379
+
+    if [ ! -d apps/crm ]; then
+        echo "Downloading Frappe CRM..."
+        bench get-app crm --branch main
+    else
+        echo "CRM app already exists; skipping download."
+    fi
+
+    if [ ! -f "sites/${SITE_NAME}/site_config.json" ]; then
+        echo "Creating CRM site..."
+        bench new-site "${SITE_NAME}" \
+            --force \
+            --mariadb-root-password "${DB_ROOT_PASSWORD}" \
+            --admin-password "${ADMIN_PASSWORD}" \
+            --no-mariadb-socket
+    else
+        echo "CRM site already exists; skipping site creation."
+    fi
+
+    if ! bench --site "${SITE_NAME}" list-apps | grep -qx "crm"; then
+        echo "Installing CRM application..."
+        bench --site "${SITE_NAME}" install-app crm
+    else
+        echo "CRM application already installed."
+    fi
+
+    bench --site "${SITE_NAME}" set-config developer_mode 1
+    bench --site "${SITE_NAME}" set-config mute_emails 1
+    bench --site "${SITE_NAME}" set-config server_script_enabled 1
+    bench --site "${SITE_NAME}" clear-cache
+    bench use "${SITE_NAME}"
+
+    echo "Frappe CRM initialization completed successfully."
+kind: ConfigMap
+metadata:
+  name: frappe-init-script
+  namespace: frappe-crm

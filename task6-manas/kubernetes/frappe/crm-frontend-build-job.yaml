@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frappe-crm-frontend-build
+  namespace: frappe-crm
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 3600
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: crm-frontend-build
+          image: frappe/bench:v5.28.0
+          workingDir: /workspace/frappe-bench/apps/crm
+          command:
+            - bash
+            - -lc
+            - NODE_OPTIONS=--max-old-space-size=1024 yarn build
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          volumeMounts:
+            - name: frappe-data
+              mountPath: /workspace
+      volumes:
+        - name: frappe-data
+          persistentVolumeClaim:
+            claimName: frappe-pvc
