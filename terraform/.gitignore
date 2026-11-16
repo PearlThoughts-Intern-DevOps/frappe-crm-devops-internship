@@ -1,0 +1,6 @@
+# Terraform local state and cache (never commit these)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
