@@ -1,0 +1,36 @@
+{
+  "backup_id": "20261106_024930_crm_localhost",
+  "site": "crm.localhost",
+  "timestamp": "2026-11-05T21:19:32.520407+00:00",
+  "mode": "docker",
+  "container": "crm-frappe-1",
+  "files": {
+    "database": {
+      "file_type": "database",
+      "filename": "20261106_024930-crm_localhost-database.sql.gz",
+      "size_bytes": 290434,
+      "sha256": "684f69dd5609e8f1e053ea02d9c97f224478f525e022cec42e735b3b05b4970e"
+    },
+    "public_files": {
+      "file_type": "public_files",
+      "filename": "20261106_024930-crm_localhost-files.tar",
+      "size_bytes": 10240,
+      "sha256": "49aec989e233fb7541cce822e77cf31f5c085e6279680c9e5ad4945110e31fd9"
+    },
+    "private_files": {
+      "file_type": "private_files",
+      "filename": "20261106_024930-crm_localhost-private-files.tar",
+      "size_bytes": 10240,
+      "sha256": "c70a28e0895fa36a52da458a139110505dad57785b2433fae30a0c89432de962"
+    },
+    "site_config": {
+      "file_type": "site_config",
+      "filename": "20261106_024930-crm_localhost-site_config_backup.json",
+      "size_bytes": 164,
+      "sha256": "598e11fadbce302ee14dc4a0d74435b55a5ec0e9e6d2f724abc2d332cc56052c"
+    }
+  },
+  "total_size_bytes": 311078,
+  "verified": true,
+  "retention_tag": "active"
+}

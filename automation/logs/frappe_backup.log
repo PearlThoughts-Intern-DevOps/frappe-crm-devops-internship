@@ -1,0 +1,73 @@
+2026-11-06 02:49:28,072 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:49:28,072 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:49:28,073 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:49:28,203 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:49:28,204 [INFO] [backup-automation.py:385] Initiating full backup for site: 'crm.localhost'
+2026-11-06 02:49:32,009 [INFO] [backup-automation.py:395] Bench backup completed successfully inside environment.
+2026-11-06 02:49:32,011 [INFO] [backup-automation.py:428] Target local backup directory: C:\Users\goura\Desktop\frappe-crm-devops-internship\backups\20261106_024930_crm_localhost
+2026-11-06 02:49:32,142 [INFO] [backup-automation.py:455]   [DATABASE     ] 20261106_024930-crm_localhost-database.sql.gz (283.63 KiB) | SHA-256: 684f69dd5609...
+2026-11-06 02:49:32,261 [INFO] [backup-automation.py:455]   [PUBLIC_FILES ] 20261106_024930-crm_localhost-files.tar (10.00 KiB) | SHA-256: 49aec989e233...
+2026-11-06 02:49:32,395 [INFO] [backup-automation.py:455]   [PRIVATE_FILES] 20261106_024930-crm_localhost-private-files.tar (10.00 KiB) | SHA-256: c70a28e0895f...
+2026-11-06 02:49:32,519 [INFO] [backup-automation.py:455]   [SITE_CONFIG  ] 20261106_024930-crm_localhost-site_config_backup.json (164.00 B) | SHA-256: 598e11fadbce...
+2026-11-06 02:49:32,522 [INFO] [backup-automation.py:479] Backup manifest saved to: C:\Users\goura\Desktop\frappe-crm-devops-internship\backups\20261106_024930_crm_localhost\manifest.json
+2026-11-06 02:49:32,522 [INFO] [backup-automation.py:591] Evaluating backup retention policy (Limit: latest 7 backups)...
+2026-11-06 02:49:32,536 [INFO] [backup-automation.py:598] Retention policy check: 1/7 backups retained. No pruning needed.
+2026-11-06 02:49:48,659 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:49:48,659 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:49:48,660 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:49:48,753 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:49:48,754 [INFO] [backup-automation.py:492] Verifying backup in: C:\Users\goura\Desktop\frappe-crm-devops-internship\backups\20261106_024930_crm_localhost
+2026-11-06 02:49:48,760 [INFO] [backup-automation.py:562]   [DATABASE     ] 20261106_024930-crm_localhost-database.sql.gz | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:49:48,765 [INFO] [backup-automation.py:562]   [PUBLIC_FILES ] 20261106_024930-crm_localhost-files.tar       | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:49:48,767 [INFO] [backup-automation.py:562]   [PRIVATE_FILES] 20261106_024930-crm_localhost-private-files.tar | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:49:48,768 [INFO] [backup-automation.py:562]   [SITE_CONFIG  ] 20261106_024930-crm_localhost-site_config_backup.json | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:49:48,768 [INFO] [backup-automation.py:580] All checksums and archives for backup '20261106_024930_crm_localhost' verified successfully.
+2026-11-06 02:50:14,620 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:50:14,621 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:50:14,621 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:50:14,748 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:50:14,749 [CRITICAL] [backup-automation.py:1031] AUTOMATION ERROR: Backup with ID '20261104_160131_crm_localhost' not found in C:\Users\goura\Desktop\frappe-crm-devops-internship\backups
+2026-11-06 02:55:10,153 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:55:10,153 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:55:10,153 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:55:10,305 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:55:10,306 [INFO] [backup-automation.py:492] Verifying backup in: C:\Users\goura\Desktop\frappe-crm-devops-internship\backups\20261106_024930_crm_localhost
+2026-11-06 02:55:10,314 [INFO] [backup-automation.py:562]   [DATABASE     ] 20261106_024930-crm_localhost-database.sql.gz | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:55:10,317 [INFO] [backup-automation.py:562]   [PUBLIC_FILES ] 20261106_024930-crm_localhost-files.tar       | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:55:10,321 [INFO] [backup-automation.py:562]   [PRIVATE_FILES] 20261106_024930-crm_localhost-private-files.tar | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:55:10,322 [INFO] [backup-automation.py:562]   [SITE_CONFIG  ] 20261106_024930-crm_localhost-site_config_backup.json | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:55:10,322 [INFO] [backup-automation.py:580] All checksums and archives for backup '20261106_024930_crm_localhost' verified successfully.
+2026-11-06 02:55:41,496 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:55:41,496 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:55:41,496 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:55:41,595 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:56:14,228 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:56:14,228 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:56:14,228 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:56:14,315 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:56:14,315 [INFO] [backup-automation.py:647] Starting safe restoration pipeline -> Target Test Site: 'test.localhost'
+2026-11-06 02:56:14,316 [INFO] [backup-automation.py:651] Performing pre-restoration SHA-256 verification...
+2026-11-06 02:56:14,316 [INFO] [backup-automation.py:492] Verifying backup in: C:\Users\goura\Desktop\frappe-crm-devops-internship\backups\20261106_024930_crm_localhost
+2026-11-06 02:56:14,321 [INFO] [backup-automation.py:562]   [DATABASE     ] 20261106_024930-crm_localhost-database.sql.gz | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:56:14,323 [INFO] [backup-automation.py:562]   [PUBLIC_FILES ] 20261106_024930-crm_localhost-files.tar       | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:56:14,325 [INFO] [backup-automation.py:562]   [PRIVATE_FILES] 20261106_024930-crm_localhost-private-files.tar | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:56:14,326 [INFO] [backup-automation.py:562]   [SITE_CONFIG  ] 20261106_024930-crm_localhost-site_config_backup.json | Hash: MATCH | Format: VALID | Status: PASSED
+2026-11-06 02:56:14,326 [INFO] [backup-automation.py:580] All checksums and archives for backup '20261106_024930_crm_localhost' verified successfully.
+2026-11-06 02:56:14,951 [INFO] [backup-automation.py:669] Target site 'test.localhost' does not exist. Creating new site...
+2026-11-06 02:56:52,980 [INFO] [backup-automation.py:697] Sanitizing SQL dump for cross-version MariaDB compatibility...
+2026-11-06 02:56:53,607 [INFO] [backup-automation.py:737] Executing bench restore into 'test.localhost'...
+2026-11-06 02:57:07,760 [INFO] [backup-automation.py:744] Performing post-restoration verification query...
+2026-11-06 02:57:09,928 [INFO] [backup-automation.py:777] SUCCESS: Site 'test.localhost' successfully restored! Verified DocType count: 329.
+2026-11-06 02:57:09,928 [INFO] [backup-automation.py:780] Production site 'crm.localhost' remains 100% untouched and safe.
+2026-11-06 02:57:27,460 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:57:27,461 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:57:27,461 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:57:27,561 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:57:27,561 [INFO] [backup-automation.py:591] Evaluating backup retention policy (Limit: latest 7 backups)...
+2026-11-06 02:57:27,562 [INFO] [backup-automation.py:598] Retention policy check: 1/7 backups retained. No pruning needed.
+2026-11-06 02:57:57,998 [INFO] [backup-automation.py:935] =================================================================
+2026-11-06 02:57:57,999 [INFO] [backup-automation.py:936] Frappe CRM DevOps Automation Tool
+2026-11-06 02:57:57,999 [INFO] [backup-automation.py:937] =================================================================
+2026-11-06 02:57:58,119 [INFO] [backup-automation.py:346] Auto-detection: Found active container 'crm-frappe-1'. Using Docker mode.
+2026-11-06 02:57:58,119 [INFO] [backup-automation.py:591] Evaluating backup retention policy (Limit: latest 7 backups)...
+2026-11-06 02:57:58,120 [INFO] [backup-automation.py:598] Retention policy check: 1/7 backups retained. No pruning needed.
