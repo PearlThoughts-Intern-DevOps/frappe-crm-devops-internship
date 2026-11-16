@@ -1,0 +1,19 @@
+---
+- name: Verify Docker CLI
+  ansible.builtin.command: "{{ docker_cli }} version"
+  register: docker_version
+  changed_when: false
+
+- name: Verify Docker daemon connectivity
+  ansible.builtin.command: "{{ docker_cli }} info"
+  register: docker_info
+  changed_when: false
+
+- name: Verify Docker Compose plugin
+  ansible.builtin.command: "{{ docker_cli }} compose version"
+  register: docker_compose_version
+  changed_when: false
+
+- name: Display Docker version
+  ansible.builtin.debug:
+    var: docker_version.stdout_lines

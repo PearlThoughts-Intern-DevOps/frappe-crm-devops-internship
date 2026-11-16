@@ -1,0 +1,66 @@
+---
+- name: Create Frappe deployment directory
+  ansible.builtin.file:
+    path: "{{ frappe_deploy_dir }}"
+    state: directory
+    owner: '{{ ansible_facts["user_id"] }}'
+    mode: "0755"
+  become: true
+
+- name: Create Frappe configuration directory
+  ansible.builtin.file:
+    path: "{{ frappe_deploy_dir }}/config"
+    state: directory
+    owner: '{{ ansible_facts["user_id"] }}'
+    mode: "0755"
+  become: true
+
+- name: Create Frappe logs directory
+  ansible.builtin.file:
+    path: "{{ frappe_deploy_dir }}/logs"
+    state: directory
+    owner: '{{ ansible_facts["user_id"] }}'
+    mode: "0755"
+  become: true
+
+- name: Deploy Docker Compose configuration
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ frappe_deploy_dir }}/docker-compose.yml"
+    owner: '{{ ansible_facts["user_id"] }}'
+    mode: "0600"
+  no_log: true
+
+- name: Deploy Frappe initialization script
+  ansible.builtin.template:
+    src: init.sh.j2
+    dest: "{{ frappe_deploy_dir }}/init.sh"
+    owner: '{{ ansible_facts["user_id"] }}'
+    mode: "0700"
+
+- name: Validate rendered Docker Compose configuration
+  ansible.builtin.command:
+    argv:
+      - "{{ docker_cli }}"
+      - compose
+      - -f
+      - "{{ frappe_deploy_dir }}/docker-compose.yml"
+      - config
+      - --quiet
+  changed_when: false
+
+- name: Start or reconcile Frappe CRM services
+  ansible.builtin.command:
+    argv:
+      - "{{ docker_cli }}"
+      - compose
+      - -f
+      - "{{ frappe_deploy_dir }}/docker-compose.yml"
+      - up
+      - -d
+  register: frappe_compose_up
+  changed_when: >-
+    'Created' in frappe_compose_up.stdout or
+    'Started' in frappe_compose_up.stdout or
+    'Recreated' in frappe_compose_up.stdout
+  no_log: true
