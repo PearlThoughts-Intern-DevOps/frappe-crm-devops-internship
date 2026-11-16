@@ -1,0 +1,104 @@
+{
+  "generated_at": "2026-11-05T09:52:36+00:00",
+  "project": "crm",
+  "overall_status": "CRITICAL",
+  "summary": {
+    "total": 3,
+    "running": 1,
+    "stopped": [
+      "crm-frappe-1",
+      "crm-redis-1"
+    ],
+    "unhealthy": [
+      "crm-redis-1"
+    ],
+    "with_log_errors": [
+      "crm-frappe-1"
+    ]
+  },
+  "containers": [
+    {
+      "name": "crm-frappe-1",
+      "image": "frappe/bench:latest",
+      "status": "exited",
+      "health": "none",
+      "exit_code": 1,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:35:09.326955669Z",
+      "stats": null,
+      "logs": {
+        "lines_checked": 604,
+        "error_lines": 4,
+        "by_pattern": {
+          "error": 4
+        },
+        "last_errors": [
+          "09:51:51 socketio.1 |     throw er; // Unhandled 'error' event",
+          "09:51:51 socketio.1 | SocketClosedUnexpectedlyError: Socket closed unexpectedly",
+          "09:51:51 socketio.1 | Emitted 'error' event on RedisClient instance at:",
+          "09:51:51 socketio.1 |     at RedisSocket._RedisSocket_onSocketError (/home/frappe/frappe-bench/apps/frappe/node_modules/@redis/client/dist/lib/client/socket.js:218:10)"
+        ]
+      },
+      "recovery": null,
+      "issues": [
+        {
+          "severity": "critical",
+          "message": "container is exited (exit code 1)"
+        },
+        {
+          "severity": "warning",
+          "message": "4 error lines in last 200 log lines"
+        }
+      ]
+    },
+    {
+      "name": "crm-mariadb-1",
+      "image": "mariadb:10.6",
+      "status": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:34:58.642249483Z",
+      "stats": {
+        "cpu_percent": 0.02,
+        "memory_percent": 1.76,
+        "memory_usage": "136.9MiB / 7.577GiB"
+      },
+      "logs": {
+        "lines_checked": 66,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": []
+    },
+    {
+      "name": "crm-redis-1",
+      "image": "redis:alpine",
+      "status": "exited",
+      "health": "unhealthy",
+      "exit_code": 0,
+      "restart_count": 0,
+      "started_at": "2026-11-05T09:34:58.461562812Z",
+      "stats": null,
+      "logs": {
+        "lines_checked": 87,
+        "error_lines": 0,
+        "by_pattern": {},
+        "last_errors": []
+      },
+      "recovery": null,
+      "issues": [
+        {
+          "severity": "critical",
+          "message": "container is exited (exit code 0)"
+        },
+        {
+          "severity": "critical",
+          "message": "health check reports unhealthy"
+        }
+      ]
+    }
+  ]
+}
