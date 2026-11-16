@@ -1,0 +1,33 @@
+# =============================================================================
+# SAMPLE TERRAFORM INPUT VARIABLES
+# =============================================================================
+# Copy this file to 'terraform.tfvars' to customize default values locally:
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# NOTE: DO NOT commit your local terraform.tfvars to version control if it
+# contains sensitive parameters.
+# =============================================================================
+
+# AWS Region to deploy infrastructure into
+aws_region = "us-east-1"
+
+# Project identification and environment tagging
+project_name = "frappe-crm"
+environment  = "dev"
+
+# Networking Configuration
+vpc_cidr           = "10.0.0.0/16"
+public_subnet_cidr = "10.0.1.0/24"
+availability_zone  = "us-east-1a"
+
+# Security Group Ingress CIDR Allow-lists
+allowed_ssh_cidrs   = ["203.0.113.10/32"] # Replace with your trusted office/bastion IP
+allowed_http_cidrs  = ["0.0.0.0/0"]
+allowed_https_cidrs = ["0.0.0.0/0"]
+
+# EC2 Compute Configuration
+instance_type    = "t3.micro"
+root_volume_size = 20
+
+# S3 Storage Configuration
+bucket_name_prefix = "frappe-crm-app-storage"
