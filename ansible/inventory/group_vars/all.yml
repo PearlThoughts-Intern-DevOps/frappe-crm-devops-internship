@@ -1,0 +1,11 @@
+---
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
+
+docker_cli: /usr/bin/docker
+
+frappe_deploy_dir: /home/mehro/frappe-crm-ansible
+frappe_http_port: 8000
+frappe_socketio_port: 9000
+frappe_image: frappe/bench:latest
+mariadb_image: mariadb:10.8
+redis_image: redis:alpine
