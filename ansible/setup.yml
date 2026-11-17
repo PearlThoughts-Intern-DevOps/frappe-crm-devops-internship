@@ -1,0 +1,9 @@
+---
+- name: Setup Frappe CRM
+  hosts: frappe
+  become: yes
+
+  roles:
+    - dependencies
+    - docker
+    - frappe
