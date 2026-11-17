@@ -1,0 +1,6 @@
+aws_region      = "ap-south-1"
+project_name    = "terraform-aws-demo"
+vpc_cidr        = "10.0.0.0/16"
+subnet_cidr     = "10.0.1.0/24"
+instance_type   = "t2.micro"
+allowed_ssh_cidr = "203.0.113.10/32"
