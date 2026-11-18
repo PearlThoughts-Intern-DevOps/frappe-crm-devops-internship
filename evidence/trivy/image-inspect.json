@@ -1,0 +1,81 @@
+[
+    {
+        "Id": "sha256:36386e3f69d9fa323dd57c24b4314d4d73e8dba6747806aba5d32bc821e63f69",
+        "RepoTags": [
+            "frappe/bench:latest"
+        ],
+        "RepoDigests": [
+            "frappe/bench@sha256:36386e3f69d9fa323dd57c24b4314d4d73e8dba6747806aba5d32bc821e63f69"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-11-03T05:02:14.518410156Z",
+        "Config": {
+            "User": "frappe",
+            "ExposedPorts": {
+                "6787/tcp": {},
+                "8000/tcp": {},
+                "8001/tcp": {},
+                "8002/tcp": {},
+                "8003/tcp": {},
+                "8004/tcp": {},
+                "8005/tcp": {},
+                "9000/tcp": {},
+                "9001/tcp": {},
+                "9002/tcp": {},
+                "9003/tcp": {},
+                "9004/tcp": {},
+                "9005/tcp": {}
+            },
+            "Env": [
+                "PATH=/home/frappe/.nvm/current/bin/:/home/frappe/.local/bin:/home/frappe/.pyenv/shims:/home/frappe/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "PYTHON_VERSION_PREV=3.12",
+                "PYTHON_VERSION=3.14",
+                "PYENV_ROOT=/home/frappe/.pyenv",
+                "NODE_VERSION_PREV=22",
+                "NODE_VERSION=24",
+                "NVM_DIR=/home/frappe/.nvm",
+                "NVM_SYMLINK_CURRENT=true"
+            ],
+            "Cmd": [
+                "bash"
+            ],
+            "WorkingDir": "/home/frappe",
+            "Labels": {
+                "author": "frappé",
+                "org.opencontainers.image.source": "https://github.com/frappe/frappe_docker",
+                "org.opencontainers.image.url": "https://github.com/frappe/frappe_docker"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 3787912115,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:a5d6d345f6afa08d7c31272055746d60a838b290bfcc82c0a23e8e984d61a933",
+                "sha256:b8778457598a00d2f193286711186c4f23a0b42ff7fa0c55f939b476be93acc4",
+                "sha256:922755d5454000e1b8b3902d8a61da48a3cf883d3e36f1509619feeddf106e64",
+                "sha256:c6a911c94c6558fb489940defcc00f0a622cd9922ef44d4714cb44a66ecb5877",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "sha256:55e720de909b05e4dffbdc9c598d8981c8efb7d927c8635335d98a6ba9181546",
+                "sha256:dc1767dde1ecdcae70e79e2781f5dc44751fad40bfadc5bdc96c5e8f6f78bdca",
+                "sha256:0f890fec35bfc9fa5e8025aab2ef5e72d635f1b9d5050893a754f416606ac326"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-11-03T11:30:37.637633438Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:36386e3f69d9fa323dd57c24b4314d4d73e8dba6747806aba5d32bc821e63f69",
+            "size": 1611
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/frappe/bench"
+                }
+            ]
+        }
+    }
+]
