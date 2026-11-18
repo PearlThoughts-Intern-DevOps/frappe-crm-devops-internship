@@ -1,0 +1,765 @@
+{
+  "target": "repository_dependencies",
+  "severity_counts": {
+    "CRITICAL": 4,
+    "HIGH": 90,
+    "MEDIUM": 77,
+    "LOW": 27
+  },
+  "critical_vulnerabilities": [
+    {
+      "id": "GHSA-cg2g-xh64-v4q7",
+      "pkg": "dompurify",
+      "installed_version": "3.4.5",
+      "fixed_version": "3.4.17",
+      "title": "DOMPurify SAFE_FOR_TEMPLATES bypass: split template expressions survive in attached shadow root content on DOM output modes",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-104848",
+      "pkg": "tinypool",
+      "installed_version": "1.1.1",
+      "fixed_version": "2.1.1",
+      "title": "tinypool: tinypool: arbitrary code execution via prototype pollution in worker options",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-104849",
+      "pkg": "tinypool",
+      "installed_version": "1.1.1",
+      "fixed_version": "2.1.2",
+      "title": "tinypool: Tinypool: Prototype Pollution Gadget to RCE in run() options",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-47429",
+      "pkg": "vitest",
+      "installed_version": "3.2.4",
+      "fixed_version": "4.1.0, 3.2.6",
+      "title": "vitest: Vitest: Arbitrary code execution and information disclosure via path traversal",
+      "target": "frappe-ui/yarn.lock"
+    }
+  ],
+  "high_vulnerabilities": [
+    {
+      "id": "GHSA-j95f-988m-3j2f",
+      "pkg": "@tiptap/core",
+      "installed_version": "3.26.0",
+      "fixed_version": "3.30.5",
+      "title": "Tiptap: Quadratic ReDoS in block and inline Markdown attribute parsing",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "GHSA-g2v6-rqmx-r4w6",
+      "pkg": "@vue/server-renderer",
+      "installed_version": "3.5.27",
+      "fixed_version": "3.5.42, 3.6.0-rc.6",
+      "title": "@vue/server-renderer: XSS via missing CR in attribute-name blacklist",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "1.1.14",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "1.1.14",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13149",
+      "pkg": "brace-expansion",
+      "installed_version": "1.1.14",
+      "fixed_version": "5.0.7, 1.1.16, 2.1.2",
+      "title": "brace-expansion: Brace-expansion: Denial of Service due to exponential-time complexity",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-14257",
+      "pkg": "brace-expansion",
+      "installed_version": "1.1.14",
+      "fixed_version": "5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "title": "brace-expansion: Brace-expansion: Denial of Service via memory exhaustion in expand() function",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69152",
+      "pkg": "brace-expansion",
+      "installed_version": "1.1.14",
+      "fixed_version": "1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "2.0.2",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "2.0.2",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13149",
+      "pkg": "brace-expansion",
+      "installed_version": "2.0.2",
+      "fixed_version": "5.0.7, 1.1.16, 2.1.2",
+      "title": "brace-expansion: Brace-expansion: Denial of Service due to exponential-time complexity",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-14257",
+      "pkg": "brace-expansion",
+      "installed_version": "2.0.2",
+      "fixed_version": "5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "title": "brace-expansion: Brace-expansion: Denial of Service via memory exhaustion in expand() function",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69152",
+      "pkg": "brace-expansion",
+      "installed_version": "2.0.2",
+      "fixed_version": "1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13149",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.7, 1.1.16, 2.1.2",
+      "title": "brace-expansion: Brace-expansion: Denial of Service due to exponential-time complexity",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-14257",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "title": "brace-expansion: Brace-expansion: Denial of Service via memory exhaustion in expand() function",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69152",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.4",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.4",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13149",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.4",
+      "fixed_version": "5.0.7, 1.1.16, 2.1.2",
+      "title": "brace-expansion: Brace-expansion: Denial of Service due to exponential-time complexity",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-14257",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.4",
+      "fixed_version": "5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "title": "brace-expansion: Brace-expansion: Denial of Service via memory exhaustion in expand() function",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69152",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.4",
+      "fixed_version": "1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73088",
+      "pkg": "browserslist",
+      "installed_version": "4.28.1",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Prototype pollution leading to denial of service",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73089",
+      "pkg": "browserslist",
+      "installed_version": "4.28.1",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Denial of Service via unbounded memory growth from distinct query results",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73088",
+      "pkg": "browserslist",
+      "installed_version": "4.28.2",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Prototype pollution leading to denial of service",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73089",
+      "pkg": "browserslist",
+      "installed_version": "4.28.2",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Denial of Service via unbounded memory growth from distinct query results",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "GHSA-mrv2-3pqr-j5jr",
+      "pkg": "dompurify",
+      "installed_version": "3.4.5",
+      "fixed_version": "3.4.17",
+      "title": "DOMPurify IN_PLACE: hook that removes a parent or sibling leaves the detached subtree's event handlers armed (incomplete fix for GHSA-p98j-92pf-mc4p)",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-19693",
+      "pkg": "extract-zip",
+      "installed_version": "2.0.1",
+      "fixed_version": null,
+      "title": "extract-zip: extract-zip: Arbitrary file write via symlink in archive",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-56876",
+      "pkg": "extract-zip",
+      "installed_version": "2.0.1",
+      "fixed_version": null,
+      "title": "extract-zip: github.com/maxogden/extract-zip: extract-zip: Arbitrary file write and information disclosure via symlink validation bypass",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-12143",
+      "pkg": "form-data",
+      "installed_version": "4.0.5",
+      "fixed_version": "2.5.6, 3.0.5, 4.0.6",
+      "title": "form-data: form-data: Form field override via CRLF injection",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-59869",
+      "pkg": "js-yaml",
+      "installed_version": "4.1.1",
+      "fixed_version": "3.15.0, 4.3.0",
+      "title": "js-yaml: js-yaml: Denial of Service via crafted YAML documents",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-84375",
+      "pkg": "js-yaml",
+      "installed_version": "4.1.1",
+      "fixed_version": "4.3.2, 3.15.2",
+      "title": "js-yaml: js-yaml: Denial of Service vulnerability in YAML parsing",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "GHSA-5p4m-2wfm-xmqj",
+      "pkg": "js-yaml",
+      "installed_version": "4.1.1",
+      "fixed_version": "4.3.1, 3.15.1",
+      "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) \u2014 CVE-2026-59870 fix not backported",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-48801",
+      "pkg": "linkify-it",
+      "installed_version": "5.0.0",
+      "fixed_version": "5.0.1",
+      "title": "linkify-it: linkify-it: Denial of Service via algorithmic complexity vulnerability",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-59887",
+      "pkg": "linkify-it",
+      "installed_version": "5.0.0",
+      "fixed_version": "5.0.2",
+      "title": "linkify-it: linkify-it: Denial of Service via crafted mailto: links",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-111758",
+      "pkg": "markdown-it",
+      "installed_version": "14.1.1",
+      "fixed_version": "14.3.3, 15.0.3",
+      "title": "markdown-it: markdown-it: Denial of Service via unclosed link reference definitions",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-111759",
+      "pkg": "markdown-it",
+      "installed_version": "14.1.1",
+      "fixed_version": "15.0.2, 14.3.2",
+      "title": "markdown-it: markdown-it: Denial of Service via mismatched quote parsing",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-67213",
+      "pkg": "nanoid",
+      "installed_version": "3.3.12",
+      "fixed_version": "3.3.18, 5.1.6",
+      "title": "nanoid: nanoid: Denial of Service via infinite loop in random ID generation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-67214",
+      "pkg": "nanoid",
+      "installed_version": "3.3.12",
+      "fixed_version": "3.3.16, 5.1.16",
+      "title": "nanoid: nanoid: Denial of Service via negative size input in non-secure module functions",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-112366",
+      "pkg": "picomatch",
+      "installed_version": "4.0.4",
+      "fixed_version": null,
+      "title": "picomatch: picomatch: Denial of Service via single-branch repeated extglob patterns",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73646",
+      "pkg": "postcss",
+      "installed_version": "8.5.15",
+      "fixed_version": "8.5.18",
+      "title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-104847",
+      "pkg": "prosemirror-view",
+      "installed_version": "1.41.8",
+      "fixed_version": "1.42.3",
+      "title": "ProseMirror has a XSS vulnerability in prosemirror-view's paste handling",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69185",
+      "pkg": "socket.io-parser",
+      "installed_version": "4.2.6",
+      "fixed_version": "4.2.7, 3.4.5, 3.3.6",
+      "title": "socket.io-parser: Socket.IO: Denial of Service via memory exhaustion from crafted packets",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-93749",
+      "pkg": "source-map-js",
+      "installed_version": "1.2.1",
+      "fixed_version": "1.2.2",
+      "title": "source-map-js: source-map-js: Denial of Service via malformed indexed source maps",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-116576",
+      "pkg": "systeminformation",
+      "installed_version": "5.31.6",
+      "fixed_version": "5.33.16",
+      "title": "systeminformation: systeminformation: Command injection via improper quotation mark sanitization",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-50289",
+      "pkg": "systeminformation",
+      "installed_version": "5.31.6",
+      "fixed_version": "5.31.7",
+      "title": "systeminformation: systeminformation: Arbitrary Command Execution via OS Command Injection",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-44705",
+      "pkg": "tmp",
+      "installed_version": "0.2.5",
+      "fixed_version": "0.2.6",
+      "title": "tmp: path Traversal via unsanitized prefix/postfix enables directory escape",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-109383",
+      "pkg": "undici",
+      "installed_version": "6.24.1",
+      "fixed_version": "6.29.1, 7.30.1, 8.12.2",
+      "title": "undici: undici: Certificate validation bypass via dropped TLS options in Agent",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-109869",
+      "pkg": "undici",
+      "installed_version": "6.24.1",
+      "fixed_version": "6.29.1, 7.30.1, 8.12.2",
+      "title": "undici: undici: Denial of Service via unhandled stream error on excessive content encodings",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-12151",
+      "pkg": "undici",
+      "installed_version": "6.24.1",
+      "fixed_version": "6.27.0, 7.28.0, 8.5.0",
+      "title": "undici: undici: Denial of Service due to unbounded memory growth via WebSocket frames",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-19534",
+      "pkg": "undici",
+      "installed_version": "6.24.1",
+      "fixed_version": "6.28.1, 7.29.1, 8.10.2",
+      "title": "undici: undici: Denial of Service via unrequested WebSocket subprotocol",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-87018",
+      "pkg": "undici",
+      "installed_version": "6.24.1",
+      "fixed_version": "6.29.1, 7.30.1, 8.12.2",
+      "title": "undici: undici: Denial of Service via TLS renegotiation with mismatched certificate",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-112942",
+      "pkg": "vite",
+      "installed_version": "7.3.3",
+      "fixed_version": "8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "title": "launch-editor: launch-editor: Command injection via improper file path validation",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-48779",
+      "pkg": "ws",
+      "installed_version": "8.20.1",
+      "fixed_version": "5.2.5, 6.2.4, 7.5.11, 8.21.0",
+      "title": "ws: ws: Denial of Service via memory exhaustion from small WebSocket fragments",
+      "target": "frappe-ui/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-44728",
+      "pkg": "@babel/plugin-transform-modules-systemjs",
+      "installed_version": "7.29.0",
+      "fixed_version": "7.29.4, 8.0.0-alpha.13",
+      "title": "Babel is a compiler for writing next generation JavaScript. From 7.12. ...",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "GHSA-j95f-988m-3j2f",
+      "pkg": "@tiptap/core",
+      "installed_version": "3.27.0",
+      "fixed_version": "3.30.5",
+      "title": "Tiptap: Quadratic ReDoS in block and inline Markdown attribute parsing",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "GHSA-g2v6-rqmx-r4w6",
+      "pkg": "@vue/server-renderer",
+      "installed_version": "3.5.32",
+      "fixed_version": "3.5.42, 3.6.0-rc.6",
+      "title": "@vue/server-renderer: XSS via missing CR in attribute-name blacklist",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13149",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.7, 1.1.16, 2.1.2",
+      "title": "brace-expansion: Brace-expansion: Denial of Service due to exponential-time complexity",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-14257",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "title": "brace-expansion: Brace-expansion: Denial of Service via memory exhaustion in expand() function",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69152",
+      "pkg": "brace-expansion",
+      "installed_version": "2.1.0",
+      "fixed_version": "1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102276",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.9",
+      "fixed_version": "5.0.10, 3.0.7, 2.1.5, 1.1.19",
+      "title": "brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-102278",
+      "pkg": "brace-expansion",
+      "installed_version": "5.0.9",
+      "fixed_version": "5.0.11, 3.0.8, 2.1.6, 1.1.20",
+      "title": "brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73088",
+      "pkg": "browserslist",
+      "installed_version": "4.28.2",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Prototype pollution leading to denial of service",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73089",
+      "pkg": "browserslist",
+      "installed_version": "4.28.2",
+      "fixed_version": "4.28.7",
+      "title": "browserslist: Browserslist: Denial of Service via unbounded memory growth from distinct query results",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "GHSA-mrv2-3pqr-j5jr",
+      "pkg": "dompurify",
+      "installed_version": "3.4.0",
+      "fixed_version": "3.4.17",
+      "title": "DOMPurify IN_PLACE: hook that removes a parent or sibling leaves the detached subtree's event handlers armed (incomplete fix for GHSA-p98j-92pf-mc4p)",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-13676",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "4.0.1, 3.1.3, 2.4.2",
+      "title": "fast-uri: fast-uri: Security policy bypass due to improper Unicode hostname canonicalization",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-16221",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "2.4.3, 3.1.4, 4.1.1",
+      "title": "fast-uri: Fast-uri: Security policy bypass due to URL parsing inconsistency",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-18446",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "2.4.4, 3.1.5, 4.1.2",
+      "title": "fast-uri: fast-uri: Host confusion vulnerability via backslash in URI authority",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-6321",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "3.1.1, 2.4.1",
+      "title": "fast-uri: fast-uri: Path traversal vulnerability allows bypass of security policies",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-6322",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "3.1.2, 2.4.1",
+      "title": "fast-uri: fast-uri: URI authority bypass due to improper delimiter handling",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-75975",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "2.4.5, 3.1.6, 4.1.3",
+      "title": "fast-uri: fast-uri: Server-side request forgery via malformed IPv6 normalization",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-76172",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "2.4.5, 3.1.6, 4.1.3",
+      "title": "fast-uri: fast-uri: URI parsing flaw enables server-side request forgery and redirects",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-84292",
+      "pkg": "fast-uri",
+      "installed_version": "3.1.0",
+      "fixed_version": "2.4.6, 3.1.7, 4.1.4",
+      "title": "fast-uri: fast-uri: Authority Injection via Unvalidated Port Serialization",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-115895",
+      "pkg": "happy-dom",
+      "installed_version": "20.9.0",
+      "fixed_version": "21.0.4",
+      "title": "happy-dom: happy-dom: Arbitrary code execution via unvalidated ECMAScript Module import alias",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-118660",
+      "pkg": "happy-dom",
+      "installed_version": "20.9.0",
+      "fixed_version": "21.0.0",
+      "title": "happy-dom: happy-dom: Server-Side Request Forgery via default loading of external resources",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-67213",
+      "pkg": "nanoid",
+      "installed_version": "3.3.11",
+      "fixed_version": "3.3.18, 5.1.6",
+      "title": "nanoid: nanoid: Denial of Service via infinite loop in random ID generation",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-67214",
+      "pkg": "nanoid",
+      "installed_version": "3.3.11",
+      "fixed_version": "3.3.16, 5.1.16",
+      "title": "nanoid: nanoid: Denial of Service via negative size input in non-secure module functions",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73086",
+      "pkg": "nanoid",
+      "installed_version": "3.3.11",
+      "fixed_version": "3.3.12, 5.1.11",
+      "title": "nanoid: nanoid: Predictable ID generation due to integer overflow",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-67213",
+      "pkg": "nanoid",
+      "installed_version": "3.3.16",
+      "fixed_version": "3.3.18, 5.1.6",
+      "title": "nanoid: nanoid: Denial of Service via infinite loop in random ID generation",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-112366",
+      "pkg": "picomatch",
+      "installed_version": "4.0.5",
+      "fixed_version": null,
+      "title": "picomatch: picomatch: Denial of Service via single-branch repeated extglob patterns",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-45623",
+      "pkg": "postcss",
+      "installed_version": "8.5.9",
+      "fixed_version": "8.5.12",
+      "title": "postcss: PostCSS: Information disclosure and denial of service via crafted CSS input",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-73646",
+      "pkg": "postcss",
+      "installed_version": "8.5.9",
+      "fixed_version": "8.5.18",
+      "title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-104847",
+      "pkg": "prosemirror-view",
+      "installed_version": "1.41.9",
+      "fixed_version": "1.42.3",
+      "title": "ProseMirror has a XSS vulnerability in prosemirror-view's paste handling",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-69185",
+      "pkg": "socket.io-parser",
+      "installed_version": "4.2.6",
+      "fixed_version": "4.2.7, 3.4.5, 3.3.6",
+      "title": "socket.io-parser: Socket.IO: Denial of Service via memory exhaustion from crafted packets",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-93749",
+      "pkg": "source-map-js",
+      "installed_version": "1.2.1",
+      "fixed_version": "1.2.2",
+      "title": "source-map-js: source-map-js: Denial of Service via malformed indexed source maps",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-112942",
+      "pkg": "vite",
+      "installed_version": "8.2.0",
+      "fixed_version": "8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "title": "launch-editor: launch-editor: Command injection via improper file path validation",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-48779",
+      "pkg": "ws",
+      "installed_version": "8.18.3",
+      "fixed_version": "5.2.5, 6.2.4, 7.5.11, 8.21.0",
+      "title": "ws: ws: Denial of Service via memory exhaustion from small WebSocket fragments",
+      "target": "frontend/yarn.lock"
+    },
+    {
+      "id": "CVE-2026-48779",
+      "pkg": "ws",
+      "installed_version": "8.20.0",
+      "fixed_version": "5.2.5, 6.2.4, 7.5.11, 8.21.0",
+      "title": "ws: ws: Denial of Service via memory exhaustion from small WebSocket fragments",
+      "target": "frontend/yarn.lock"
+    }
+  ]
+}
