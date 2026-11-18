@@ -1,0 +1,10 @@
+---
+- name: Create Frappe CRM directory
+  file:
+    path: /opt/frappe-crm
+    state: directory
+
+- name: Download Docker Compose file
+  get_url:
+    url: https://raw.githubusercontent.com/frappe/crm/develop/docker/docker-compose.yml
+    dest: /opt/frappe-crm/docker-compose.yml
