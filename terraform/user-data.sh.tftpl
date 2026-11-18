@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euxo pipefail
+
+exec > /var/log/frappe-install.log 2>&1
+
+apt-get update
+apt-get install -y python3 python3-pip python3-venv curl wget
+
+mkdir -p /opt/frappe
+cd /opt/frappe
+
+curl -fsSL https://frappe.io/easy-install.py -o easy-install.py
+
+python3 easy-install.py deploy \
+  --project=crm_prod_setup \
+  --email="${email}" \
+  --image=ghcr.io/frappe/crm \
+  --version=stable \
+  --app=crm \
+  --sitename="${domain}"

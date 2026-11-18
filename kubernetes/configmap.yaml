@@ -1,0 +1,55 @@
+﻿apiVersion: v1
+data:
+  init.sh: |2
+
+    #!/bin/bash
+    set -e
+
+    BENCH_DIR="/home/frappe/frappe-bench/bench"
+
+    if [ -d "$BENCH_DIR/apps/frappe" ]; then
+        echo "Bench already exists, starting..."
+        cd "$BENCH_DIR"
+        exec bench start
+    fi
+
+    echo "Creating new bench..."
+
+    bench init --skip-redis-config-generation "$BENCH_DIR" --version version-15
+
+    cd "$BENCH_DIR"
+
+    # Configure MariaDB and Redis
+    bench set-mariadb-host mariadb
+    bench set-redis-cache-host redis://redis:6379
+    bench set-redis-queue-host redis://redis:6379
+    bench set-redis-socketio-host redis://redis:6379
+
+    # Remove Redis and watch processes from Procfile
+    sed -i '/redis/d' Procfile
+    sed -i '/watch/d' Procfile
+
+    # Download CRM
+    bench get-app crm --branch main
+
+    # Create site
+    bench new-site crm.localhost \
+        --force \
+        --mariadb-root-password "$MYSQL_ROOT_PASSWORD" \
+        --admin-password "$FRAPPE_ADMIN_PASSWORD" \
+        --no-mariadb-socket
+
+    # Install CRM
+    bench --site crm.localhost install-app crm
+
+    bench --site crm.localhost set-config developer_mode 1
+    bench --site crm.localhost set-config mute_emails 1
+    bench --site crm.localhost set-config server_script_enabled 1
+    bench --site crm.localhost clear-cache
+    bench use crm.localhost
+
+    exec bench start
+kind: ConfigMap
+metadata:
+  name: frappe-init
+  namespace: frappe-crm
