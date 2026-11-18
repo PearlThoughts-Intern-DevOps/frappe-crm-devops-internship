@@ -7,7 +7,8 @@
     "commit": "38de6c7cfac7a7c48519751b9794229d58ed2150",
     "author": "Bulbul Das",
     "date": "2026-11-12T15:12:07Z",
-    "secret_masked": "Y2h...290"
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Placeholder Template"
   },
   {
     "rule_id": "generic-api-key",
@@ -17,7 +18,8 @@
     "commit": "38de6c7cfac7a7c48519751b9794229d58ed2150",
     "author": "Bulbul Das",
     "date": "2026-11-12T15:12:07Z",
-    "secret_masked": "Y2h...W4="
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Placeholder Template"
   },
   {
     "rule_id": "generic-api-key",
@@ -27,7 +29,8 @@
     "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
     "author": "Bulbul Das",
     "date": "2026-11-05T13:04:22Z",
-    "secret_masked": "CEb...DyO"
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
   },
   {
     "rule_id": "generic-api-key",
@@ -37,7 +40,8 @@
     "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
     "author": "Bulbul Das",
     "date": "2026-11-05T13:04:22Z",
-    "secret_masked": "CEb...DyO"
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
   },
   {
     "rule_id": "generic-api-key",
@@ -47,7 +51,8 @@
     "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
     "author": "Bulbul Das",
     "date": "2026-11-05T13:04:22Z",
-    "secret_masked": "CEb...DyO"
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
   },
   {
     "rule_id": "generic-api-key",
@@ -57,6 +62,7 @@
     "commit": "b3abc00e82960a493bc202d997d6b1db32ba53a2",
     "author": "Shariq Ansari",
     "date": "2023-08-17T17:36:49Z",
-    "secret_masked": "1eb...e2d"
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Upstream Hardcoded Token"
   }
 ]

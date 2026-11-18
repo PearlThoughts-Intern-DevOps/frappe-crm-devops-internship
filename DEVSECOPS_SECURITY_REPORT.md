@@ -18,13 +18,13 @@ The assessment utilized industry-standard open-source DevSecOps tools:
 
 ### Key Assessment Findings Summary
 
-| Scan Category | Tool | Scope / Targets | Critical | High | Medium | Low | Total Findings |
-| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Container Images** | Trivy | `frappe/bench:latest`, `mariadb:10.8`, `redis:alpine` | **18** | **922** | **1,867** | **1,476** | **4,283** |
-| **Dependencies (SCA)** | Trivy | `package.json`, `yarn.lock`, `pyproject.toml` | **4** | **90** | **77** | **27** | **198** |
-| **Secret Detection** | Gitleaks | Entire Git History (6,243 commits) & Filesystem | **6** | — | — | — | **6 Leaks** |
-| **IaC Configurations** | Checkov | Kubernetes Manifests & Docker Compose | **0** | **18** | **18** | **6** | **42 Violations** |
-| **Total Security Findings** | | | **28** | **1,030** | **1,962** | **1,509** | **4,529** |
+| Scan Category | Tool | Scope / Targets | Total Finding Instances | Unique CVEs / Violations | Critical | High | Medium | Low |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Container Images** | Trivy | `bench`, `mariadb`, `redis` | **4,283** | **2,291 unique CVEs** | **10 unique** (18 pkgs) | **474 unique** (922 pkgs) | **1,209 unique** | **598 unique** |
+| **Dependencies (SCA)** | Trivy | `yarn.lock`, `package.json`, `pyproject.toml` | **198** | **115 unique CVEs** | **4 unique** | **50 unique** | **44 unique** | **17 unique** |
+| **Secret Detection** | Gitleaks | Git History (6,243 commits) & Filesystem | **6 leaks** | **3 distinct sources** | **3 Real**, **2 Templates**, **1 Upstream** | — | — | — |
+| **IaC Configurations** | Checkov | Kubernetes Manifests & Docker Compose | **42 failed checks** | **15 distinct policies** | **0** | **18 checks** | **18 checks** | **6 checks** |
+| **Total Security Findings** | | | **4,529 instances** | **2,424 unique issues** | **14 unique CVEs + 3 Secrets** | **524 unique CVEs/Checks** | **1,227** | **604** |
 
 ---
 
@@ -145,13 +145,13 @@ Status: EXPOSED IN GIT HISTORY & UNTRACKED LOCAL CONFIGS
 
 | # | File Path | Line | Rule ID | Exposed Secret (Masked) | Commit / Source |
 | :-: | :--- | :-: | :--- | :--- | :--- |
-| 1 | `kubernetes/02-secret.yaml.example` | 31 | `generic-api-key` | `MARIADB_ROOT_PASSWORD: Y2h...b290` | Commit `38de6c7c` |
-| 2 | `kubernetes/02-secret.yaml.example` | 35 | `generic-api-key` | `FRAPPE_ADMIN_PASSWORD: Y2h...taW4=` | Commit `38de6c7c` |
-| 3 | `backups/20261104_160131_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "CEb...yO"` | Commit `e02d920a` |
-| 4 | `backups/20261104_173848_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "CEb...yO"` | Commit `e02d920a` |
-| 5 | `backups/20261105_101320_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "CEb...yO"` | Commit `e02d920a` |
-| 6 | `crm/twilio/api.py` | 96 | `generic-api-key` | `auth_token = '1eb...e2d'` | Upstream Frappe (`b3abc00e`) |
-| 7 | `kubernetes/02-secret.yaml` *(untracked)* | 11, 13 | `k8s-secret` | Base64 `MTIz` (123), `YWRtaW4=` (admin) | Working tree |
+| 1 | `kubernetes/02-secret.yaml.example` | 31 | `generic-api-key` | `MARIADB_ROOT_PASSWORD: [REDACTED_TEMPLATE_VALUE]` | Commit `38de6c7c` |
+| 2 | `kubernetes/02-secret.yaml.example` | 35 | `generic-api-key` | `FRAPPE_ADMIN_PASSWORD: [REDACTED_TEMPLATE_VALUE]` | Commit `38de6c7c` |
+| 3 | `backups/20261104_160131_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "[REDACTED_DATABASE_PASSWORD]"` | Commit `e02d920a` |
+| 4 | `backups/20261104_173848_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "[REDACTED_DATABASE_PASSWORD]"` | Commit `e02d920a` |
+| 5 | `backups/20261105_101320_crm_localhost/...json` | 3 | `generic-api-key` | `"db_password": "[REDACTED_DATABASE_PASSWORD]"` | Commit `e02d920a` |
+| 6 | `crm/twilio/api.py` | 96 | `generic-api-key` | `auth_token = '[REDACTED_TWILIO_AUTH_TOKEN]'` | Upstream Frappe (`b3abc00e`) |
+| 7 | `kubernetes/02-secret.yaml` *(untracked)* | 11, 13 | `k8s-secret` | Base64 dummy values (e.g. default '123' and 'admin') | Working tree |
 
 ### 4.2 Security Risk Evaluation
 - **Committed Database Backups:** Site config backup files contain active database passwords in cleartext. Anyone with clone access to the Git repository can extract production database credentials.
