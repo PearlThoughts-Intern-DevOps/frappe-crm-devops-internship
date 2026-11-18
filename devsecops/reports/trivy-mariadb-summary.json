@@ -1,0 +1,136 @@
+{
+  "image": "mariadb:10.8",
+  "os": "ubuntu:22.04",
+  "scanned_at": "2026-11-18T17:12:03.935519+05:30",
+  "total_vulnerabilities": 660,
+  "severity_counts": {
+    "CRITICAL": 5,
+    "HIGH": 83,
+    "MEDIUM": 409,
+    "LOW": 163
+  },
+  "critical_vulnerabilities": [
+    {
+      "id": "CVE-2022-23806",
+      "pkg": "stdlib",
+      "installed_version": "v1.16.7",
+      "fixed_version": "1.16.14, 1.17.7",
+      "title": "golang: crypto/elliptic: IsOnCurve returns true for invalid field elements",
+      "target": "usr/local/bin/gosu"
+    },
+    {
+      "id": "CVE-2023-24538",
+      "pkg": "stdlib",
+      "installed_version": "v1.16.7",
+      "fixed_version": "1.19.8, 1.20.3",
+      "title": "golang: html/template: backticks not treated as string delimiters",
+      "target": "usr/local/bin/gosu"
+    },
+    {
+      "id": "CVE-2023-24540",
+      "pkg": "stdlib",
+      "installed_version": "v1.16.7",
+      "fixed_version": "1.19.9, 1.20.4",
+      "title": "golang: html/template: improper handling of JavaScript whitespace",
+      "target": "usr/local/bin/gosu"
+    },
+    {
+      "id": "CVE-2024-24790",
+      "pkg": "stdlib",
+      "installed_version": "v1.16.7",
+      "fixed_version": "1.21.11, 1.22.4",
+      "title": "golang: net/netip: Unexpected behavior from Is methods for IPv4-mapped IPv6 addresses",
+      "target": "usr/local/bin/gosu"
+    },
+    {
+      "id": "CVE-2025-68121",
+      "pkg": "stdlib",
+      "installed_version": "v1.16.7",
+      "fixed_version": "1.24.13, 1.25.7, 1.26.0-rc.3",
+      "title": "crypto/tls: crypto/tls: Incorrect certificate validation during TLS session resumption",
+      "target": "usr/local/bin/gosu"
+    }
+  ],
+  "high_vulnerabilities_sample": [
+    {
+      "id": "CVE-2026-109518",
+      "pkg": "apt",
+      "installed_version": "2.4.9",
+      "fixed_version": "2.4.15ubuntu0.1",
+      "title": "apt: apt: Remote code execution via hard link reuse during package download retries",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2025-68973",
+      "pkg": "gpg",
+      "installed_version": "2.2.27-3ubuntu2.1",
+      "fixed_version": "2.2.27-3ubuntu2.5",
+      "title": "GnuPG: GnuPG: Information disclosure and potential arbitrary code execution via out-of-bounds write",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2025-68973",
+      "pkg": "gpgconf",
+      "installed_version": "2.2.27-3ubuntu2.1",
+      "fixed_version": "2.2.27-3ubuntu2.5",
+      "title": "GnuPG: GnuPG: Information disclosure and potential arbitrary code execution via out-of-bounds write",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2025-68973",
+      "pkg": "gpgv",
+      "installed_version": "2.2.27-3ubuntu2.1",
+      "fixed_version": "2.2.27-3ubuntu2.5",
+      "title": "GnuPG: GnuPG: Information disclosure and potential arbitrary code execution via out-of-bounds write",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2026-109518",
+      "pkg": "libapt-pkg6.0",
+      "installed_version": "2.4.9",
+      "fixed_version": "2.4.15ubuntu0.1",
+      "title": "apt: apt: Remote code execution via hard link reuse during package download retries",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2023-4911",
+      "pkg": "libc-bin",
+      "installed_version": "2.35-0ubuntu3.1",
+      "fixed_version": "2.35-0ubuntu3.4",
+      "title": "glibc: buffer overflow in ld.so leading to privilege escalation",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2023-4911",
+      "pkg": "libc6",
+      "installed_version": "2.35-0ubuntu3.1",
+      "fixed_version": "2.35-0ubuntu3.4",
+      "title": "glibc: buffer overflow in ld.so leading to privilege escalation",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2026-45447",
+      "pkg": "libssl3",
+      "installed_version": "3.0.2-0ubuntu1.9",
+      "fixed_version": "3.0.2-0ubuntu1.25",
+      "title": "openssl: Heap Use-After-Free in OpenSSL PKCS7_verify()",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2026-84782",
+      "pkg": "libssl3",
+      "installed_version": "3.0.2-0ubuntu1.9",
+      "fixed_version": "3.0.2-0ubuntu1.30",
+      "title": "openssl: compat-openssl: openssl: Information disclosure via DTLS handshake retransmission",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    },
+    {
+      "id": "CVE-2026-45447",
+      "pkg": "openssl",
+      "installed_version": "3.0.2-0ubuntu1.10",
+      "fixed_version": "3.0.2-0ubuntu1.25",
+      "title": "openssl: Heap Use-After-Free in OpenSSL PKCS7_verify()",
+      "target": "mariadb:10.8 (ubuntu 22.04)"
+    }
+  ]
+}

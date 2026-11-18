@@ -1,0 +1,22 @@
+{
+  "image": "redis:alpine",
+  "os": "alpine:3.23.8",
+  "scanned_at": "2026-11-18T17:12:04.696329+05:30",
+  "total_vulnerabilities": 1,
+  "severity_counts": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 1,
+    "LOW": 0
+  },
+  "findings": [
+    {
+      "id": "CVE-2026-4738",
+      "pkg": "zlib",
+      "installed_version": "1.3.2-r1",
+      "fixed_version": "1.4-r0",
+      "title": "Improper Restriction of Operations within the Bounds of a Memory Buffe ...",
+      "target": "redis:alpine (alpine 3.23.8)"
+    }
+  ]
+}

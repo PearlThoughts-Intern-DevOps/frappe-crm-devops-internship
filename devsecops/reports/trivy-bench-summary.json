@@ -1,0 +1,200 @@
+{
+  "image": "frappe/bench:latest",
+  "os": "debian:13.7",
+  "scanned_at": "2026-11-18T17:11:29.238267+05:30",
+  "total_vulnerabilities": 3622,
+  "severity_counts": {
+    "CRITICAL": 13,
+    "HIGH": 839,
+    "MEDIUM": 1457,
+    "LOW": 1313
+  },
+  "critical_vulnerabilities": [
+    {
+      "id": "CVE-2026-44172",
+      "pkg": "libmariadb-dev",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB server: SQL injection vulnerability via improper handling of big5 character set with mysql_real_escape_string()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-49261",
+      "pkg": "libmariadb-dev",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB Server: Arbitrary code execution via wsrep_notify_cmd",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-44172",
+      "pkg": "libmariadb3",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB server: SQL injection vulnerability via improper handling of big5 character set with mysql_real_escape_string()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-49261",
+      "pkg": "libmariadb3",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB Server: Arbitrary code execution via wsrep_notify_cmd",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-6653",
+      "pkg": "libxml2",
+      "installed_version": "2.12.7+dfsg+really2.9.14-2.1+deb13u3",
+      "fixed_version": null,
+      "title": "libxml2: mingw-libxml2: libxml2: Denial of Service via crafted XML input due to use-after-free",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-99083",
+      "pkg": "linux-libc-dev",
+      "installed_version": "6.12.113-1",
+      "fixed_version": "6.12.115-2",
+      "title": "kernel: ksmbd: fix heap out-of-bounds write in krb5_authenticate()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-44172",
+      "pkg": "mariadb-client",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB server: SQL injection vulnerability via improper handling of big5 character set with mysql_real_escape_string()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-49261",
+      "pkg": "mariadb-client",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB Server: Arbitrary code execution via wsrep_notify_cmd",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-44172",
+      "pkg": "mariadb-client-core",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB server: SQL injection vulnerability via improper handling of big5 character set with mysql_real_escape_string()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-49261",
+      "pkg": "mariadb-client-core",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB Server: Arbitrary code execution via wsrep_notify_cmd",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-44172",
+      "pkg": "mariadb-common",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB server: SQL injection vulnerability via improper handling of big5 character set with mysql_real_escape_string()",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-49261",
+      "pkg": "mariadb-common",
+      "installed_version": "1:11.8.6-0+deb13u1",
+      "fixed_version": null,
+      "title": "mariadb: MariaDB Server: Arbitrary code execution via wsrep_notify_cmd",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-60002",
+      "pkg": "openssh-client",
+      "installed_version": "1:10.0p1-7+deb13u4",
+      "fixed_version": null,
+      "title": "openssh: OpenSSH: Use-after-free vulnerability during host key re-exchange on the client side",
+      "target": "frappe/bench:latest (debian 13.7)"
+    }
+  ],
+  "high_vulnerabilities_sample": [
+    {
+      "id": "CVE-2026-109518",
+      "pkg": "apt",
+      "installed_version": "3.0.3",
+      "fixed_version": "3.0.4",
+      "title": "apt: apt: Remote code execution via hard link reuse during package download retries",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "pkg": "bsdutils",
+      "installed_version": "1:2.41.5-0+deb13u1",
+      "fixed_version": null,
+      "title": "util-linux: util-linux: failed external mount helper still runs privileged X-mount post-hooks",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "pkg": "bsdutils",
+      "installed_version": "1:2.41.5-0+deb13u1",
+      "fixed_version": null,
+      "title": "util-linux: util-linux: nsenter --join-cgroup leaks root cgroup migration authority",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "pkg": "bsdutils",
+      "installed_version": "1:2.41.5-0+deb13u1",
+      "fixed_version": null,
+      "title": "util-linux: util-linux: X-mount.subdir detached-tree resolution can escape via intermediate symlinks",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "pkg": "bsdutils",
+      "installed_version": "1:2.41.5-0+deb13u1",
+      "fixed_version": null,
+      "title": "util-linux: util-linux: restricted bind mounts do not pin the source, allowing X-mount.owner/group/mode redirection",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-119260",
+      "pkg": "chromium-common",
+      "installed_version": "156.0.8078.73-1~deb13u1",
+      "fixed_version": "156.0.8078.79-1~deb13u1",
+      "title": "chromium-browser: Use after free in Frames",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-119261",
+      "pkg": "chromium-common",
+      "installed_version": "156.0.8078.73-1~deb13u1",
+      "fixed_version": "156.0.8078.79-1~deb13u1",
+      "title": "chromium-browser: skia: Buffer overflow in Skia",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-119262",
+      "pkg": "chromium-common",
+      "installed_version": "156.0.8078.73-1~deb13u1",
+      "fixed_version": "156.0.8078.79-1~deb13u1",
+      "title": "chromium-browser: Out of bounds write in V8",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-119263",
+      "pkg": "chromium-common",
+      "installed_version": "156.0.8078.73-1~deb13u1",
+      "fixed_version": "156.0.8078.79-1~deb13u1",
+      "title": "chromium-browser: Use after free in GarbageCollection",
+      "target": "frappe/bench:latest (debian 13.7)"
+    },
+    {
+      "id": "CVE-2026-119264",
+      "pkg": "chromium-common",
+      "installed_version": "156.0.8078.73-1~deb13u1",
+      "fixed_version": "156.0.8078.79-1~deb13u1",
+      "title": "chromium-browser: Use after free in Dawn",
+      "target": "frappe/bench:latest (debian 13.7)"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "kubernetes/02-secret.yaml.example",
+    "line": 31,
+    "commit": "38de6c7cfac7a7c48519751b9794229d58ed2150",
+    "author": "Bulbul Das",
+    "date": "2026-11-12T15:12:07Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Placeholder Template"
+  },
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "kubernetes/02-secret.yaml.example",
+    "line": 35,
+    "commit": "38de6c7cfac7a7c48519751b9794229d58ed2150",
+    "author": "Bulbul Das",
+    "date": "2026-11-12T15:12:07Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Placeholder Template"
+  },
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "backups/20261104_160131_crm_localhost/20261104_160131-crm_localhost-site_config_backup.json",
+    "line": 3,
+    "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
+    "author": "Bulbul Das",
+    "date": "2026-11-05T13:04:22Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
+  },
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "backups/20261104_173848_crm_localhost/20261104_173848-crm_localhost-site_config_backup.json",
+    "line": 3,
+    "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
+    "author": "Bulbul Das",
+    "date": "2026-11-05T13:04:22Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
+  },
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "backups/20261105_101320_crm_localhost/20261105_101320-crm_localhost-site_config_backup.json",
+    "line": 3,
+    "commit": "e02d920acc48e55b19cf0e9536765286f96179cd",
+    "author": "Bulbul Das",
+    "date": "2026-11-05T13:04:22Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Real Database Credential"
+  },
+  {
+    "rule_id": "generic-api-key",
+    "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+    "file": "crm/twilio/api.py",
+    "line": 96,
+    "commit": "b3abc00e82960a493bc202d997d6b1db32ba53a2",
+    "author": "Shariq Ansari",
+    "date": "2023-08-17T17:36:49Z",
+    "secret_masked": "[REDACTED]",
+    "secret_classification": "Upstream Hardcoded Token"
+  }
+]
