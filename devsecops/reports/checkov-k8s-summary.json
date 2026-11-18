@@ -1,0 +1,302 @@
+{
+  "framework": "kubernetes",
+  "passed_checks": 227,
+  "failed_checks": 42,
+  "distinct_failed_policies": 18,
+  "failed_policies": [
+    {
+      "check_id": "CKV_K8S_37",
+      "check_name": "Minimize the admission of containers with capabilities assigned",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_31",
+      "check_name": "Ensure that the seccomp profile is set to docker/default or runtime/default",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_20",
+      "check_name": "Containers should not run with allowPrivilegeEscalation",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_15",
+      "check_name": "Image Pull Policy should be Always",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_40",
+      "check_name": "Containers should run as a high UID to avoid host conflict",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_22",
+      "check_name": "Use read-only filesystem for containers where possible",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_28",
+      "check_name": "Minimize the admission of containers with the NET_RAW capability",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_29",
+      "check_name": "Apply security context to your pods and containers",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_30",
+      "check_name": "Apply security context to your containers",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_38",
+      "check_name": "Ensure that Service Account Tokens are only mounted where necessary",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_23",
+      "check_name": "Minimize the admission of root containers",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_43",
+      "check_name": "Image should use digest",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.redis",
+          "file": "/kubernetes/06-redis-deployment.yaml"
+        },
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_35",
+      "check_name": "Prefer using secrets as files over secrets as environment variables",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "StatefulSet.frappe-crm.mariadb",
+          "file": "/kubernetes/04-mariadb-statefulset.yaml"
+        },
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_12",
+      "check_name": "Memory requests should be set",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_13",
+      "check_name": "Memory limits should be set",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_10",
+      "check_name": "CPU requests should be set",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_14",
+      "check_name": "Image Tag should be fixed - not latest or blank",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    },
+    {
+      "check_id": "CKV_K8S_11",
+      "check_name": "CPU limits should be set",
+      "guideline": null,
+      "resources": [
+        {
+          "resource": "Deployment.frappe-crm.frappe",
+          "file": "/kubernetes/09-frappe-deployment.yaml"
+        }
+      ]
+    }
+  ]
+}
