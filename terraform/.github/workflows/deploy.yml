@@ -1,18 +1,13 @@
-name: Deploy Frappe CRM Infrastructure
+name: Terraform CI
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "terraform/**"
-      - ".github/workflows/deploy.yml"
+
+  pull_request:
 
   workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
   terraform:
@@ -23,32 +18,17 @@ jobs:
         working-directory: terraform
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ap-south-1
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Init
-        run: terraform init
-
       - name: Terraform Format
         run: terraform fmt -check
 
+      - name: Terraform Init
+        run: terraform init -backend=false
+
       - name: Terraform Validate
         run: terraform validate
-
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
-        env:
-          TF_VAR_domain: ${{ vars.CRM_DOMAIN }}
-          TF_VAR_email: ${{ vars.CRM_EMAIL }}
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
