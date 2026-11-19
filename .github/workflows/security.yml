@@ -1,0 +1,162 @@
+name: DevSecOps CI/CD Gatekeeper
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Also deploy to Cloudflare after checks pass (main branch only)'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  security-pipeline:
+    name: Security Scans & Gatekeeper
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: 1. Secret Scanning (Gitleaks)
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 2. Set up Python
+        if: always()
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.10'
+      - name: 3. SAST Code Scanning (Semgrep)
+        if: always()
+        run: |
+          pip install semgrep
+          semgrep scan --config=auto --severity ERROR --severity WARNING --sarif -o semgrep-results.sarif
+      - name: 4. Upload Semgrep SARIF Report
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b
+        if: always()
+        with:
+          sarif_file: 'semgrep-results.sarif'
+          category: 'semgrep'
+        continue-on-error: true
+      - name: 4b. Gate on Semgrep Findings
+        if: always()
+        run: |
+          python3 -c "
+          import json, sys
+          with open('semgrep-results.sarif') as f:
+              data = json.load(f)
+          results = data['runs'][0]['results']
+          if len(results) > 0:
+              print(f'❌ {len(results)} blocking finding(s) detected.')
+              for r in results:
+                  rule = r.get('ruleId', 'unknown-rule')
+                  loc = r.get('locations', [{}])[0].get('physicalLocation', {})
+                  path = loc.get('artifactLocation', {}).get('uri', 'unknown-file')
+                  line = loc.get('region', {}).get('startLine', '?')
+                  print(f'  - [{rule}] {path}:{line}')
+              sys.exit(1)
+          print('✅ No blocking findings.')
+          "
+      - name: 5. Dependency Scan (Trivy fs)
+        if: always()
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          scan-type: 'fs'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          exit-code: '0'
+      - name: 5b. Gate on Trivy Findings
+        if: always()
+        run: |
+          python3 -c "
+          import json, sys, os
+          if not os.path.exists('trivy-results.sarif'):
+              print('❌ trivy-results.sarif is missing. The Trivy scan did not complete.')
+              sys.exit(1)
+          with open('trivy-results.sarif') as f:
+              data = json.load(f)
+          results = data['runs'][0].get('results', [])
+          def get(text, name):
+              for ln in text.split(chr(10)):
+                  if ln.startswith(name + ':'):
+                      return ln.split(':', 1)[1].strip()
+              return '?'
+          seen = set()
+          rows = []
+          for r in results:
+              rule = r.get('ruleId', 'unknown-rule')
+              msg = r.get('message', {}).get('text', '')
+              loc = r.get('locations', [{}])[0].get('physicalLocation', {})
+              path = loc.get('artifactLocation', {}).get('uri', 'unknown-file')
+              line = loc.get('region', {}).get('startLine', '?')
+              sev = get(msg, 'Severity')
+              pkg = get(msg, 'Package')
+              ver = get(msg, 'Installed Version')
+              fix = get(msg, 'Fixed Version')
+              if sev not in ('CRITICAL', 'HIGH'):
+                  continue
+              key = (rule, pkg, ver, path)
+              if key in seen:
+                  continue
+              seen.add(key)
+              rows.append((sev, rule, pkg, ver, fix, path, line))
+          if len(rows) > 0:
+              print(f'❌ {len(rows)} blocking finding(s) detected.')
+              for sev, rule, pkg, ver, fix, path, line in sorted(rows):
+                  print(f'  - [{sev}] {rule} {pkg}@{ver} (fix: {fix}) in {path}:{line}')
+              sys.exit(1)
+          print('✅ No blocking findings.')
+          "
+      - name: 6. Upload Trivy SARIF Report
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'trivy'
+        continue-on-error: true
+      - name: 7. Docker Image Scan (Trivy image)
+        if: always()
+        run: |
+          mkdir -p reports
+          for IMG in $(docker compose -f docker/docker-compose.yml config --images | sort -u); do
+            NAME=$(echo "$IMG" | tr '/:' '__')
+            docker run --rm -v trivy-cache:/root/.cache -v "$PWD/reports:/out" \
+              aquasec/trivy:latest image --severity CRITICAL,HIGH,MEDIUM,LOW \
+              --format json -o "/out/$NAME.json" "$IMG"
+          done
+      - name: 7b. Gate on Docker Image Findings
+        if: always()
+        run: |
+          python3 - <<'EOF'
+          import json, glob, os, sys, collections
+          lines = ["## Docker image scan (Trivy)", "", "| Image report | Critical | High | Medium | Low |", "|---|---|---|---|---|"]
+          blocking = 0
+          for f in sorted(glob.glob("reports/*.json")):
+              c = collections.Counter()
+              for r in json.load(open(f)).get("Results", []):
+                  for v in r.get("Vulnerabilities") or []:
+                      c[v["Severity"]] += 1
+              blocking += c["CRITICAL"] + c["HIGH"]
+              lines.append(f"| {os.path.basename(f)} | {c['CRITICAL']} | {c['HIGH']} | {c['MEDIUM']} | {c['LOW']} |")
+          text = "\n".join(lines)
+          print(text)
+          open(os.environ["GITHUB_STEP_SUMMARY"], "a").write(text + "\n")
+          if blocking:
+              print(f"❌ {blocking} CRITICAL/HIGH image vulnerabilities detected.")
+              sys.exit(1)
+          print("✅ No blocking image findings.")
+          EOF
+      - name: 8. IaC Scan (Checkov)
+        if: always()
+        run: |
+          pip install checkov
+          echo '## Checkov (Docker + Kubernetes)' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          checkov -d . --framework dockerfile kubernetes --compact --quiet --soft-fail | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
