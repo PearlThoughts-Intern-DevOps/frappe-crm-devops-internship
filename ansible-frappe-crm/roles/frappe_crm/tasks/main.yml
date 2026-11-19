@@ -1,0 +1,30 @@
+---
+- name: Check the project folder exists
+  ansible.builtin.stat:
+    path: "{{ crm_project_dir }}"
+  register: crm_dir
+
+- name: Check the compose file exists
+  ansible.builtin.stat:
+    path: "{{ crm_project_dir }}/{{ crm_compose_file }}"
+  register: crm_compose
+
+- name: Stop with a clear message if files are missing
+  ansible.builtin.assert:
+    that:
+      - crm_dir.stat.isdir | default(false)
+      - crm_compose.stat.exists
+    fail_msg: "Compose file not found at {{ crm_project_dir }}/{{ crm_compose_file }} - fix crm_project_dir in inventory/group_vars/all.yml"
+
+- name: Make sure the init script (if any) is executable
+  ansible.builtin.file:
+    path: "{{ crm_project_dir }}/{{ crm_init_file }}"
+    mode: "0755"
+  when: crm_init_file | default('') != ''
+
+- name: Start CRM services (no change if already running)
+  community.docker.docker_compose_v2:
+    project_src: "{{ crm_project_dir }}"
+    files:
+      - "{{ crm_compose_file }}"
+    state: present
