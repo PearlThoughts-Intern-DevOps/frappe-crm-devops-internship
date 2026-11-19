@@ -1,0 +1,53 @@
+kubernetes scan results:
+
+Passed checks: 226, Failed checks: 45, Skipped checks: 0
+
+Check: CKV_K8S_21: "The default namespace should not be used"
+        PASSED for resource: Secret.frappe-crm.frappe-secrets
+        File: /k8s/secret.yaml:1-9
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/bc-k8s-20
+Check: CKV_K8S_116: "Ensure that the --cert-file and --key-file arguments are set as appropriate"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-cert-file-and-key-file-argu
+ments-are-set-as-appropriate
+Check: CKV_K8S_146: "Ensure that the --hostname-override argument is not set"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-hostname-override-argument-
+is-not-set
+Check: CKV_K8S_102: "Ensure that the --etcd-cafile argument is set as appropriate"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-etcd-cafile-argument-is-set
+-as-appropriate-1
+Check: CKV_K8S_84: "Ensure that the admission control plugin PodSecurityPolicy is set"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-admission-control-plugin-po
+dsecuritypolicy-is-set
+Check: CKV_K8S_95: "Ensure that the --request-timeout argument is set as appropriate"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+-set-as-appropriate
+Check: CKV_K8S_118: "Ensure that the --auto-tls argument is not set to true"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-auto-tls-argument-is-not-se
+t-to-true
+Check: CKV_K8S_113: "Ensure that the --bind-address argument is set to 127.0.0.1"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-bind-address-argument-is-se
+t-to-127001
+Check: CKV_K8S_108: "Ensure that the --use-service-account-credentials argument is set to true"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/ensure-that-the-use-service-account-credent
+ials-argument-is-set-to-true
+Check: CKV_K8S_34: "Ensure that Tiller (Helm v2) is not deployed"
+        PASSED for resource: Deployment.frappe-crm.frappe
+        File: /k8s/frappe.yaml:1-57
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/kubernetes-policies/kubernetes-policy-index/bc-k8s-32
+Check: CKV_K8S_9: "Readiness Probe Should be Configured"
+        PASSED for resource: Deployment.frappe-crm.frappe
