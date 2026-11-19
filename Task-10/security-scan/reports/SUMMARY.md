@@ -1,0 +1,49 @@
+# Scan summary
+- frappe_bench_latest: CRITICAL=12  HIGH=771  MEDIUM=1075  LOW=1294  
+    - CRITICAL CVE-2026-44172 libmariadb-dev 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-49261 libmariadb-dev 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-44172 libmariadb3 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-49261 libmariadb3 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-6653 libxml2 2.12.7+dfsg+really2.9.14-2.1+deb13u3 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-44172 mariadb-client 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-49261 mariadb-client 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-44172 mariadb-client-core 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-49261 mariadb-client-core 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+    - CRITICAL CVE-2026-44172 mariadb-common 1:11.8.6-0+deb13u1 (fixed in: no fix yet)
+- mariadb_10.6: CRITICAL=1  HIGH=26  MEDIUM=73  LOW=26  
+    - CRITICAL CVE-2025-68121 stdlib v1.24.6 (fixed in: 1.24.13, 1.25.7, 1.26.0-rc.3)
+    - HIGH CVE-2025-61726 stdlib v1.24.6 (fixed in: 1.24.12, 1.25.6)
+    - HIGH CVE-2025-61729 stdlib v1.24.6 (fixed in: 1.24.11, 1.25.5)
+    - HIGH CVE-2026-111943 stdlib v1.24.6 (fixed in: 1.26.10, 1.27.3)
+    - HIGH CVE-2026-25679 stdlib v1.24.6 (fixed in: 1.25.8, 1.26.1)
+    - HIGH CVE-2026-27145 stdlib v1.24.6 (fixed in: 1.25.11, 1.26.4)
+    - HIGH CVE-2026-32280 stdlib v1.24.6 (fixed in: 1.25.9, 1.26.2)
+    - HIGH CVE-2026-32281 stdlib v1.24.6 (fixed in: 1.25.9, 1.26.2)
+    - HIGH CVE-2026-32283 stdlib v1.24.6 (fixed in: 1.25.9, 1.26.2)
+    - HIGH CVE-2026-33811 stdlib v1.24.6 (fixed in: 1.25.10, 1.26.3)
+- mariadb_10.8: CRITICAL=5  HIGH=84  MEDIUM=409  LOW=163  
+    - CRITICAL CVE-2022-23806 stdlib v1.16.7 (fixed in: 1.16.14, 1.17.7)
+    - CRITICAL CVE-2023-24538 stdlib v1.16.7 (fixed in: 1.19.8, 1.20.3)
+    - CRITICAL CVE-2023-24540 stdlib v1.16.7 (fixed in: 1.19.9, 1.20.4)
+    - CRITICAL CVE-2024-24790 stdlib v1.16.7 (fixed in: 1.21.11, 1.22.4)
+    - CRITICAL CVE-2025-68121 stdlib v1.16.7 (fixed in: 1.24.13, 1.25.7, 1.26.0-rc.3)
+    - HIGH CVE-2026-109518 apt 2.4.9 (fixed in: 2.4.15ubuntu0.1)
+    - HIGH CVE-2025-68973 gpg 2.2.27-3ubuntu2.1 (fixed in: 2.2.27-3ubuntu2.5)
+    - HIGH CVE-2025-68973 gpgconf 2.2.27-3ubuntu2.1 (fixed in: 2.2.27-3ubuntu2.5)
+    - HIGH CVE-2025-68973 gpgv 2.2.27-3ubuntu2.1 (fixed in: 2.2.27-3ubuntu2.5)
+    - HIGH CVE-2026-109518 libapt-pkg6.0 2.4.9 (fixed in: 2.4.15ubuntu0.1)
+- redis_alpine: CRITICAL=0  HIGH=0  MEDIUM=1  LOW=0  
+- dependencies: CRITICAL=0  HIGH=45  MEDIUM=33  LOW=19  
+- dependency files checked: frappe-ui/yarn.lock, frontend/yarn.lock, yarn.lock
+    - HIGH GHSA-j95f-988m-3j2f @tiptap/core 3.26.0 (fixed in: 3.30.5)
+    - HIGH GHSA-mrv2-3pqr-j5jr dompurify 3.4.5 (fixed in: 3.4.17)
+    - HIGH CVE-2026-48801 linkify-it 5.0.0 (fixed in: 5.0.1)
+    - HIGH CVE-2026-59887 linkify-it 5.0.0 (fixed in: 5.0.2)
+    - HIGH CVE-2026-111758 markdown-it 14.1.1 (fixed in: 14.3.3, 15.0.3)
+    - HIGH CVE-2026-111759 markdown-it 14.1.1 (fixed in: 15.0.2, 14.3.2)
+    - HIGH CVE-2026-67213 nanoid 3.3.12 (fixed in: 3.3.18, 5.1.6)
+    - HIGH CVE-2026-67214 nanoid 3.3.12 (fixed in: 3.3.16, 5.1.16)
+    - HIGH CVE-2026-73646 postcss 8.5.15 (fixed in: 8.5.18)
+    - HIGH CVE-2026-104847 prosemirror-view 1.41.8 (fixed in: 1.42.3)
+- gitleaks leaks: 3
+- checkov failed: 45

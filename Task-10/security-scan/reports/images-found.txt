@@ -1,0 +1,4 @@
+frappe/bench:latest
+mariadb:10.6
+mariadb:10.8
+redis:alpine
