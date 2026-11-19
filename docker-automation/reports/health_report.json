@@ -1,0 +1,82 @@
+{
+  "project": "crm",
+  "generated_at": "2026-11-05T20:02:46.320475+00:00",
+  "overall_status": "WARNING",
+  "total_containers": 3,
+  "running_containers": 3,
+  "stopped_containers": [],
+  "unhealthy_containers": [],
+  "containers": [
+    {
+      "name": "crm-redis-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 0.3,
+      "memory_usage_mb": 9.5,
+      "memory_limit_mb": 5928.6,
+      "memory_percent": 0.2,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [
+        "2 error lines found in logs"
+      ],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 2,
+        "sample_errors": [
+          "2026-11-05T16:05:44.050727907Z 1:M 05 Nov 2026 16:05:44.050 * <bf> \t{ bf-error-rate       :      0.01 }",
+          "2026-11-05T19:59:16.041846262Z 1:M 05 Nov 2026 19:59:16.041 * <bf> \t{ bf-error-rate       :      0.01 }"
+        ]
+      }
+    },
+    {
+      "name": "crm-frappe-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 4.07,
+      "memory_usage_mb": 477.0,
+      "memory_limit_mb": 5928.6,
+      "memory_percent": 8.0,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [
+        "6 error lines found in logs"
+      ],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 6,
+        "sample_errors": [
+          "2026-11-05T02:13:14.522290023Z 02:13:14 web.1      | 172.18.0.1 - - [05/Nov/2026 02:13:14] \"GET /assets/crm/frontend/assets/ErrorMessage-kfLqy4du.js HTTP/1.1\" 200 -",
+          "2026-11-05T19:39:36.236869425Z 19:39:36 socketio.1 |     throw er; // Unhandled 'error' event",
+          "2026-11-05T19:39:36.237526077Z 19:39:36 socketio.1 | SocketClosedUnexpectedlyError: Socket closed unexpectedly",
+          "2026-11-05T19:39:36.239546355Z 19:39:36 socketio.1 | Emitted 'error' event on RedisClient instance at:",
+          "2026-11-05T19:39:36.244132550Z 19:39:36 socketio.1 |     at RedisSocket._RedisSocket_onSocketError (/home/frappe/frappe-bench/apps/frappe/node_modules/@redis/client/dist/lib/client/socket.js:218:10)",
+          "2026-11-05T19:39:36.890767894Z ERROR: Bench instance already exists at frappe-bench"
+        ]
+      }
+    },
+    {
+      "name": "crm-mariadb-1",
+      "status": "running",
+      "health": "not_configured",
+      "exit_code": 0,
+      "cpu_percent": 0.02,
+      "memory_usage_mb": 90.6,
+      "memory_limit_mb": 5928.6,
+      "memory_percent": 1.5,
+      "is_stopped": false,
+      "is_unhealthy": false,
+      "issues": [],
+      "log_analysis": {
+        "log_available": true,
+        "total_errors": 0,
+        "sample_errors": []
+      }
+    }
+  ],
+  "auto_recovery": {
+    "scope": "disposable test container only"
+  }
+}
