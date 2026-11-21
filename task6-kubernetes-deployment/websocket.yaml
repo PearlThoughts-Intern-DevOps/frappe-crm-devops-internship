@@ -1,0 +1,53 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-websocket
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-websocket
+  template:
+    metadata:
+      labels:
+        app: frappe-websocket
+    spec:
+      containers:
+        - name: websocket
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command: ["node"]
+          args:
+            - /home/frappe/frappe-bench/apps/frappe/socketio.js
+          ports:
+            - containerPort: 9000
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-websocket
+  namespace: frappe
+spec:
+  selector:
+    app: frappe-websocket
+  ports:
+    - name: socketio
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
