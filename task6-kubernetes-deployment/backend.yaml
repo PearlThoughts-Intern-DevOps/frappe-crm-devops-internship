@@ -1,0 +1,52 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-backend
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-backend
+  template:
+    metadata:
+      labels:
+        app: frappe-backend
+    spec:
+      securityContext:
+        fsGroup: 0
+      containers:
+        - name: backend
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+              cpu: "1"
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-backend
+  namespace: frappe
+spec:
+  selector:
+    app: frappe-backend
+  ports:
+    - name: backend
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

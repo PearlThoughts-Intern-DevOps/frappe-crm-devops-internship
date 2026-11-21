@@ -1,0 +1,90 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-short-worker
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-short-worker
+  template:
+    metadata:
+      labels:
+        app: frappe-short-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - cd /home/frappe/frappe-bench && exec bench worker --queue short
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-long-worker
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-long-worker
+  template:
+    metadata:
+      labels:
+        app: frappe-long-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - cd /home/frappe/frappe-bench && exec bench worker --queue default,long
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-scheduler
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-scheduler
+  template:
+    metadata:
+      labels:
+        app: frappe-scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - cd /home/frappe/frappe-bench && exec bench schedule
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
