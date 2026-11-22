@@ -146,9 +146,9 @@ The 38 directory-scan findings should not be reported as 38 confirmed credential
 
 ## 6. Checkov — Kubernetes security scanning
 
-Kubernetes manifests were scanned from the separate local project:
+The original Kubernetes project was scanned first. The same scan was then repeated against the nine copied manifests included in this submission:
 
-`Frappe-crm-kubernetes-repo`
+`devsecops-security/configs/kubernetes/`
 
 ### 6.1 Scan summary
 
@@ -230,3 +230,36 @@ The most urgent issue is the historical Twilio credential exposure. The image an
 The CRM, frontend, and Frappe UI source directory scans reported no exposed secrets. However, this does not eliminate the historical credential exposure or the sensitive local recovery backup.
 
 This report records the initial security assessment. Remediation and subsequent verification scans are required before the project can be considered secure.
+
+## 12. Submission evidence
+
+The following supporting files are included with this assessment:
+
+### Kubernetes configuration
+
+Nine Kubernetes YAML manifests are included under `configs/kubernetes/`:
+
+- `backend.yaml`
+- `frappe-setup.yaml`
+- `frappe-site-create.yaml`
+- `frappe-storage.yaml`
+- `frontend.yaml`
+- `mariadb.yaml`
+- `redis.yaml`
+- `websocket.yaml`
+- `workers.yaml`
+
+Gitleaks reported no leaks in these manifests. Checkov was run against these exact copied files and returned 738 passed, 154 failed, and 0 skipped checks.
+
+### Scan summaries
+
+- `evidence/trivy-image-summary.md` — Docker image vulnerability results.
+- `evidence/trivy-dependency-summary.md` — Dependency scan results and coverage limitations.
+- `evidence/gitleaks-summary.md` — Secret scan results and historical credential finding.
+- `evidence/checkov-summary.md` — Kubernetes policy scan results.
+
+### Scan output
+
+- `scan-results/checkov-kubernetes.txt` — Checkov output for the included Kubernetes manifests.
+
+Raw Trivy JSON reports were retained locally for analysis and are not included in the submission because secret scanning identified matches requiring separate false-positive review.

@@ -1,0 +1,63 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frappe-frontend
+  namespace: frappe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frappe-frontend
+  template:
+    metadata:
+      labels:
+        app: frappe-frontend
+    spec:
+      securityContext:
+        fsGroup: 0
+      containers:
+        - name: frontend
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command:
+            - /usr/local/bin/nginx-entrypoint.sh
+          env:
+            - name: BACKEND
+              value: frappe-backend:8000
+            - name: SOCKETIO
+              value: frappe-websocket:9000
+            - name: NGINX_LISTEN_PORT
+              value: "8080"
+            - name: FRAPPE_SITE_NAME_HEADER
+              value: crm.localhost
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frappe-frontend
+  namespace: frappe
+spec:
+  selector:
+    app: frappe-frontend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: NodePort
