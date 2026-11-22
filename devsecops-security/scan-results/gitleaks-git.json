@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 96,
+  "EndLine": 96,
+  "StartColumn": 6,
+  "EndColumn": 52,
+  "Match": "auth_token = 'REDACTED'",
+  "Secret": "REDACTED",
+  "File": "crm/twilio/api.py",
+  "SymlinkFile": "",
+  "Commit": "b3abc00e82960a493bc202d997d6b1db32ba53a2",
+  "Link": "https://github.com/PearlThoughts-Intern-DevOps/frappe-crm-devops-internship/blob/b3abc00e82960a493bc202d997d6b1db32ba53a2/crm/twilio/api.py#L96",
+  "Entropy": 3.5428379,
+  "Author": "Shariq Ansari",
+  "Email": "sharique.rik@gmail.com",
+  "Date": "2023-08-17T17:36:49Z",
+  "Message": "feat: phone call (testing)",
+  "Tags": [],
+  "Fingerprint": "b3abc00e82960a493bc202d997d6b1db32ba53a2:crm/twilio/api.py:generic-api-key:96"
+ }
+]
