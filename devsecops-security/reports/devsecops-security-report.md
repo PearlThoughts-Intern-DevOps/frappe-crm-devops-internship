@@ -1,6 +1,6 @@
 ﻿# DevSecOps Security Assessment Report — Frappe CRM
 
-**Assessment date:** 22 November 2026
+**Assessment date:** November 2026
 **Project:** Frappe CRM
 **Assessment type:** DevSecOps security scanning
 **Status:** Scans completed; findings require remediation and review.
