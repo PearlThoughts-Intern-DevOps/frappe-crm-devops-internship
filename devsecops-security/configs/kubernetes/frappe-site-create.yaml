@@ -1,0 +1,55 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frappe-site-create
+  namespace: frappe
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 1800
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: site-create
+          image: ghcr.io/shirisha-thakur/frappe-crm-kubernetes:v16
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cd /home/frappe/frappe-bench
+              bench new-site crm.localhost \
+                --db-type mariadb \
+                --db-host mariadb \
+                --db-port 3306 \
+                --db-name frappe \
+                --db-user frappe \
+                --db-password "$DB_PASSWORD" \
+                --no-setup-db \
+                --admin-password "$ADMIN_PASSWORD" \
+                --install-app crm \
+                --set-default
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-db-secret
+                  key: MYSQL_PASSWORD
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frappe-admin-secret
+                  key: ADMIN_PASSWORD
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+              cpu: "1"
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-sites-pvc
