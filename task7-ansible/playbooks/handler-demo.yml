@@ -1,0 +1,21 @@
+---
+- name: Learn Ansible Handlers
+  hosts: frappe_servers
+  become: true
+
+  tasks:
+    - name: Create application configuration
+      ansible.builtin.copy:
+        content: |
+          application_name: Frappe CRM
+          environment: development
+        dest: /opt/frappe/app-config.yml
+        owner: "{{ frappe_user }}"
+        group: "{{ frappe_group }}"
+        mode: '0644'
+      notify: Configuration updated
+
+  handlers:
+    - name: Configuration updated
+      ansible.builtin.debug:
+        msg: "Application configuration has changed!"

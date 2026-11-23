@@ -1,0 +1,7 @@
+---
+- name: Verify Docker environment
+  hosts: frappe_servers
+  become: false
+
+  roles:
+    - docker

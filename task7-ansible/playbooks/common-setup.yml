@@ -1,0 +1,7 @@
+---
+- name: Configure common Linux requirements
+  hosts: frappe_servers
+  become: true
+
+  roles:
+    - common

@@ -1,0 +1,30 @@
+---
+- name: Verify Frappe Compose project directory
+  ansible.builtin.stat:
+    path: "{{ frappe_compose_project_dir }}/{{ frappe_compose_file }}"
+  register: frappe_compose_file_status
+
+- name: Ensure Frappe Compose file exists
+  ansible.builtin.assert:
+    that:
+      - frappe_compose_file_status.stat.exists
+      - frappe_compose_file_status.stat.isreg
+    fail_msg: "Frappe Docker Compose file was not found!"
+    success_msg: "Frappe Docker Compose file exists."
+
+- name: Validate Frappe Docker Compose configuration
+  ansible.builtin.command:
+    argv:
+      - docker
+      - compose
+      - -f
+      - "{{ frappe_compose_file }}"
+      - config
+      - --quiet
+  args:
+    chdir: "{{ frappe_compose_project_dir }}"
+  changed_when: false
+
+- name: Display Frappe services
+  ansible.builtin.debug:
+    msg: "Frappe CRM services configured: {{ frappe_services | join(', ') }}"

@@ -1,0 +1,4 @@
+---
+frappe_directory: /opt/frappe
+frappe_user: "{{ ansible_user_id }}"
+frappe_group: "{{ ansible_user_gid }}"
