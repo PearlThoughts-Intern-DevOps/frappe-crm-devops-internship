@@ -1,0 +1,7 @@
+---
+frappe_compose_project_dir: /path/to/frappe-crm/docker
+frappe_compose_file: docker-compose.yml
+frappe_services:
+  - frappe
+  - mariadb
+  - redis

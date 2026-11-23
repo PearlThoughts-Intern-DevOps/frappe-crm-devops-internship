@@ -1,0 +1,37 @@
+---
+- name: Check current Frappe container status
+  ansible.builtin.command:
+    argv:
+      - docker
+      - compose
+      - -f
+      - "{{ frappe_compose_file }}"
+      - ps
+      - -a
+  args:
+    chdir: "{{ frappe_compose_project_dir }}"
+  register: frappe_container_status
+  changed_when: false
+
+- name: Display Frappe container status
+  ansible.builtin.debug:
+    var: frappe_container_status.stdout_lines
+
+- name: Check Frappe HTTP endpoint
+  ansible.builtin.uri:
+    url: http://localhost:8000
+    method: GET
+    status_code: 200
+    return_content: false
+  register: frappe_http_status
+  failed_when: false
+  changed_when: false
+
+- name: Display Frappe HTTP health
+  ansible.builtin.debug:
+    msg: >-
+      {% if frappe_http_status.status is defined and frappe_http_status.status == 200 %}
+      Frappe HTTP endpoint is healthy. HTTP {{ frappe_http_status.status }}.
+      {% else %}
+      Frappe HTTP endpoint is unavailable. Check whether the application is running.
+      {% endif %}

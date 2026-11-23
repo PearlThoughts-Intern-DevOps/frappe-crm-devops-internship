@@ -1,0 +1,10 @@
+---
+- name: Prepare Frappe CRM environment
+  hosts: frappe_servers
+  become: true
+
+  roles:
+    - common
+    - docker
+    - frappe
+    - healthcheck

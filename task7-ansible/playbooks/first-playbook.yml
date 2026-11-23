@@ -1,0 +1,18 @@
+---
+- name: My First Ansible Playbook
+  hosts: frappe_servers
+  become: true
+
+  tasks:
+
+    - name: Display server information
+      ansible.builtin.debug:
+        msg: "Ansible is managing Frappe CRM successfully!"
+
+    - name: Create Frappe application directory
+      ansible.builtin.file:
+        path: "{{ frappe_directory }}"
+        state: directory
+        owner: "{{ frappe_user }}"
+        group: "{{ frappe_group }}"
+        mode: '0755'
