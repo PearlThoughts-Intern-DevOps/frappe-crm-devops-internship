@@ -66,21 +66,54 @@ bench set-redis-cache-host "${REDIS_CACHE_URL}"
 bench set-redis-queue-host "${REDIS_QUEUE_URL}"
 bench set-redis-socketio-host "${REDIS_SOCKETIO_URL}"
 
-# Configure / initialize site
+# Ensure MariaDB user for site exists with consistent password and host scope
+echo "[INFO] Ensuring MariaDB site user '${DB_NAME}' exists with consistent credentials..."
+mariadb -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASSWORD}" << SQL || true
+CREATE USER IF NOT EXISTS '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_NAME}'@'%';
+FLUSH PRIVILEGES;
+SQL
+
+# Check if database has been populated with Frappe tables
+TABLE_COUNT=$(mariadb -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASSWORD}" -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
+echo "[INFO] Detected ${TABLE_COUNT} tables in database '${DB_NAME}'."
+
 if [ -f "sites/${SITE_NAME}/site_config.json" ]; then
-    echo "[INFO] Site '${SITE_NAME}' already exists."
+    echo "[INFO] Local site config for '${SITE_NAME}' exists."
     if [ "${AUTO_MIGRATE}" = "1" ]; then
         echo "[INFO] Running database migrations on ${SITE_NAME}..."
         bench --site "${SITE_NAME}" migrate || echo "[WARN] Migration finished with warnings."
     fi
+elif [ "${TABLE_COUNT}" -gt 20 ]; then
+    echo "[INFO] Populated database '${DB_NAME}' (${TABLE_COUNT} tables) detected on ${DB_HOST}. Configuring local site..."
+    mkdir -p "sites/${SITE_NAME}/logs" "sites/${SITE_NAME}/public/files" "sites/${SITE_NAME}/private/files" "sites/${SITE_NAME}/locks"
+    touch "sites/${SITE_NAME}/logs/frappe.log" "sites/${SITE_NAME}/logs/database.log"
+    cat << JSON > "sites/${SITE_NAME}/site_config.json"
+{
+ "db_name": "${DB_NAME}",
+ "db_password": "${DB_PASSWORD}",
+ "db_type": "mariadb",
+ "db_host": "${DB_HOST}",
+ "db_port": ${DB_PORT}
+}
+JSON
+    bench --site "${SITE_NAME}" install-app crm || true
+    bench --site "${SITE_NAME}" clear-cache || true
+    if [ "${AUTO_MIGRATE}" = "1" ]; then
+        echo "[INFO] Running database migrations on ${SITE_NAME}..."
+        bench --site "${SITE_NAME}" migrate || true
+    fi
 else
-    echo "[INFO] Site '${SITE_NAME}' not found. Initializing new site..."
+    echo "[INFO] Fresh installation required: table count is ${TABLE_COUNT}. Initializing new site '${SITE_NAME}'..."
     bench new-site "${SITE_NAME}" \
         --force \
+        --db-name "${DB_NAME}" \
+        --db-password "${DB_PASSWORD}" \
         --mariadb-root-username "${DB_USER}" \
         --mariadb-root-password "${DB_PASSWORD}" \
         --admin-password "${ADMIN_PASSWORD}" \
-        --no-mariadb-socket || {
+        --mariadb-user-host-login-scope='%' || {
             echo "[WARN] new-site command exited non-zero, checking if database exists..."
         }
 
@@ -98,6 +131,10 @@ else
     echo "[INFO] Clearing cache..."
     bench --site "${SITE_NAME}" clear-cache
 fi
+
+# Ensure required site subdirectories and log files exist
+mkdir -p "sites/${SITE_NAME}/logs" "sites/${SITE_NAME}/public/files" "sites/${SITE_NAME}/private/files" "sites/${SITE_NAME}/locks"
+touch "sites/${SITE_NAME}/logs/frappe.log" "sites/${SITE_NAME}/logs/database.log"
 
 # Set active site for web and worker processes
 echo "${SITE_NAME}" > sites/currentsite.txt

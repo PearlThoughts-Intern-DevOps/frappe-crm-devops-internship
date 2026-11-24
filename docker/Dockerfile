@@ -37,7 +37,7 @@ RUN sed -i '/redis/d' ./Procfile && \
     sed -i '/watch/d' ./Procfile
 
 # Copy local CRM application source into bench apps directory
-COPY --chown=frappe:frappe crm /home/frappe/frappe-bench/apps/crm
+COPY --chown=frappe:frappe crm /home/frappe/frappe-bench/apps/crm/crm
 COPY --chown=frappe:frappe frontend /home/frappe/frappe-bench/apps/crm/frontend
 COPY --chown=frappe:frappe frappe-ui /home/frappe/frappe-bench/apps/crm/frappe-ui
 COPY --chown=frappe:frappe pyproject.toml /home/frappe/frappe-bench/apps/crm/pyproject.toml
