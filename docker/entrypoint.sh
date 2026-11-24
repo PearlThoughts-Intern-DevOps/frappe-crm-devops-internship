@@ -79,8 +79,19 @@ SQL
 TABLE_COUNT=$(mariadb -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASSWORD}" -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
 echo "[INFO] Detected ${TABLE_COUNT} tables in database '${DB_NAME}'."
 
+# Ensure crm is in bench apps.txt
+if ! grep -q "^crm$" /home/frappe/frappe-bench/sites/apps.txt 2>/dev/null; then
+    echo "crm" >> /home/frappe/frappe-bench/sites/apps.txt
+fi
+
 if [ -f "sites/${SITE_NAME}/site_config.json" ]; then
     echo "[INFO] Local site config for '${SITE_NAME}' exists."
+    INSTALLED_APPS=$(bench --site "${SITE_NAME}" list-apps 2>/dev/null || echo "")
+    if ! echo "${INSTALLED_APPS}" | grep -q "crm"; then
+        echo "[INFO] Installing Frappe CRM app on '${SITE_NAME}'..."
+        bench --site "${SITE_NAME}" install-app crm || echo "[WARN] install-app finished."
+        bench --site "${SITE_NAME}" execute crm.install.after_install || true
+    fi
     if [ "${AUTO_MIGRATE}" = "1" ]; then
         echo "[INFO] Running database migrations on ${SITE_NAME}..."
         bench --site "${SITE_NAME}" migrate || echo "[WARN] Migration finished with warnings."
@@ -98,7 +109,8 @@ elif [ "${TABLE_COUNT}" -gt 20 ]; then
  "db_port": ${DB_PORT}
 }
 JSON
-    if ! grep -q "crm" "sites/${SITE_NAME}/apps.txt" 2>/dev/null; then
+    INSTALLED_APPS=$(bench --site "${SITE_NAME}" list-apps 2>/dev/null || echo "")
+    if ! echo "${INSTALLED_APPS}" | grep -q "crm"; then
         echo "[INFO] Installing Frappe CRM app on '${SITE_NAME}'..."
         bench --site "${SITE_NAME}" install-app crm || echo "[WARN] install-app finished."
         bench --site "${SITE_NAME}" execute crm.install.after_install || true
@@ -155,7 +167,7 @@ if [ -n "${ADMIN_PASSWORD}" ]; then
     /home/frappe/frappe-bench/env/bin/python -c "
 import frappe
 try:
-    frappe.init('${SITE_NAME}')
+    frappe.init('${SITE_NAME}', sites_path='/home/frappe/frappe-bench/sites')
     frappe.connect()
     frappe.db.set_single_value('System Settings', 'allow_login_using_user_name', 1)
     frappe.db.set_value('User', 'Administrator', 'username', 'admin')

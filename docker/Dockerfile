@@ -43,9 +43,19 @@ COPY --chown=frappe:frappe frappe-ui /home/frappe/frappe-bench/apps/crm/frappe-u
 COPY --chown=frappe:frappe pyproject.toml /home/frappe/frappe-bench/apps/crm/pyproject.toml
 COPY --chown=frappe:frappe README.md /home/frappe/frappe-bench/apps/crm/README.md
 
-# Install CRM Python requirements into bench virtualenv and build assets
-RUN ./env/bin/pip install --no-cache-dir -e apps/crm && \
-    bench build --app crm || true
+# Register crm app in bench sites/apps.txt
+RUN printf "\ncrm\n" >> /home/frappe/frappe-bench/sites/apps.txt && \
+    sed -i '/^$/d' /home/frappe/frappe-bench/sites/apps.txt
+
+# Install CRM Python requirements into bench virtualenv
+RUN ./env/bin/pip install --no-cache-dir -e apps/crm
+
+# Build frontend Vue 3 SPA for CRM
+WORKDIR /home/frappe/frappe-bench/apps/crm/frontend
+RUN yarn install && yarn build
+WORKDIR /home/frappe/frappe-bench
+
+RUN bench build --app crm || true
 
 # Copy entrypoint script
 COPY --chown=frappe:frappe docker/entrypoint.sh /home/frappe/entrypoint.sh
