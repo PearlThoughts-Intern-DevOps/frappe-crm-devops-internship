@@ -1,0 +1,85 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-south-1
+
+concurrency:
+  group: frappe-crm-${{ github.event_name == 'pull_request' && github.ref || 'deployment' }}
+  cancel-in-progress: false
+
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init and validate
+        working-directory: terraform
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+  deploy:
+    needs: terraform-validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        id: build
+        run: |
+          IMAGE="${{ steps.ecr.outputs.registry }}/frappe-crm:${{ github.sha }}"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Get current ECS task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition frappe-crm \
+            --query taskDefinition \
+            > taskdef.json
+
+      - name: Update container image
+        id: render
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: taskdef.json
+          container-name: app
+          image: ${{ steps.build.outputs.image }}
+
+      - name: Blue-Green deployment
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render.outputs.task-definition }}
+          service: frappe-crm-service
+          cluster: frappe-crm-cluster
+          codedeploy-appspec: deployment/appspec.yaml
+          codedeploy-application: frappe-crm
+          codedeploy-deployment-group: frappe-crm-dg
+          wait-for-service-stability: true
