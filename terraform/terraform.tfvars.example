@@ -1,0 +1,39 @@
+# =============================================================================
+# Frappe CRM ECS Fargate Blue-Green Deployment Configuration Example
+# =============================================================================
+
+aws_region  = "ap-southeast-2"
+aws_profile = ""
+
+project_name = "frappe-crm"
+environment  = "prod"
+
+# Networking
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.10.0/24", "10.0.11.0/24"]
+
+# ECS Fargate Sizing
+fargate_cpu    = 1024
+fargate_memory = 2048
+app_count      = 2
+container_port = 8000
+
+# Container Registry
+ecr_repository_name = "frappe-crm"
+image_tag           = "latest"
+
+# Database Configuration
+db_instance_class = "db.t4g.micro"
+db_name           = "frappe_crm"
+db_username       = "frappe_admin"
+db_password       = "ReplaceWithStrongDbPassword123!"
+
+# Application Secrets
+admin_password = "ReplaceWithStrongAdminPassword123!"
+site_name      = "crm.localhost"
+
+# Blue-Green Parameters
+health_check_path                = "/api/method/frappe.ping"
+deregistration_delay             = 30
+termination_wait_time_in_minutes = 5
