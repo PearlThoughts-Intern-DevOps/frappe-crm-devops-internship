@@ -144,6 +144,24 @@ bench use "${SITE_NAME}"
 sed -i '/redis/d' ./Procfile 2>/dev/null || true
 sed -i '/watch/d' ./Procfile 2>/dev/null || true
 
+# Configure Administrator credentials and allow login with 'admin' username
+if [ -n "${ADMIN_PASSWORD}" ]; then
+    echo "[INFO] Configuring Administrator credentials and username alias..."
+    bench --site "${SITE_NAME}" set-admin-password "${ADMIN_PASSWORD}" || true
+    /home/frappe/frappe-bench/env/bin/python -c "
+import frappe
+try:
+    frappe.init('${SITE_NAME}')
+    frappe.connect()
+    frappe.db.set_single_value('System Settings', 'allow_login_using_user_name', 1)
+    frappe.db.set_value('User', 'Administrator', 'username', 'admin')
+    frappe.db.commit()
+    print('[SUCCESS] Enabled login with username: admin')
+except Exception as e:
+    print('[WARN] Could not update admin username:', e)
+" || true
+fi
+
 # Signal handler for graceful termination on ECS task stop / traffic drain
 shutdown() {
     echo "[INFO] Caught SIGTERM/SIGINT signal. Initiating graceful shutdown of Frappe CRM..."
@@ -153,6 +171,11 @@ shutdown() {
     exit 0
 }
 trap shutdown SIGTERM SIGINT
+
+# Allow running custom command override if arguments provided
+if [ $# -gt 0 ]; then
+    exec "$@"
+fi
 
 echo "================================================================="
 echo "[SUCCESS] Frappe CRM initialized successfully. Starting server..."
