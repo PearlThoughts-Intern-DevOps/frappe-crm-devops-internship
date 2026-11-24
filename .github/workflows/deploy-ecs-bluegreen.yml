@@ -63,7 +63,7 @@ jobs:
   build-and-push:
     name: Build & Push Image to AWS ECR
     needs: lint-and-validate
-    if: github.event_name == 'workflow_dispatch' || (secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_SECRET_ACCESS_KEY != '')
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.build-image.outputs.image }}
@@ -110,7 +110,7 @@ jobs:
   deploy-blue-green:
     name: Deploy to ECS Fargate via CodeDeploy
     needs: build-and-push
-    if: (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy_to_aws == true)) && (secrets.AWS_ACCESS_KEY_ID != '' && secrets.AWS_SECRET_ACCESS_KEY != '')
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_aws == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
