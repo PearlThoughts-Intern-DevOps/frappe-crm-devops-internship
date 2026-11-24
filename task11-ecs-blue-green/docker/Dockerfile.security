@@ -1,0 +1,11 @@
+FROM frappe-crm:15
+
+USER root
+
+RUN apt-get update \
+    && apt-get install -y --only-upgrade chromium-common chromium-headless-shell \
+    && apt-get purge -y vim \
+    && apt-get autoremove --purge -y \
+    && rm -rf /var/lib/apt/lists/*
+
+USER frappe
