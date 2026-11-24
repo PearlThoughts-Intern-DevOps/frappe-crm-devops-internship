@@ -98,7 +98,11 @@ elif [ "${TABLE_COUNT}" -gt 20 ]; then
  "db_port": ${DB_PORT}
 }
 JSON
-    bench --site "${SITE_NAME}" install-app crm || true
+    if ! grep -q "crm" "sites/${SITE_NAME}/apps.txt" 2>/dev/null; then
+        echo "[INFO] Installing Frappe CRM app on '${SITE_NAME}'..."
+        bench --site "${SITE_NAME}" install-app crm || echo "[WARN] install-app finished."
+        bench --site "${SITE_NAME}" execute crm.install.after_install || true
+    fi
     bench --site "${SITE_NAME}" clear-cache || true
     if [ "${AUTO_MIGRATE}" = "1" ]; then
         echo "[INFO] Running database migrations on ${SITE_NAME}..."

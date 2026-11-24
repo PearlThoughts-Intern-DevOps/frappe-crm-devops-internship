@@ -41,6 +41,7 @@ COPY --chown=frappe:frappe crm /home/frappe/frappe-bench/apps/crm/crm
 COPY --chown=frappe:frappe frontend /home/frappe/frappe-bench/apps/crm/frontend
 COPY --chown=frappe:frappe frappe-ui /home/frappe/frappe-bench/apps/crm/frappe-ui
 COPY --chown=frappe:frappe pyproject.toml /home/frappe/frappe-bench/apps/crm/pyproject.toml
+COPY --chown=frappe:frappe README.md /home/frappe/frappe-bench/apps/crm/README.md
 
 # Install CRM Python requirements into bench virtualenv and build assets
 RUN ./env/bin/pip install --no-cache-dir -e apps/crm && \
