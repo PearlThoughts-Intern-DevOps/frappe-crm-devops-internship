@@ -1,0 +1,15 @@
+# =============================================================================
+# AWS CodeDeploy AppSpec for ECS Fargate Blue-Green Deployment
+# =============================================================================
+# Used by AWS CodeDeploy and GitHub Actions CI/CD to update the active
+# task set during Blue-Green traffic routing.
+# =============================================================================
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "frappe-crm"
+          ContainerPort: 8000
