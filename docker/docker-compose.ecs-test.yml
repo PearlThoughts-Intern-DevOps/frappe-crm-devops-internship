@@ -10,10 +10,10 @@ services:
   mariadb:
     image: mariadb:10.11
     environment:
-      MYSQL_ROOT_PASSWORD: 123
-      MYSQL_DATABASE: frappe_crm
-      MYSQL_USER: frappe_admin
-      MYSQL_PASSWORD: FrappeSecurePassword2026!
+      MYSQL_ROOT_PASSWORD: Admin
+      MYSQL_DATABASE: Admin
+      MYSQL_USER: Admin
+      MYSQL_PASSWORD: Admin
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -24,7 +24,7 @@ services:
     volumes:
       - mariadb_ecs_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p123"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "Admin", "-pAdmin"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -49,14 +49,14 @@ services:
     environment:
       DB_HOST: mariadb
       DB_PORT: 3306
-      DB_NAME: frappe_crm
-      DB_USER: root
-      DB_PASSWORD: 123
+      DB_NAME: Admin
+      DB_USER: Admin
+      DB_PASSWORD: Admin
       REDIS_CACHE_URL: redis://redis:6379
       REDIS_QUEUE_URL: redis://redis:6379
       REDIS_SOCKETIO_URL: redis://redis:6379
       SITE_NAME: crm.localhost
-      ADMIN_PASSWORD: admin
+      ADMIN_PASSWORD: Admin
       AUTO_MIGRATE: 1
     depends_on:
       mariadb:

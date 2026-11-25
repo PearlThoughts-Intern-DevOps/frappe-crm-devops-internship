@@ -93,20 +93,20 @@ variable "db_instance_class" {
 variable "db_name" {
   description = "Name of the default MariaDB database"
   type        = string
-  default     = "frappe_crm"
+  default     = "Admin"
 }
 
 variable "db_username" {
   description = "Database master username"
   type        = string
-  default     = "frappe_admin"
+  default     = "Admin"
 }
 
 variable "db_password" {
   description = "Database master password"
   type        = string
   sensitive   = true
-  default     = "FrappeSecurePassword2026"
+  default     = "Admin"
 }
 
 # --- Application Config ---
@@ -114,7 +114,7 @@ variable "admin_password" {
   description = "Frappe CRM Administrator user password"
   type        = string
   sensitive   = true
-  default     = "admin"
+  default     = "Admin"
 }
 
 variable "site_name" {

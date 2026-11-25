@@ -6,7 +6,7 @@ set -eo pipefail
 # =============================================================================
 # Responsibilities:
 # 1. Configures database and Redis client connection parameters
-# 2. Waits for RDS MariaDB and Redis readiness
+# 2. Waits for RDS MariaDB / EC2 MariaDB and Redis readiness
 # 3. Initializes site if first run, or executes auto-migration on existing site
 # 4. Handles SIGTERM/SIGINT signals for graceful task draining during Blue-Green traffic shift
 # 5. Starts Frappe CRM application server (web + worker + scheduler)
@@ -17,17 +17,17 @@ echo "   Frappe CRM Container Starting on AWS ECS Fargate              "
 echo "   Strategy: Blue-Green Deployment with Application Load Balancer"
 echo "================================================================="
 
-# Environment defaults (supports both RDS and local / EC2 MariaDB)
+# Environment defaults (standardized for candidate requirements: DB=Admin, Pass=Admin)
 DB_HOST="${DB_HOST:-mariadb}"
 DB_PORT="${DB_PORT:-3306}"
-DB_NAME="${DB_NAME:-frappe_crm}"
-DB_USER="${DB_USER:-frappe_admin}"
-DB_PASSWORD="${DB_PASSWORD:-FrappeSecurePassword2026}"
+DB_NAME="${DB_NAME:-Admin}"
+DB_USER="${DB_USER:-Admin}"
+DB_PASSWORD="${DB_PASSWORD:-Admin}"
 REDIS_CACHE_URL="${REDIS_CACHE_URL:-redis://redis:6379}"
 REDIS_QUEUE_URL="${REDIS_QUEUE_URL:-redis://redis:6379}"
 REDIS_SOCKETIO_URL="${REDIS_SOCKETIO_URL:-redis://redis:6379}"
 SITE_NAME="${SITE_NAME:-crm.localhost}"
-ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin}"
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-Admin}"
 AUTO_MIGRATE="${AUTO_MIGRATE:-1}"
 
 # Ensure proper non-SSL client config for RDS/MariaDB
@@ -72,9 +72,12 @@ bench set-redis-cache-host "${REDIS_CACHE_URL}"
 bench set-redis-queue-host "${REDIS_QUEUE_URL}"
 bench set-redis-socketio-host "${REDIS_SOCKETIO_URL}"
 
-# Ensure MariaDB user for site exists with consistent password and host scope
+# Ensure MariaDB user for site exists with consistent credentials and host scope
 echo "[INFO] Ensuring MariaDB site user '${DB_NAME}' exists with consistent credentials..."
 mariadb --defaults-file=/home/frappe/.my.cnf << SQL || true
+CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'%';
 CREATE USER IF NOT EXISTS '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 ALTER USER '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_NAME}'@'%';

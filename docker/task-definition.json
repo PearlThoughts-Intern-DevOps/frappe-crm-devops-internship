@@ -20,10 +20,11 @@
       ],
       "environment": [
         { "name": "DB_PORT", "value": "3306" },
-        { "name": "DB_NAME", "value": "frappe_crm" },
-        { "name": "DB_USER", "value": "frappe_admin" },
+        { "name": "DB_NAME", "value": "Admin" },
+        { "name": "DB_USER", "value": "Admin" },
+        { "name": "DB_PASSWORD", "value": "Admin" },
         { "name": "SITE_NAME", "value": "crm.localhost" },
-        { "name": "ADMIN_PASSWORD", "value": "admin" },
+        { "name": "ADMIN_PASSWORD", "value": "Admin" },
         { "name": "AUTO_MIGRATE", "value": "1" }
       ],
       "secrets": [],
