@@ -3,6 +3,7 @@ name: Deploy Frappe CRM to AWS ECS Fargate (Blue-Green)
 on:
   push:
     branches:
+      - task14-gourobdas0103
       - task-gourobdas0103
       - main
     paths:
