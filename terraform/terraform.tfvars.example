@@ -15,11 +15,11 @@ app_count      = 2
 db_instance_class = "db.t4g.micro"
 db_name           = "frappe_crm"
 db_username       = "frappe_admin"
-db_password       = "FrappeSecurePassword2026!"
+db_password       = "FrappeSecurePassword2026"
 
 # Application
 site_name      = "crm.localhost"
-admin_password = "FrappeAdmin2026!"
+admin_password = "admin"
 
 # Blue-Green
 termination_wait_time_in_minutes = 5

@@ -23,6 +23,7 @@
         { "name": "DB_NAME", "value": "frappe_crm" },
         { "name": "DB_USER", "value": "frappe_admin" },
         { "name": "SITE_NAME", "value": "crm.localhost" },
+        { "name": "ADMIN_PASSWORD", "value": "admin" },
         { "name": "AUTO_MIGRATE", "value": "1" }
       ],
       "secrets": [],

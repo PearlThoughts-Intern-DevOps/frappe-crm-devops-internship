@@ -17,12 +17,12 @@ echo "   Frappe CRM Container Starting on AWS ECS Fargate              "
 echo "   Strategy: Blue-Green Deployment with Application Load Balancer"
 echo "================================================================="
 
-# Environment defaults
+# Environment defaults (supports both RDS and local / EC2 MariaDB)
 DB_HOST="${DB_HOST:-mariadb}"
 DB_PORT="${DB_PORT:-3306}"
 DB_NAME="${DB_NAME:-frappe_crm}"
-DB_USER="${DB_USER:-root}"
-DB_PASSWORD="${DB_PASSWORD:-123}"
+DB_USER="${DB_USER:-frappe_admin}"
+DB_PASSWORD="${DB_PASSWORD:-FrappeSecurePassword2026}"
 REDIS_CACHE_URL="${REDIS_CACHE_URL:-redis://redis:6379}"
 REDIS_QUEUE_URL="${REDIS_QUEUE_URL:-redis://redis:6379}"
 REDIS_SOCKETIO_URL="${REDIS_SOCKETIO_URL:-redis://redis:6379}"
@@ -32,21 +32,27 @@ AUTO_MIGRATE="${AUTO_MIGRATE:-1}"
 
 # Ensure proper non-SSL client config for RDS/MariaDB
 mkdir -p /home/frappe/.my.cnf.d 2>/dev/null || true
-cat << MYCNF > /home/frappe/.my.cnf
+cat << 'EOF_MYCNF' > /home/frappe/.my.cnf.template
+[client]
+ssl=0
+EOF_MYCNF
+
+# Write credentials safely without bash expansion issues
+cat << EOF_MYCNF > /home/frappe/.my.cnf
 [client]
 ssl=0
 host=${DB_HOST}
 port=${DB_PORT}
 user=${DB_USER}
 password="${DB_PASSWORD}"
-MYCNF
+EOF_MYCNF
 chmod 600 /home/frappe/.my.cnf
 
-# Wait for MariaDB / RDS availability
+# Wait for MariaDB / RDS availability using .my.cnf defaults
 echo "[INFO] Checking database connectivity at ${DB_HOST}:${DB_PORT}..."
 MAX_RETRIES=30
 RETRY_COUNT=0
-until mariadb-admin ping -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASSWORD}" --silent 2>/dev/null; do
+until mariadb-admin --defaults-file=/home/frappe/.my.cnf ping --silent 2>/dev/null; do
     RETRY_COUNT=$((RETRY_COUNT + 1))
     if [ ${RETRY_COUNT} -ge ${MAX_RETRIES} ]; then
         echo "[ERROR] Database at ${DB_HOST}:${DB_PORT} unreachable after ${MAX_RETRIES} attempts. Exiting."
@@ -68,7 +74,7 @@ bench set-redis-socketio-host "${REDIS_SOCKETIO_URL}"
 
 # Ensure MariaDB user for site exists with consistent password and host scope
 echo "[INFO] Ensuring MariaDB site user '${DB_NAME}' exists with consistent credentials..."
-mariadb -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASSWORD}" << SQL || true
+mariadb --defaults-file=/home/frappe/.my.cnf << SQL || true
 CREATE USER IF NOT EXISTS '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 ALTER USER '${DB_NAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_NAME}'@'%';
@@ -76,7 +82,7 @@ FLUSH PRIVILEGES;
 SQL
 
 # Check if database has been populated with Frappe tables
-TABLE_COUNT=$(mariadb -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASSWORD}" -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
+TABLE_COUNT=$(mariadb --defaults-file=/home/frappe/.my.cnf -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
 echo "[INFO] Detected ${TABLE_COUNT} tables in database '${DB_NAME}'."
 
 if [ -f "sites/${SITE_NAME}/site_config.json" ]; then

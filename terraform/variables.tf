@@ -106,7 +106,7 @@ variable "db_password" {
   description = "Database master password"
   type        = string
   sensitive   = true
-  default     = "FrappeSecurePassword2026!"
+  default     = "FrappeSecurePassword2026"
 }
 
 # --- Application Config ---
@@ -114,7 +114,7 @@ variable "admin_password" {
   description = "Frappe CRM Administrator user password"
   type        = string
   sensitive   = true
-  default     = "FrappeAdmin2026!"
+  default     = "admin"
 }
 
 variable "site_name" {
