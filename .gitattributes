@@ -1,0 +1,5 @@
+# Force Linux LF line endings for shell scripts and compose files on Windows
+* text=auto
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
