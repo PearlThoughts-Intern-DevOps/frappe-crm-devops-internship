@@ -1,0 +1,49 @@
+{
+  "family": "frappe-crm",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "2048",
+  "containerDefinitions": [
+    {
+      "name": "frappe-crm",
+      "image": "<IMAGE1_NAME>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "DB_PORT", "value": "3306" },
+        { "name": "DB_NAME", "value": "frappe_crm" },
+        { "name": "DB_USER", "value": "frappe_admin" },
+        { "name": "SITE_NAME", "value": "crm.localhost" },
+        { "name": "AUTO_MIGRATE", "value": "1" }
+      ],
+      "secrets": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/frappe-crm",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8000/api/method/frappe.ping || exit 1"
+        ],
+        "interval": 15,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 45
+      }
+    }
+  ]
+}
