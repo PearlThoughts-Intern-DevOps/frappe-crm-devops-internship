@@ -1,0 +1,103 @@
+name: Task 11 - ECS Blue-Green Deployment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-southeast-2
+  ECS_CLUSTER: frappe-crm-task11-dev-cluster
+  TASK_FAMILY: frappe-crm-task11-dev-web
+  CODEDEPLOY_APP: frappe-crm-task11-dev-app
+  CODEDEPLOY_GROUP: frappe-crm-task11-dev-blue-green
+  IMAGE_URI: 319008621710.dkr.ecr.ap-southeast-2.amazonaws.com/frappe-crm:15-hardened-2-amd64
+
+jobs:
+  deploy:
+    name: Register task definition and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials using GitHub OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::319008621710:role/frappe-crm-task11-dev-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Download current ECS task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition "$TASK_FAMILY" \
+            --query taskDefinition \
+            --output json > current-task-definition.json
+
+      - name: Update application image in task definition
+        run: |
+          jq --arg image "$IMAGE_URI" '
+            del(
+              .taskDefinitionArn,
+              .revision,
+              .status,
+              .requiresAttributes,
+              .compatibilities,
+              .registeredAt,
+              .registeredBy
+            )
+            | .containerDefinitions |= map(
+                if .name == "frappe-web"
+                then .image = $image
+                else .
+                end
+              )
+          ' current-task-definition.json > task-definition.json
+
+      - name: Register new ECS task definition
+        id: taskdef
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://task-definition.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "arn=$TASK_DEF_ARN" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare CodeDeploy AppSpec
+        run: |
+          sed "s|<TASK_DEFINITION>|${{ steps.taskdef.outputs.arn }}|g" \
+            task11-ecs-blue-green/appspec.yaml > appspec-rendered.yaml
+
+          jq -n --arg content "$(cat appspec-rendered.yaml)" \
+            '{revision:{revisionType:"AppSpecContent",appSpecContent:{content:$content}}}' \
+            > deployment-revision.json
+
+      - name: Start Blue-Green deployment
+        id: deployment
+        run: |
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name "$CODEDEPLOY_APP" \
+            --deployment-group-name "$CODEDEPLOY_GROUP" \
+            --revision file://deployment-revision.json \
+            --description "GitHub Actions deployment for Frappe CRM" \
+            --query deploymentId \
+            --output text)
+
+          echo "id=$DEPLOYMENT_ID" >> "$GITHUB_OUTPUT"
+          echo "Started deployment: $DEPLOYMENT_ID"
+
+      - name: Monitor deployment
+        run: |
+          aws deploy wait deployment-successful \
+            --deployment-id "${{ steps.deployment.outputs.id }}"
+
+          aws deploy get-deployment \
+            --deployment-id "${{ steps.deployment.outputs.id }}" \
+            --query 'deploymentInfo.status' \
+            --output text
