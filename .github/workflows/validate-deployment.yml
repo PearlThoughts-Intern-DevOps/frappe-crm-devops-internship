@@ -1,0 +1,60 @@
+name: Validate AWS Deployment Configuration
+
+on:
+  pull_request:
+    paths:
+      - 'aws-deployment/**'
+      - '.github/workflows/validate-deployment.yml'
+  push:
+    branches:
+      - task-manas
+    paths:
+      - 'aws-deployment/**'
+      - '.github/workflows/validate-deployment.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform validation
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: aws-deployment/terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform format
+        run: terraform fmt -check -recursive
+
+      - name: Terraform initialize
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+  docker:
+    name: Dockerfile validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check Dockerfile
+        run: |
+          docker buildx build \
+            --check \
+            --file aws-deployment/docker/Dockerfile \
+            --build-arg FRAPPE_BRANCH=version-15 \
+            aws-deployment/docker
