@@ -27,3 +27,12 @@ AGENTS.md
 .claude
 .pi
 .patch
+
+# Task 11 Terraform local files - never commit
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfplan
+**/tfplan
+**/*.tfvars
+**/*.tfvars.json
