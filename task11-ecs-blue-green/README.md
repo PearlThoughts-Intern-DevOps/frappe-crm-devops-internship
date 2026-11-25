@@ -321,3 +321,17 @@ No long-lived AWS access keys are required when OIDC is configured correctly.
 | Undefined | 1 |
 
 The image scan completed successfully. However, vulnerabilities were identified and documented for remediation.
+
+## 10. Conclusion
+
+This project demonstrates the deployment of Frappe CRM on AWS using a containerized architecture built with Docker, Amazon ECS Fargate, and Terraform.
+
+The infrastructure was provisioned using Terraform, with Amazon ECR used to store the hardened application image. ECS Fargate runs the application services, while an Application Load Balancer and AWS CodeDeploy enable Blue-Green deployments and controlled traffic shifting. Health checks and deployment rollback help improve application availability and deployment reliability.
+
+CloudWatch provides application monitoring, logs, and alarms. Security scanning with Trivy was also performed, and the findings are documented in the security report.
+
+Frappe Bench remains an important part of application administration. It can be used inside the appropriate Frappe container for tasks such as database migrations, site maintenance, cache management, and application management. AWS services manage the infrastructure and container lifecycle, while Bench manages the Frappe application.
+
+The project provided practical experience with AWS cloud infrastructure, containerization, Infrastructure as Code, CI/CD deployment workflows, Blue-Green deployment strategies, monitoring, and security.
+
+**Overall, this project demonstrates how a Frappe CRM application can be deployed and operated on AWS using modern DevOps practices.**
