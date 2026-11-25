@@ -56,3 +56,8 @@ output "redis_endpoint" {
   description = "Amazon ElastiCache Redis Primary Endpoint"
   value       = "${aws_elasticache_cluster.redis.cache_nodes[0].address}:6379"
 }
+
+output "ecs_autoscaling_range" {
+  description = "ECS Fargate Auto Scaling Min/Max Capacity Range"
+  value       = "${var.ecs_min_capacity} to ${var.ecs_max_capacity} tasks (${var.autoscaling_timezone})"
+}

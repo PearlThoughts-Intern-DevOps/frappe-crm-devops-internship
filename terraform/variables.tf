@@ -141,3 +141,22 @@ variable "termination_wait_time_in_minutes" {
   type        = number
   default     = 5
 }
+
+# --- FinOps: Auto Scaling & Off-Hours Schedule ---
+variable "ecs_min_capacity" {
+  description = "Minimum ECS Fargate task count for Application Auto Scaling"
+  type        = number
+  default     = 1
+}
+
+variable "ecs_max_capacity" {
+  description = "Maximum ECS Fargate task count for Application Auto Scaling"
+  type        = number
+  default     = 4
+}
+
+variable "autoscaling_timezone" {
+  description = "IANA timezone for ECS off-hours scheduled scaling actions"
+  type        = string
+  default     = "Asia/Kolkata"
+}

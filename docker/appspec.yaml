@@ -13,3 +13,10 @@ Resources:
         LoadBalancerInfo:
           ContainerName: "frappe-crm"
           ContainerPort: 8000
+        CapacityProviderStrategy:
+          - Base: 1
+            CapacityProvider: "FARGATE"
+            Weight: 1
+          - Base: 0
+            CapacityProvider: "FARGATE_SPOT"
+            Weight: 3

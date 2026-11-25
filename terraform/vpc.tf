@@ -121,3 +121,15 @@ resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
 }
+
+# --- FinOps: Free S3 VPC Gateway Endpoint (avoids NAT data charges for ECR layers) ---
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.${var.aws_region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = [aws_route_table.private.id]
+
+  tags = {
+    Name = "${var.project_name}-s3-gateway-endpoint"
+  }
+}

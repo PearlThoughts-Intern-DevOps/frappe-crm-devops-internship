@@ -22,6 +22,19 @@ resource "aws_ecs_cluster" "main" {
   }
 }
 
+# --- FinOps: Associate FARGATE & FARGATE_SPOT Capacity Providers ---
+resource "aws_ecs_cluster_capacity_providers" "main" {
+  cluster_name = aws_ecs_cluster.main.name
+
+  capacity_providers = ["FARGATE", "FARGATE_SPOT"]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 1
+    capacity_provider = "FARGATE"
+  }
+}
+
 # --- ECS Fargate Task Definition ---
 resource "aws_ecs_task_definition" "main" {
   family                   = var.project_name
@@ -142,18 +155,21 @@ resource "aws_ecs_service" "main" {
     container_port   = var.container_port
   }
 
-  # CRITICAL: Prevent Terraform conflicts with CodeDeploy target group & task updates
+  # CRITICAL: Prevent Terraform conflicts with CodeDeploy & Application Auto Scaling
   lifecycle {
     ignore_changes = [
       task_definition,
-      load_balancer
+      load_balancer,
+      desired_count,
+      launch_type
     ]
   }
 
   depends_on = [
     aws_lb_listener.prod,
     aws_lb_listener.test,
-    aws_iam_role_policy_attachment.ecs_execution_policy
+    aws_iam_role_policy_attachment.ecs_execution_policy,
+    aws_ecs_cluster_capacity_providers.main
   ]
 
   tags = {

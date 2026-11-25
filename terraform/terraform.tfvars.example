@@ -37,3 +37,8 @@ site_name      = "crm.localhost"
 health_check_path                = "/api/method/frappe.ping"
 deregistration_delay             = 30
 termination_wait_time_in_minutes = 5
+
+# FinOps: ECS Auto Scaling & Off-Hours Schedule
+ecs_min_capacity     = 1
+ecs_max_capacity     = 4
+autoscaling_timezone = "Asia/Kolkata"
