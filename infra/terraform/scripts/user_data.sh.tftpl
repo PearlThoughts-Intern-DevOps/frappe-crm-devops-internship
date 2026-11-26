@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euxo pipefail
+exec > >(tee /var/log/frappe-ec2-bootstrap.log) 2>&1
+
+echo "[1/5] Configuring 2GB swap space for Docker build headroom..."
+if [ ! -f /swapfile ]; then
+  fallocate -l 2G /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
+echo "[2/5] Installing Docker Engine, Compose plugin, and Git..."
+apt-get update -y
+apt-get install -y ca-certificates curl gnupg git jq
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list
+apt-get update -y
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+systemctl enable --now docker
+usermod -aG docker ubuntu || true
+
+echo "[3/5] Cloning Frappe CRM + Observability branch..."
+APP_DIR="/opt/frappe-crm"
+rm -rf "$APP_DIR"
+git clone --depth 1 --branch "${git_branch}" "${git_repo_url}" "$APP_DIR"
+cd "$APP_DIR"
+
+echo "[4/5] Writing runtime credentials (.env and mysqld-exporter .my.cnf)..."
+cat << EOF > "$APP_DIR/.env"
+DB_PASSWORD=${db_password}
+ADMIN_PASSWORD=${admin_password}
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=${grafana_admin_password}
+EOF
+chmod 600 "$APP_DIR/.env"
+
+cat << EOF > "$APP_DIR/observability/mysqld-exporter/.my.cnf"
+[client]
+user=root
+password=${db_password}
+EOF
+chmod 644 "$APP_DIR/observability/mysqld-exporter/.my.cnf"
+
+echo "[5/5] Building Frappe CRM image and starting Frappe CRM + Prometheus + Loki + Grafana..."
+docker compose -f docker-compose.ec2.yml up -d --build
+echo "[SUCCESS] EC2 Frappe CRM + Observability bootstrap completed."

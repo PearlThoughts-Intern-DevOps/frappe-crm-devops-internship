@@ -1,0 +1,11 @@
+aws_region              = "ap-southeast-2"
+project_name            = "frappe-crm-ec2-obs"
+environment             = "learning"
+instance_type           = "t3.medium"
+root_volume_size        = 30
+allowed_web_cidr        = "0.0.0.0/0"
+allowed_monitoring_cidr = "0.0.0.0/0"
+git_branch              = "task-ec2-observability-bulbul-das"
+db_password             = "ReplaceWithStrongDbPassword"
+admin_password          = "ReplaceWithStrongAdminPassword"
+grafana_admin_password  = "ReplaceWithStrongGrafanaPassword"

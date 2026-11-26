@@ -1,0 +1,72 @@
+groups:
+  - name: frappe_crm_ec2_alerts
+    rules:
+      - alert: FrappeCrmEndpointDown
+        expr: probe_success{job="frappe-crm-http"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: frappe-crm
+        annotations:
+          summary: "Frappe CRM endpoint {{ $labels.instance }} is down"
+          description: "Blackbox HTTP probe to {{ $labels.instance }} has been failing for 1 minute."
+
+      - alert: FrappeCrmHighLatency
+        expr: probe_duration_seconds{job="frappe-crm-http"} > 2
+        for: 2m
+        labels:
+          severity: warning
+          service: frappe-crm
+        annotations:
+          summary: "High latency on {{ $labels.instance }}"
+          description: "Response time exceeded 2s (current: {{ $value }}s)."
+
+      - alert: HighHostCPU
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+        for: 3m
+        labels:
+          severity: warning
+          service: ec2-host
+        annotations:
+          summary: "High EC2 CPU utilization (>85%)"
+          description: "EC2 host CPU usage has exceeded 85% for 3 minutes."
+
+      - alert: HighHostMemory
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 3m
+        labels:
+          severity: warning
+          service: ec2-host
+        annotations:
+          summary: "High EC2 Memory utilization (>85%)"
+          description: "Available host memory dropped below 15% for 3 minutes."
+
+      - alert: LowDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}) * 100 < 15
+        for: 5m
+        labels:
+          severity: critical
+          service: ec2-host
+        annotations:
+          summary: "Low EC2 root disk space (<15% free)"
+          description: "Root volume free space is below 15%."
+
+      - alert: MariaDBExporterDown
+        expr: mysql_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: mariadb
+        annotations:
+          summary: "MariaDB is unreachable"
+          description: "mysqld-exporter cannot reach MariaDB for 1 minute."
+
+      - alert: RedisExporterDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is unreachable"
+          description: "redis-exporter cannot reach Redis for 1 minute."
