@@ -4,6 +4,7 @@
 
 # 1. CodeDeploy Application for ECS
 resource "aws_codedeploy_app" "ecs" {
+  count            = var.enable_codedeploy ? 1 : 0
   compute_platform = "ECS"
   name             = "${var.project_name}-codedeploy-app"
 
@@ -14,7 +15,8 @@ resource "aws_codedeploy_app" "ecs" {
 
 # 2. CodeDeploy Deployment Group (Blue/Green with Auto-Rollback)
 resource "aws_codedeploy_deployment_group" "ecs" {
-  app_name               = aws_codedeploy_app.ecs.name
+  count                  = var.enable_codedeploy ? 1 : 0
+  app_name               = aws_codedeploy_app.ecs[0].name
   deployment_group_name  = "${var.project_name}-dg"
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
   service_role_arn       = aws_iam_role.codedeploy.arn

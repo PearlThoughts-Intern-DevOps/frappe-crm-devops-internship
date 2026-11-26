@@ -123,6 +123,12 @@ variable "site_name" {
   default     = "crm.localhost"
 }
 
+variable "enable_codedeploy" {
+  description = "Enable AWS CodeDeploy application and deployment group (requires active account subscription)"
+  type        = bool
+  default     = false
+}
+
 # --- Blue-Green & Health Checks ---
 variable "health_check_path" {
   description = "HTTP health check probe path for ALB target groups"

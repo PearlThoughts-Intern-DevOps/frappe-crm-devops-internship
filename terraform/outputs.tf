@@ -34,12 +34,12 @@ output "ecs_service_name" {
 
 output "codedeploy_application_name" {
   description = "AWS CodeDeploy application name"
-  value       = aws_codedeploy_app.ecs.name
+  value       = var.enable_codedeploy ? aws_codedeploy_app.ecs[0].name : "frappe-crm-codedeploy-app (pending subscription)"
 }
 
 output "codedeploy_deployment_group_name" {
   description = "AWS CodeDeploy deployment group name"
-  value       = aws_codedeploy_deployment_group.ecs.deployment_group_name
+  value       = var.enable_codedeploy ? aws_codedeploy_deployment_group.ecs[0].deployment_group_name : "frappe-crm-dg (pending subscription)"
 }
 
 output "rds_endpoint" {
