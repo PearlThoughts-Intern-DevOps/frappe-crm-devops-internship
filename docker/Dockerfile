@@ -45,6 +45,7 @@ COPY --chown=frappe:frappe README.md /home/frappe/frappe-bench/apps/crm/README.m
 
 # Install CRM Python requirements into bench virtualenv and build assets
 RUN ./env/bin/pip install --no-cache-dir -e apps/crm && \
+    echo "crm" >> sites/apps.txt && \
     bench build --app crm || true
 
 # Copy entrypoint script
