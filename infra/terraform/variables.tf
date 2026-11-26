@@ -29,9 +29,9 @@ variable "public_subnet_cidr" {
 }
 
 variable "instance_type" {
-  description = "EC2 instance type (t3.medium = 2 vCPU, 4 GB RAM for Frappe CRM + Prometheus + Grafana + Loki)"
+  description = "EC2 instance type (c7i-flex.large = 2 vCPU, 4 GB RAM, Free Tier eligible)"
   type        = string
-  default     = "t3.medium"
+  default     = "c7i-flex.large"
 }
 
 variable "root_volume_size" {

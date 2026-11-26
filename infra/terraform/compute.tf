@@ -21,11 +21,6 @@ resource "aws_instance" "frappe_obs" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_ssm.name
   associate_public_ip_address = true
 
-  # FinOps: Standard CPU credits prevent unexpected T3 unlimited surplus billing
-  credit_specification {
-    cpu_credits = "standard"
-  }
-
   # Security: Enforce IMDSv2 + hop limit 2 so Docker containers can safely use metadata if needed
   metadata_options {
     http_endpoint               = "enabled"
