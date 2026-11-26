@@ -102,8 +102,15 @@ jobs:
           IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           LATEST_URI="$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
-          echo "Validating Docker build configuration for Frappe CRM..."
-          docker build --target base --tag "$IMAGE_URI" --tag "$LATEST_URI" -f docker/Dockerfile . || docker build -t "$IMAGE_URI" -f docker/Dockerfile . || true
+          echo "Building & caching Frappe CRM container image with Buildx GHA cache..."
+          docker buildx build \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
+            --target base \
+            --tag "$IMAGE_URI" \
+            --tag "$LATEST_URI" \
+            --load \
+            -f docker/Dockerfile . || docker build -t "$IMAGE_URI" -f docker/Dockerfile . || true
 
           if [ "${{ steps.login-ecr.outcome }}" = "success" ]; then
             echo "Pushing image to Amazon ECR: $IMAGE_URI"
