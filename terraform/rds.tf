@@ -36,15 +36,16 @@ resource "aws_db_parameter_group" "mariadb" {
 
 # 3. RDS MariaDB 10.11 Instance
 resource "aws_db_instance" "mariadb" {
-  identifier            = "${var.project_name}-mariadb"
-  engine                = "mariadb"
-  engine_version        = "10.11.8"
-  instance_class        = var.db_instance_class
-  allocated_storage     = 20
-  max_allocated_storage = 50
-  storage_type          = "gp3"
-  db_name               = var.db_name
-  username              = var.db_username
+  identifier                 = "${var.project_name}-mariadb"
+  engine                     = "mariadb"
+  engine_version             = "10.11"
+  auto_minor_version_upgrade = true
+  instance_class             = var.db_instance_class
+  allocated_storage          = 20
+  max_allocated_storage      = 50
+  storage_type               = "gp3"
+  db_name                    = var.db_name
+  username                   = var.db_username
   # Meets AWS RDS >= 8 characters requirement while honoring user password
   password               = length(var.db_password) >= 8 ? var.db_password : "${var.db_password}Secure2026!"
   db_subnet_group_name   = aws_db_subnet_group.main.name
