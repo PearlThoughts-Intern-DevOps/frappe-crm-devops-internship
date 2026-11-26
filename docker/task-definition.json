@@ -1,0 +1,91 @@
+{
+  "family": "frappe-crm",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/frappe-crm-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/frappe-crm-ecs-task-role",
+  "containerDefinitions": [
+    {
+      "name": "frappe-crm",
+      "image": "<IMAGE1_NAME>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "<DB_HOST>"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "frappe_crm"
+        },
+        {
+          "name": "DB_USER",
+          "value": "frappe_admin"
+        },
+        {
+          "name": "REDIS_CACHE_URL",
+          "value": "<REDIS_CACHE_URL>"
+        },
+        {
+          "name": "REDIS_QUEUE_URL",
+          "value": "<REDIS_QUEUE_URL>"
+        },
+        {
+          "name": "REDIS_SOCKETIO_URL",
+          "value": "<REDIS_SOCKETIO_URL>"
+        },
+        {
+          "name": "SITE_NAME",
+          "value": "crm.localhost"
+        },
+        {
+          "name": "AUTO_MIGRATE",
+          "value": "1"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:<REGION>:<ACCOUNT_ID>:secret:frappe-crm/db_password"
+        },
+        {
+          "name": "ADMIN_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:<REGION>:<ACCOUNT_ID>:secret:frappe-crm/admin_password"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/frappe-crm",
+          "awslogs-region": "<REGION>",
+          "awslogs-stream-prefix": "frappe"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8000/api/method/frappe.ping || exit 1"
+        ],
+        "interval": 15,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 45
+      }
+    }
+  ]
+}

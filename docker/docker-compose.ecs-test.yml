@@ -1,0 +1,78 @@
+# =============================================================================
+# Local ECS-Simulation Docker Compose for Frappe CRM
+# =============================================================================
+# Used to validate the production Dockerfile and entrypoint script locally
+# before pushing images to Amazon ECR and deploying to AWS ECS Fargate.
+# =============================================================================
+
+version: "3.8"
+name: frappe-crm-ecs-local
+
+services:
+  mariadb:
+    image: mariadb:10.8
+    container_name: ecs-local-mariadb
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+      - --innodb-buffer-pool-size=256M
+      - --max-connections=100
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: frappe_crm
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -u root -p123 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  redis:
+    image: redis:alpine
+    container_name: ecs-local-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frappe-crm:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ecs-local-frappe-crm
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_NAME=frappe_crm
+      - DB_USER=root
+      - DB_PASSWORD=123
+      - REDIS_CACHE_URL=redis://redis:6379
+      - REDIS_QUEUE_URL=redis://redis:6379
+      - REDIS_SOCKETIO_URL=redis://redis:6379
+      - SITE_NAME=crm.localhost
+      - ADMIN_PASSWORD=admin
+      - AUTO_MIGRATE=1
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/method/frappe.ping || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+
+volumes:
+  mariadb-data:
