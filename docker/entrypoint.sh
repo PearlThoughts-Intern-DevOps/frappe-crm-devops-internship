@@ -47,12 +47,26 @@ bench set-redis-socketio-host "${REDIS_SOCKETIO_URL}"
 # Ensure crm is in sites/apps.txt
 grep -qxF 'crm' sites/apps.txt 2>/dev/null || echo 'crm' >> sites/apps.txt
 
+# Ensure Python can resolve frappecrm alias to crm
+SITE_PKGS=$(./env/bin/python -c "import site; print(site.getsitepackages()[0])" 2>/dev/null || echo "")
+if [ -n "${SITE_PKGS}" ] && [ -d "apps/crm/crm" ] && [ ! -e "${SITE_PKGS}/frappecrm" ]; then
+    ln -sf /home/frappe/frappe-bench/apps/crm/crm "${SITE_PKGS}/frappecrm" || true
+fi
+
+# Clean up any legacy or corrupt app references in database
+echo "[INFO] Cleaning up any legacy app references in database..."
+mariadb --defaults-file=/home/frappe/.my.cnf -e "DELETE FROM \`${DB_NAME}\`.\`tabInstalled Application\` WHERE name='frappecrm';" 2>/dev/null || true
+mariadb --defaults-file=/home/frappe/.my.cnf -e "UPDATE \`${DB_NAME}\`.\`tabDefaultValue\` SET defvalue=REPLACE(defvalue, '\"frappecrm\"', '\"crm\"') WHERE defkey='installed_apps';" 2>/dev/null || true
+mariadb --defaults-file=/home/frappe/.my.cnf -e "DELETE FROM \`${DB_NAME}\`.\`tabModule Def\` WHERE name='FCRM';" 2>/dev/null || true
+
 TABLE_COUNT=$(mariadb --defaults-file=/home/frappe/.my.cnf -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
 echo "[INFO] Detected ${TABLE_COUNT} tables in database '${DB_NAME}'."
 
 if [ -f "sites/${SITE_NAME}/site_config.json" ]; then
     echo "[INFO] Site '${SITE_NAME}' config exists. Verifying crm app..."
     bench --site "${SITE_NAME}" install-app crm --force || true
+    bench --site "${SITE_NAME}" set-config developer_mode 0
+    bench --site "${SITE_NAME}" set-config server_script_enabled 1
     bench --site "${SITE_NAME}" execute crm.install.after_install || true
     bench --site "${SITE_NAME}" clear-cache || true
     if [ "${AUTO_MIGRATE}" = "1" ]; then
@@ -71,6 +85,8 @@ elif [ "${TABLE_COUNT}" -gt 20 ]; then
 }
 JSON
     bench --site "${SITE_NAME}" install-app crm --force || true
+    bench --site "${SITE_NAME}" set-config developer_mode 0
+    bench --site "${SITE_NAME}" set-config server_script_enabled 1
     bench --site "${SITE_NAME}" execute crm.install.after_install || true
     bench --site "${SITE_NAME}" clear-cache || true
     if [ "${AUTO_MIGRATE}" = "1" ]; then

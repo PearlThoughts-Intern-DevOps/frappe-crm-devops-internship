@@ -45,6 +45,9 @@ RUN cd apps/crm/frontend && \
     yarn build && \
     cd /home/frappe/frappe-bench
 
+# Ensure Python can resolve frappecrm alias to crm
+RUN ./env/bin/python -c "import site, os; os.symlink('/home/frappe/frappe-bench/apps/crm/crm', os.path.join(site.getsitepackages()[0], 'frappecrm'))" 2>/dev/null || true
+
 # Copy entrypoint script
 COPY --chown=frappe:frappe docker/entrypoint.sh /home/frappe/entrypoint.sh
 RUN chmod +x /home/frappe/entrypoint.sh
