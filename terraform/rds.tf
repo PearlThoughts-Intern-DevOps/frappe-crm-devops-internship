@@ -76,7 +76,7 @@ resource "aws_secretsmanager_secret" "db_secret" {
 
 resource "aws_secretsmanager_secret_version" "db_secret_val" {
   secret_id     = aws_secretsmanager_secret.db_secret.id
-  secret_string = var.db_password
+  secret_string = length(var.db_password) >= 8 ? var.db_password : "${var.db_password}Secure2026!"
 }
 
 resource "aws_secretsmanager_secret" "admin_secret" {

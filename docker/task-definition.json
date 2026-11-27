@@ -22,7 +22,7 @@
         { "name": "DB_PORT", "value": "3306" },
         { "name": "DB_NAME", "value": "Admin" },
         { "name": "DB_USER", "value": "Admin" },
-        { "name": "DB_PASSWORD", "value": "Admin" },
+        { "name": "DB_PASSWORD", "value": "AdminSecure2026!" },
         { "name": "SITE_NAME", "value": "crm.localhost" },
         { "name": "ADMIN_PASSWORD", "value": "Admin" },
         { "name": "AUTO_MIGRATE", "value": "1" }
@@ -44,7 +44,7 @@
         "interval": 15,
         "timeout": 5,
         "retries": 3,
-        "startPeriod": 45
+        "startPeriod": 60
       }
     }
   ]
