@@ -1,0 +1,26 @@
+# =============================================================================
+# Example Terraform Configuration Variables
+# =============================================================================
+
+aws_region   = "ap-south-1"
+project_name = "frappe-crm"
+environment  = "prod"
+
+# Compute
+fargate_cpu    = 1024
+fargate_memory = 2048
+app_count      = 2
+
+# Database
+db_instance_class = "db.t4g.micro"
+db_name           = "Admin"
+db_username       = "Admin"
+db_password       = "Admin"
+
+# Application
+site_name      = "crm.localhost"
+admin_password = "Admin"
+
+# Blue-Green
+termination_wait_time_in_minutes = 5
+deregistration_delay             = 30

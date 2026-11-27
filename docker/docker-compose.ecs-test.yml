@@ -1,0 +1,68 @@
+# =============================================================================
+# Local Verification Compose File for Frappe CRM ECS Container
+# =============================================================================
+# Mirrors AWS managed topology locally (RDS MariaDB + ElastiCache Redis)
+# =============================================================================
+
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin
+      MYSQL_DATABASE: Admin
+      MYSQL_USER: Admin
+      MYSQL_PASSWORD: Admin
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_ecs_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "Admin", "-pAdmin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  frappe-crm:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: frappe-crm:local
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_NAME: Admin
+      DB_USER: Admin
+      DB_PASSWORD: Admin
+      REDIS_CACHE_URL: redis://redis:6379
+      REDIS_QUEUE_URL: redis://redis:6379
+      REDIS_SOCKETIO_URL: redis://redis:6379
+      SITE_NAME: crm.localhost
+      ADMIN_PASSWORD: Admin
+      AUTO_MIGRATE: 1
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mariadb_ecs_data:
