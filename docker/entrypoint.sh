@@ -53,27 +53,21 @@ if [ -n "${SITE_PKGS}" ] && [ -d "apps/crm/crm" ] && [ ! -e "${SITE_PKGS}/frappe
     ln -sf /home/frappe/frappe-bench/apps/crm/crm "${SITE_PKGS}/frappecrm" || true
 fi
 
-# Clean up any legacy or corrupt app references in database
-echo "[INFO] Cleaning up any legacy app references in database..."
-mariadb --defaults-file=/home/frappe/.my.cnf -e "DELETE FROM \`${DB_NAME}\`.\`tabInstalled Application\` WHERE name='frappecrm';" 2>/dev/null || true
-mariadb --defaults-file=/home/frappe/.my.cnf -e "UPDATE \`${DB_NAME}\`.\`tabDefaultValue\` SET defvalue=REPLACE(defvalue, '\"frappecrm\"', '\"crm\"') WHERE defkey='installed_apps';" 2>/dev/null || true
-mariadb --defaults-file=/home/frappe/.my.cnf -e "DELETE FROM \`${DB_NAME}\`.\`tabModule Def\` WHERE name='FCRM';" 2>/dev/null || true
-
 TABLE_COUNT=$(mariadb --defaults-file=/home/frappe/.my.cnf -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}';" 2>/dev/null || echo "0")
-echo "[INFO] Detected ${TABLE_COUNT} tables in database '${DB_NAME}'."
+CRM_INSTALLED=$(mariadb --defaults-file=/home/frappe/.my.cnf -sse "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '${DB_NAME}' AND TABLE_NAME = 'tabCRM Lead';" 2>/dev/null || echo "0")
+echo "[INFO] Detected ${TABLE_COUNT} tables (CRM Lead table: ${CRM_INSTALLED}) in database '${DB_NAME}'."
 
-if [ -f "sites/${SITE_NAME}/site_config.json" ]; then
-    echo "[INFO] Site '${SITE_NAME}' config exists. Verifying crm app..."
-    bench --site "${SITE_NAME}" install-app crm --force || true
-    bench --site "${SITE_NAME}" set-config developer_mode 0
-    bench --site "${SITE_NAME}" set-config server_script_enabled 1
+if [ "${CRM_INSTALLED}" = "1" ] && [ -f "sites/${SITE_NAME}/site_config.json" ]; then
+    echo "[INFO] Site '${SITE_NAME}' and CRM application tables exist. Verifying site..."
+    bench --site "${SITE_NAME}" set-config developer_mode 0 || true
+    bench --site "${SITE_NAME}" set-config server_script_enabled 1 || true
     bench --site "${SITE_NAME}" execute crm.install.after_install || true
     bench --site "${SITE_NAME}" clear-cache || true
     if [ "${AUTO_MIGRATE}" = "1" ]; then
         bench --site "${SITE_NAME}" migrate || true
     fi
-elif [ "${TABLE_COUNT}" -gt 20 ]; then
-    echo "[INFO] Existing tables found. Configuring site '${SITE_NAME}'..."
+elif [ "${CRM_INSTALLED}" = "1" ]; then
+    echo "[INFO] Existing CRM tables found. Configuring site '${SITE_NAME}'..."
     mkdir -p "sites/${SITE_NAME}/logs" "sites/${SITE_NAME}/public/files" "sites/${SITE_NAME}/locks"
     cat << JSON > "sites/${SITE_NAME}/site_config.json"
 {
@@ -84,16 +78,18 @@ elif [ "${TABLE_COUNT}" -gt 20 ]; then
  "db_port": ${DB_PORT}
 }
 JSON
-    bench --site "${SITE_NAME}" install-app crm --force || true
-    bench --site "${SITE_NAME}" set-config developer_mode 0
-    bench --site "${SITE_NAME}" set-config server_script_enabled 1
+    bench --site "${SITE_NAME}" set-config developer_mode 0 || true
+    bench --site "${SITE_NAME}" set-config server_script_enabled 1 || true
     bench --site "${SITE_NAME}" execute crm.install.after_install || true
     bench --site "${SITE_NAME}" clear-cache || true
     if [ "${AUTO_MIGRATE}" = "1" ]; then
         bench --site "${SITE_NAME}" migrate || true
     fi
 else
-    echo "[INFO] Fresh installation required. Initializing site '${SITE_NAME}'..."
+    echo "[INFO] Fresh installation or partial state recovery required. Clean initializing site '${SITE_NAME}'..."
+    mariadb --defaults-file=/home/frappe/.my.cnf -e "DROP DATABASE IF EXISTS \`${DB_NAME}\`; CREATE DATABASE \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null || true
+    rm -rf "sites/${SITE_NAME}" 2>/dev/null || true
+
     bench new-site "${SITE_NAME}" \
         --force \
         --db-name "${DB_NAME}" \
@@ -101,7 +97,7 @@ else
         --mariadb-root-username "${DB_USER}" \
         --mariadb-root-password "${DB_PASSWORD}" \
         --admin-password "${ADMIN_PASSWORD}" \
-        --mariadb-user-host-login-scope='%' || true
+        --mariadb-user-host-login-scope='%'
 
     echo "[INFO] Installing Frappe CRM app on '${SITE_NAME}'..."
     bench --site "${SITE_NAME}" install-app crm --force
